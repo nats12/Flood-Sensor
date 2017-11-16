@@ -1,4 +1,4 @@
-#include "Ticker.h"
+#include "Ticker-master/Ticker.h"
 
 
 // Connect Pin 3 of the maxbotix to A0.
@@ -11,7 +11,7 @@ int distanceToRiverBed;
 int lastMeasurementSent;
 int currentRiverLevel;
 
-volatile bool canStart = false;
+volatile bool tickTakeMeasurement = false;
 
 
 void startReadingProcess();
@@ -96,6 +96,11 @@ void attemptToSendMeasurement(int currentMeasurement)
   
 }
 
+void setStartReadingProcess()
+{
+  tickTakeMeasurement = true;
+}
+
 void startReadingProcess() {
 
   currentRiverLevel = getCurrentMeasurement();
@@ -120,14 +125,17 @@ void loadEngineeringMenu() {
 void loop()
 
 {
-
+  if(tickTakeMeasurement)
+  {
+    startReadingProcess();
+  }
   tick.update();
+  // sleep();
+}
   
   // attachInterrupt(Serial, loadEngineeringMenu, HIGH);
   
 //  if(Serial) {
 //    // Engineering menu set up
 //    loadEngineeringMenu();
-//  } 
-
-}
+//  }
