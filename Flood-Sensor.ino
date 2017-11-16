@@ -2,6 +2,9 @@
 #include <SPI.h>
 #include <SD.h>
 
+const byte ledPin = 1;
+const byte interruptPin = 13;
+volatile byte state = LOW;
 
 // Connect Pin 3 of the maxbotix to A0.
 int analogPin = 0; 
@@ -14,6 +17,7 @@ int lastMeasurementSent;
 int currentRiverLevel;
 
 volatile bool canStart = false;
+volatile bool bringUpMenu = false;
 
 
 void startReadingProcess();
@@ -56,6 +60,12 @@ void setup()
     initialDistanceToRiverTop = analogRead(analogPin) * 5;
     distanceToRiverBed = initialRiverDepth + initialDistanceToRiverTop;
   //}
+
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(interruptPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), setBringUpMenu, CHANGE);
+
 }
 
 int getCurrentMeasurement()
@@ -150,28 +160,42 @@ void loadEngineeringMenu() {
 
   Serial.println("Loading engineering menu...");
   
-  int menuOption = Serial.readString().toInt();
+  String menuOption;
   
-  if(menuOption == 1) {
-    printCurrentMeasurement();
-  } else if (menuOption == 2) {
+  while((menuOption = Serial.readString()) != "99\n"){
+    
+   if(menuOption == "1\n") {
+     printCurrentMeasurement();
+   } 
+   
+   if (menuOption == "2\n") {
     Serial.println("Do something else");
-  }
+   }
+  };
+  
+  bringUpMenu = false;
+
 }
+
+void setBringUpMenu() 
+{
+  bringUpMenu = true;
+}
+
+
 
 void loop()
 
 {
 
+  digitalWrite(ledPin, state);
+
   startReadingProcess();
-  //tick.update();
+
+  if(bringUpMenu) {
+    loadEngineeringMenu();
+  }
+  
   delay(2000);
-  
-  // attachInterrupt(Serial, loadEngineeringMenu, HIGH);
-  
-//  if(Serial) {
-//    // Engineering menu set up
-//    loadEngineeringMenu();
-//  } 
 
 }
