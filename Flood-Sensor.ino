@@ -1,4 +1,6 @@
-#include "Ticker-master/Ticker.h"
+// #include "Ticker-master/Ticker.h"
+#include <SPI.h>
+#include <SD.h>
 
 
 // Connect Pin 3 of the maxbotix to A0.
@@ -11,12 +13,13 @@ int distanceToRiverBed;
 int lastMeasurementSent;
 int currentRiverLevel;
 
-volatile bool tickTakeMeasurement = false;
+volatile bool canStart = false;
 
 
 void startReadingProcess();
 
-Ticker tick;
+// Ticker tick;
+File myFile;
 
 
 void setup()
@@ -26,16 +29,16 @@ void setup()
   // Outputs information to your serial port
   //  Setup serial
   Serial.begin(9600); 
-
-  tick.setCallback(startReadingProcess);
-  tick.setInterval(2000);
+  
+  // tick.setCallback(startReadingProcess);
+  // tick.setInterval(2000);
   
   // Start the ticker.
-  tick.start(); 
+  // tick.start(); 
   
   // Wait for serial to connect
   while (!Serial){}
-    
+  
   int currentDistanceToRiverTop;
 
   // Check for incoming serial data:
@@ -71,6 +74,44 @@ bool isCurrentWorthSending(int currentMeasurement)
   return (abs(currentMeasurement - lastMeasurementSent)) >= rangeDifferenceThreshold;
 }
 
+void printToLog(int lastMeasurementSent)
+{
+
+
+  if (!SD.begin(4)) {
+    Serial.println("initialization failed!");
+  }
+
+  // open the file. note that only one file can be open at a time,
+  // so you have to close this one before opening another.
+  myFile = SD.open("logger.txt", FILE_WRITE);
+
+  // if the file opened okay, write to it:
+  if (myFile) {
+    myFile.println(lastMeasurementSent);
+    // close the file:
+    myFile.close();
+  } else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening logger.txt");
+  }
+
+  // re-open the file for reading:
+  myFile = SD.open("logger.txt");
+  if (myFile) {
+    // read from the file until there's nothing else in it:
+    while (myFile.available()) {
+      Serial.write(myFile.read());
+    }
+    // close the file:
+    myFile.close();
+  } else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening logger.txt");
+  }
+}
+
+
 
 bool sendMeasurement(int currentMeasurement)
 {
@@ -91,14 +132,10 @@ void attemptToSendMeasurement(int currentMeasurement)
   {
     if(sendMeasurement(currentMeasurement))
       lastMeasurementSent = currentMeasurement;
+      printToLog(lastMeasurementSent);
   }
   //else ignore current measurement
   
-}
-
-void setStartReadingProcess()
-{
-  tickTakeMeasurement = true;
 }
 
 void startReadingProcess() {
@@ -125,17 +162,16 @@ void loadEngineeringMenu() {
 void loop()
 
 {
-  if(tickTakeMeasurement)
-  {
-    startReadingProcess();
-  }
-  tick.update();
-  // sleep();
-}
+
+  startReadingProcess();
+  //tick.update();
+  delay(2000);
   
   // attachInterrupt(Serial, loadEngineeringMenu, HIGH);
   
 //  if(Serial) {
 //    // Engineering menu set up
 //    loadEngineeringMenu();
-//  }
+//  } 
+
+}
