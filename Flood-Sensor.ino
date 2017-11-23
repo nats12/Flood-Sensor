@@ -18,7 +18,11 @@ int lastMeasurementSent;
 int currentRiverLevel;
 
 volatile bool canStart = false;
+
+// Interrupt variable to load engineering menu
 volatile bool bringUpMenu = false;
+
+// Delay period at which it takes readings
 int period = 5000;
 
 void startReadingProcess();
@@ -206,13 +210,6 @@ void attemptToSendMeasurement(int currentMeasurement)
 }
 
 
-void changeMeasurementPeriod() 
-{
-  
-}
-
-
-
 void startReadingProcess() {
 
   currentRiverLevel = getCurrentMeasurement();
@@ -288,7 +285,9 @@ void loop()
 
   startReadingProcess();
 
+  // If button interrupt has been pressed
   if(bringUpMenu) {
+    // Load the engineering menu
     loadEngineeringMenu();
   }
 
