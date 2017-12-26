@@ -15,11 +15,11 @@
 /*
  * 
  */
-Processor::Processor(SDCard &serial, Sensor &sensor, EngineeringMenu &menu)
+Processor::Processor(Sensor *sensor, SDCard *sdCard, EngineeringMenu *menu)
 {
-  this.serial = &serial;
-  this.sensor = &sensor;
-  this.menu = &menu;
+  this->sensor = *sensor;
+  this->sdCard = *sdCard;
+  this->menu = *menu;
   
   state = LOW;
   delayPeriod = 5000;

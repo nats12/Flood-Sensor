@@ -24,7 +24,7 @@ class Processor
   EngineeringMenu *menu;
   
   public:
-    Processor( Sensor *sensor, SDCard *sdCard, EngineeringMenu *menu) : sensor(sensor), sdCard(sdCard), menu(menu) { };
+    Processor(Sensor *sensor, SDCard *sdCard, EngineeringMenu *menu);
     const byte ledPin = 1;
     const byte interruptPin = 13;
     volatile byte state;
