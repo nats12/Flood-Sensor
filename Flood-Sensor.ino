@@ -7,10 +7,12 @@
 #include "Processor.h"
 
 
-Processor processor;
 Sensor sensor;
 SDCard sdCard;
 EngineeringMenu menu;
+
+Processor processor(&sensor, &sdCard, &menu);
+
 
 
 // Initial depth

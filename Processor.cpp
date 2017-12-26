@@ -7,13 +7,20 @@
 #include <SD.h>
 #include "Arduino.h"
 #include "Processor.h"
+#include "SDCard.h"
+#include "Sensor.h"
+#include "EngineeringMenu.h"
 
 
 /*
  * 
  */
-Processor::Processor()
+Processor::Processor(SDCard &serial, Sensor &sensor, EngineeringMenu &menu)
 {
+  this.serial = &serial;
+  this.sensor = &sensor;
+  this.menu = &menu;
+  
   state = LOW;
   delayPeriod = 5000;
 

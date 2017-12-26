@@ -7,6 +7,9 @@
 #include <SD.h>
 #ifndef Processor_h
 #define Processor_h
+#include "EngineeringMenu.h"
+#include "SDCard.h"
+#include "Sensor.h"
 
 #include "Arduino.h"
 
@@ -15,8 +18,13 @@
  */
 class Processor
 {
+  
+  Sensor *sensor;
+  SDCard *sdCard;
+  EngineeringMenu *menu;
+  
   public:
-    Processor();
+    Processor( Sensor *sensor, SDCard *sdCard, EngineeringMenu *menu) : sensor(sensor), sdCard(sdCard), menu(menu) { };
     const byte ledPin = 1;
     const byte interruptPin = 13;
     volatile byte state;
