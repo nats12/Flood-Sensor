@@ -17,9 +17,9 @@
  */
 Processor::Processor(Sensor *sensor, SDCard *sdCard, EngineeringMenu *menu)
 {
-  this->sensor = *sensor;
-  this->sdCard = *sdCard;
-  this->menu = *menu;
+  this->sensor = sensor;
+  this->sdCard = sdCard;
+  this->menu = menu;
   
   state = LOW;
   delayPeriod = 5000;

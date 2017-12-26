@@ -8,7 +8,7 @@
 #include "SDCard.h"
 #include "Processor.h"
 
-Processor adaLogger;
+Processor *adaLogger;
 SDCard storage;
 int analogPin;
 
@@ -91,6 +91,6 @@ void Sensor::startReadingProcess() {
 void Sensor::changeMeasurementPeriod(String minutes)
 {
   // Update the delay period
-  adaLogger.delayPeriod = minutes.toInt();
+  adaLogger->delayPeriod = minutes.toInt();
 }
 
