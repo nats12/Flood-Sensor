@@ -9,17 +9,17 @@
 #include "Processor.h"
 
 Processor *adaLogger;
-SDCard storage;
 int analogPin;
 
 /**
  * 
  */
-Sensor::Sensor()
+Sensor::Sensor(SDCard *sdCard)
 {
   // pinMode(pin, OUTPUT);
   analogPin = 0;
   rangeDifferenceThreshold = 50;
+  this->sdCard = sdCard;
 }
 
 /*
@@ -67,7 +67,7 @@ void Sensor::attemptToSendMeasurement(int currentMeasurement)
   {
     if(sendMeasurement(currentMeasurement))
       lastMeasurementSent = currentMeasurement;
-      storage.printToLog(lastMeasurementSent);
+      this->sdCard->printToLog(lastMeasurementSent);
   }
   //else ignore current measurement
   
@@ -79,7 +79,7 @@ void Sensor::attemptToSendMeasurement(int currentMeasurement)
 void Sensor::startReadingProcess() {
 
   currentRiverLevel = getCurrentMeasurement();
-  storage.printCurrentMeasurement();
+  this->sdCard->printCurrentMeasurement(getCurrentMeasurement());
   attemptToSendMeasurement(currentRiverLevel);
 }
 

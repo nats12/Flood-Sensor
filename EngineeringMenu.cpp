@@ -11,17 +11,15 @@
 #include "Sensor.h"
 
 
-SDCard sdCardStorage;
-Sensor ultrasonicSense;
-
-
 /**
  * 
  */
-EngineeringMenu::EngineeringMenu()
+EngineeringMenu::EngineeringMenu(SDCard *sdCard, Sensor *sensor)
 {
   
   bringUpMenu = false;
+  this->sdCard = sdCard;
+  this->sensor = sensor;
 }
 
 
@@ -45,18 +43,18 @@ void EngineeringMenu::loadEngineeringMenu()
     
    if(menuOption == "1\n") {
      // Print last sent measurement
-     sdCardStorage.printCurrentMeasurement();
+     this->sdCard->printCurrentMeasurement(this->sensor->getCurrentMeasurement());
    }
 
    if(menuOption == "5\n") {
       // Test read/write on SD card
       Serial.println("Testing read/write...");
-      sdCardStorage.printToLog(5);
+      this->sdCard->printToLog(5);
    }
 
    if (menuOption == "6\n") {
       // Print details of SD card space
-      sdCardStorage.checkCardMemory();
+      this->sdCard->checkCardMemory();
    }
 
    if (menuOption == "7\n") {
@@ -66,7 +64,7 @@ void EngineeringMenu::loadEngineeringMenu()
       while((minutes = Serial.readString()) == NULL){};
 
       // Call function to update global variable period to minutes
-      ultrasonicSense.changeMeasurementPeriod(minutes);
+      this->sensor->changeMeasurementPeriod(minutes);
    }
   
   };

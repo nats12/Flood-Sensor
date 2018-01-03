@@ -9,7 +9,6 @@
 #include "SDCard.h"
 #include "Sensor.h"
 
-Sensor ultrasonicSensor;
 File myFile;
 SdVolume volume;
 SdFile root;
@@ -18,11 +17,7 @@ Sd2Card card;
 /**
  * 
  */
-SDCard::SDCard()
-{
-  
-  
-}
+SDCard::SDCard() {}
 
 
 /*
@@ -84,10 +79,10 @@ void SDCard::checkCardMemory()
 /*
  * 
  */
-void SDCard::printCurrentMeasurement()
+void SDCard::printCurrentMeasurement(int currentMeasurement)
 {
   Serial.println("Current Measurement: ");
-  Serial.println(ultrasonicSensor.getCurrentMeasurement());
+  Serial.println(currentMeasurement);
 }
 
 

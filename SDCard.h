@@ -7,7 +7,6 @@
 #include <SD.h>
 #ifndef SDCard_h
 #define SDCard_h
-
 #include "Arduino.h"
 
 /**
@@ -15,10 +14,11 @@
  */
 class SDCard
 {
+  
   public:
     SDCard();
     void checkCardMemory();
-    void printCurrentMeasurement();
+    void printCurrentMeasurement(int currentMeasurement);
     void printToLog(int lastMeasurementSent);
 
     File myFile;
