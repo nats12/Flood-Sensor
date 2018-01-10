@@ -6,11 +6,13 @@
 #include "EngineeringMenu.h"
 #include "Processor.h"
 
+Processor processor;
 SDCard sdCard;
-Sensor sensor(&sdCard);
-EngineeringMenu menu(&sdCard, &sensor);
+Sensor sensor(&sdCard, &processor);
 
-Processor processor(&sensor, &sdCard, &menu);
+EngineeringMenu menu(&sdCard, &sensor, &processor);
+
+
 
 
 

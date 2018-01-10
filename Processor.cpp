@@ -15,12 +15,8 @@
 /*
  * 
  */
-Processor::Processor(Sensor *sensor, SDCard *sdCard, EngineeringMenu *menu)
+Processor::Processor()
 {
-  this->sensor = sensor;
-  this->sdCard = sdCard;
-  this->menu = menu;
-  
   state = LOW;
   delayPeriod = 5000;
 

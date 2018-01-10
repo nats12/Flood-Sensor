@@ -9,17 +9,19 @@
 #include "EngineeringMenu.h"
 #include "SDCard.h"
 #include "Sensor.h"
+#include "Processor.h"
 
 
 /**
  * 
  */
-EngineeringMenu::EngineeringMenu(SDCard *sdCard, Sensor *sensor)
+EngineeringMenu::EngineeringMenu(SDCard *sdCard, Sensor *sensor, Processor *processor)
 {
   
   bringUpMenu = false;
   this->sdCard = sdCard;
   this->sensor = sensor;
+  this->processor = processor;
 }
 
 

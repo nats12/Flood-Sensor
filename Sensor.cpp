@@ -8,18 +8,17 @@
 #include "SDCard.h"
 #include "Processor.h"
 
-Processor *adaLogger;
-int analogPin;
 
 /**
  * 
  */
-Sensor::Sensor(SDCard *sdCard)
+Sensor::Sensor(SDCard *sdCard, Processor *processor)
 {
   // pinMode(pin, OUTPUT);
   analogPin = 0;
   rangeDifferenceThreshold = 50;
   this->sdCard = sdCard;
+  this->processor = processor;
 }
 
 /*
@@ -91,6 +90,6 @@ void Sensor::startReadingProcess() {
 void Sensor::changeMeasurementPeriod(String minutes)
 {
   // Update the delay period
-  adaLogger->delayPeriod = minutes.toInt();
+  this->processor->delayPeriod = minutes.toInt();
 }
 

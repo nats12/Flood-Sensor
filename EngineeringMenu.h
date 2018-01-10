@@ -8,7 +8,7 @@
 #define EngineeringMenu_h
 #include "SDCard.h"
 #include "Sensor.h"
-
+#include "Processor.h"
 #include "Arduino.h"
 
 /**
@@ -18,9 +18,10 @@ class EngineeringMenu
 {
   SDCard *sdCard;
   Sensor *sensor;
+  Processor *processor;
   
   public:
-    EngineeringMenu(SDCard *sdCard, Sensor *sensor);
+    EngineeringMenu(SDCard *sdCard, Sensor *sensor, Processor *processor);
     void loadEngineeringMenu();
     // Interrupt variable to load engineering menu
     volatile bool bringUpMenu;
