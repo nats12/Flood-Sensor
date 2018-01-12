@@ -22,5 +22,24 @@ Processor::Processor()
 
 }
 
+/*
+ * 
+ */
+void Processor::changeMeasurementPeriod(String minutes)
+{
+  // Update the delay period
+  this->delayPeriod = minutes.toInt();
+}
+
+void Processor::printToSDLog(int lastMeasurementSent)
+{
+  this->sdCard->printToLog(lastMeasurementSent);
+}
+
+void Processor:printCurrentMeasurementToSD(int currentMeasurement)
+{
+  this->sdCard->printCurrentMeasurement(currentMeasurement);
+}
+
 
 

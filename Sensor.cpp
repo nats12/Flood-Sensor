@@ -5,7 +5,6 @@
 
 #include "Arduino.h"
 #include "Sensor.h"
-#include "SDCard.h"
 #include "Processor.h"
 
 
@@ -17,7 +16,6 @@ Sensor::Sensor(SDCard *sdCard, Processor *processor)
   // pinMode(pin, OUTPUT);
   analogPin = 0;
   rangeDifferenceThreshold = 50;
-  this->sdCard = sdCard;
   this->processor = processor;
 }
 
@@ -66,7 +64,7 @@ void Sensor::attemptToSendMeasurement(int currentMeasurement)
   {
     if(sendMeasurement(currentMeasurement))
       lastMeasurementSent = currentMeasurement;
-      this->sdCard->printToLog(lastMeasurementSent);
+      this->processor->printToSDLog(lastMeasurementSent);
   }
   //else ignore current measurement
   
@@ -78,18 +76,7 @@ void Sensor::attemptToSendMeasurement(int currentMeasurement)
 void Sensor::startReadingProcess() {
 
   currentRiverLevel = getCurrentMeasurement();
-  this->sdCard->printCurrentMeasurement(getCurrentMeasurement());
+  this->processor->printCurrentMeasurementToSD(getCurrentMeasurement());
   attemptToSendMeasurement(currentRiverLevel);
-}
-
-
-
-/*
- * 
- */
-void Sensor::changeMeasurementPeriod(String minutes)
-{
-  // Update the delay period
-  this->processor->delayPeriod = minutes.toInt();
 }
 

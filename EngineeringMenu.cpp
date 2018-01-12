@@ -66,7 +66,7 @@ void EngineeringMenu::loadEngineeringMenu()
       while((minutes = Serial.readString()) == NULL){};
 
       // Call function to update global variable period to minutes
-      this->sensor->changeMeasurementPeriod(minutes);
+      this->processor->changeMeasurementPeriod(minutes);
    }
   
   };

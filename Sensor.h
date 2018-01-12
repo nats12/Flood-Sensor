@@ -27,7 +27,6 @@ class Sensor
     bool sendMeasurement(int currentMeasurement);
     void attemptToSendMeasurement(int currentMeasurement);
     void startReadingProcess();
-    void changeMeasurementPeriod(String minutes);
 
     int currentRiverLevel;
     int distanceToRiverBed;

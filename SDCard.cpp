@@ -7,7 +7,6 @@
 #include <SD.h>
 #include "Arduino.h"
 #include "SDCard.h"
-#include "Sensor.h"
 
 File myFile;
 SdVolume volume;

@@ -21,10 +21,14 @@ class Processor
   
   public:
     Processor();
+    void changeMeasurementPeriod(String minutes);
+    void printToSDLog(int lastMeasurementSent);
+    void printCurrentMeasurementToSD(int currentMeasurement);
     const byte ledPin = 1;
     const byte interruptPin = 13;
     volatile byte state;
     int delayPeriod;
+    
 
   private:
 
