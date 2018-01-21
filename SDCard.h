@@ -22,7 +22,7 @@ class SDCard
     
     SDCard();
     void checkCardMemory();
-    void printCurrentMeasurement();
+    void printCurrentMeasurement(int measurement);
     void printToLog(int lastMeasurementSent);
   private:
 

@@ -25,9 +25,18 @@ class Processor
     void init();
     void readingProcess();
 
+    // AR mode
+    void activateOrDeactivateARMode();
+    void adjustIgnoreThreshold(int newIgnoreThreshold);
+    void adjustARModeDelay(int newDelayPeriod);
+    void adjustARModeThreshold(int newActivationThreshold);
+
     // Helpers
     void writeStatus();
     void delayWithPeriod();
+    void changeMeasurementPeriod(String minutes);
+    void printToSDLog(int lastMeasurementSent);
+    void printCurrentMeasurementToSD(int currentMeasurement);
     
     // Setters
     void setSpreadingFactor(int spreadFactor);
@@ -42,6 +51,10 @@ class Processor
     
     // Initial depth
     int initialRiverDepth;
+    // AR mode variables
+    int delayPeriodARMode;
+    int ARModeActivationThreshold; 
+    int ignoreThreshold;
     // LoRaWAN keys + spread factor
     int spreadFactor = 7;
     char *appEui;

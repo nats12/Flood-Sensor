@@ -17,7 +17,9 @@
 class EngineeringMenu
 {
   public:
-    EngineeringMenu(Sensor *sensor, SDCard *sdCard, TheThingsNetwork *ttn);
+    EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor, TheThingsNetwork *ttn);
+    void mainMenu(String menuOption);
+    void subMenuEight(String menuOption);
     void loadEngineeringMenu();
     
     // Interrupt variable to load engineering menu
@@ -26,7 +28,9 @@ class EngineeringMenu
     Sensor *sensor;
     SDCard *sdCard;
     Processor *processor;
-    TheThingsNetwork *ttn;
+    TheThingsNetwork *ttn; 
+    String subMenuOption;
+    String input;
 
 };
 

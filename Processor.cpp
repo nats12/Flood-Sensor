@@ -24,17 +24,20 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, TheThingsNetwork *ttn, byte
   
   this->state = LOW;
   this->delayPeriod = 5000;
+  this->delayPeriodARMode = 1000;
+  this->ARModeActivationThreshold = 20000; //Threshold (mm) to trigger Accelerated Readings mode
+                                     //defaulted to a value that should never trigger (20 meters - out of range of sensor)
+  this->ignoreThreshold = 0; //Threshold (mm) for which the sensor should ignore readings - don't send any info to server
 }
 
-
-// States
+// State Loop functions
 
 /*
  * 
  */
 void Processor::init()
 {
-    ttn->join(appEui, appKey);
+    //ttn->join(appEui, appKey);
   
     String inStr;
     int initialDistanceToRiverTop;
@@ -42,7 +45,7 @@ void Processor::init()
 
     // Whilst inStr is null, do nothing, skip
     while ((inStr = Serial.readString()) == NULL){}
-    initialRiverDepfth = inStr.toInt();
+    initialRiverDepth = inStr.toInt();
     //Serial.println(initialRiverDepth); 
     initialDistanceToRiverTop = analogRead(sensor->analogPin) * 5;
     sensor->distanceToRiverBed = initialRiverDepth + initialDistanceToRiverTop;
@@ -54,9 +57,37 @@ void Processor::init()
  */
 void Processor::readingProcess()
 {
-  sensor->startReadingProcess();
+  int currentRiverLevel = sensor->getCurrentMeasurement();
+  
+  if(sensor->isCurrentWorthSending(currentRiverLevel))
+  {
+    bool sent = false;
+    if(sent) {
+      sensor->lastMeasurementSent = currentRiverLevel;
+      //storage.printToLog(lastMeasurementSent);
+    }
+  }
 }
 
+// AR Mode
+void Processor::adjustARModeDelay(int newDelayPeriod){ //adjust accelerated readings mode with new frequent delay period
+  delayPeriodARMode = 1000;
+}
+
+void Processor::adjustARModeThreshold(int newActivationThreshold){ //adjust accelerated readings mode with new activation threshold (mm)
+  ARModeActivationThreshold = newActivationThreshold;
+}
+
+void Processor::activateOrDeactivateARMode() { // swaps delayPeriod and delayPeriodARMode variables to activate/deactivate Accelerated Readings mode
+  int tempPeriod = 0;
+  tempPeriod = delayPeriod;
+  delayPeriod = delayPeriodARMode;
+  delayPeriodARMode = tempPeriod;
+}
+
+void Processor::adjustIgnoreThreshold(int newIgnoreThreshold){ 
+  ignoreThreshold = newIgnoreThreshold;
+}
 
 
 // Helpers
@@ -104,5 +135,28 @@ void Processor::setAppKey(char *appKey)
   this->appKey = appKey;
 }
 
+/*
+ * 
+ */
+void Sensor::changeMeasurementPeriod(int minutes)
+{
+  this->measurementPeriod = minutes * 60000;
+}
+
+/*
+ * 
+ */
+void Processor::printToSDLog(int lastMeasurementSent)
+{
+  this->sdCard->printToLog(lastMeasurementSent);
+}
+
+/*
+ * 
+ */
+void Processor::printCurrentMeasurementToSD(int currentMeasurement)
+{
+  this->sdCard->printCurrentMeasurement(currentMeasurement);
+}
 
 

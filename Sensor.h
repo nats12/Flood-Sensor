@@ -22,9 +22,6 @@ class Sensor
     Sensor(int analogPin);
     int getCurrentMeasurement();
     bool isCurrentWorthSending(int currentMeasurement);
-    bool sendMeasurement(int currentMeasurement);
-    void attemptToSendMeasurement(int currentMeasurement);
-    void startReadingProcess();
     void changeMeasurementPeriod(int minutes);
   private:
 

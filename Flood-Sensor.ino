@@ -16,8 +16,8 @@ const byte interruptPin = 13;
 TheThingsNetwork ttn(Serial1, Serial, freqPlan, sFactor);
 Sensor sensor(0);
 SDCard sdCard;
-EngineeringMenu menu(&sensor, &sdCard, &ttn);
 Processor processor(&sensor, &sdCard, &ttn, ledPin, interruptPin);
+EngineeringMenu menu(&sensor, &sdCard, &processor, &ttn);
 
 /**
  * Sets up 

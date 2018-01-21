@@ -79,10 +79,10 @@ void SDCard::checkCardMemory()
 /*
  * 
  */
-void SDCard::printCurrentMeasurement()
+void SDCard::printCurrentMeasurement(int measurement)
 {
   Serial.println("Current Measurement: ");
-  //Serial.println(ultrasonicSensor.getCurrentMeasurement());
+  Serial.println(measurement);
 }
 
 
