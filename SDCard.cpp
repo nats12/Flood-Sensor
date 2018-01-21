@@ -3,9 +3,6 @@
   Created by Natalie Mclaren, December 17, 2017.
 */
 
-#include <SPI.h>
-#include <SD.h>
-#include "Arduino.h"
 #include "SDCard.h"
 
 File myFile;
@@ -16,7 +13,11 @@ Sd2Card card;
 /**
  * 
  */
-SDCard::SDCard() {}
+SDCard::SDCard()
+{
+  
+  
+}
 
 
 /*
@@ -78,12 +79,11 @@ void SDCard::checkCardMemory()
 /*
  * 
  */
-void SDCard::printCurrentMeasurement(int currentMeasurement)
+void SDCard::printCurrentMeasurement(int measurement)
 {
   Serial.println("Current Measurement: ");
-  Serial.println(currentMeasurement);
+  Serial.println(measurement);
 }
-
 
 
 /*

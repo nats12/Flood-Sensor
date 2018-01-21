@@ -3,39 +3,65 @@
   Created by Natalie Mclaren, December 18, 2017.
 */
 
-#include <SPI.h>
-#include <SD.h>
 #ifndef Processor_h
 #define Processor_h
-#include "EngineeringMenu.h"
+#include <TheThingsNetwork.h>
 #include "SDCard.h"
 #include "Sensor.h"
-
-#include "Arduino.h"
 
 /**
  * 
  */
 class Processor
-{
-  
+{  
   public:
-    Processor();
+    volatile byte state;
+    int delayPeriod;
+
+    // Constructors
+    Processor(Sensor *sensor, SDCard *sdCard, TheThingsNetwork *ttn, byte ledPin, byte interruptPin);
+
+    // Main States
+    void init();
+    void readingProcess();
+
+    // AR mode
+    void activateOrDeactivateARMode();
+    void adjustIgnoreThreshold(int newIgnoreThreshold);
+    void adjustARModeDelay(int newDelayPeriod);
+    void adjustARModeThreshold(int newActivationThreshold);
+
+    // Helpers
+    void writeStatus();
+    void delayWithPeriod();
     void changeMeasurementPeriod(String minutes);
     void printToSDLog(int lastMeasurementSent);
     void printCurrentMeasurementToSD(int currentMeasurement);
-    void adjustARModeThreshold(int newActivationThreshold);
-    void adjustARModeDelay(int newDelayPeriod);
-    const byte ledPin = 1;
-    const byte interruptPin = 13;
-    volatile byte state;
-    int delayPeriod;
+    
+    // Setters
+    void setSpreadingFactor(int spreadFactor);
+    void setAppEui(char *appEui);
+    void setAppKey(char *appKey);
+
+  private:
+    // Components
+    Sensor *sensor;
+    SDCard *sdCard;
+    TheThingsNetwork *ttn;
+    
+    // Initial depth
+    int initialRiverDepth;
+    // AR mode variables
     int delayPeriodARMode;
     int ARModeActivationThreshold; 
     int ignoreThreshold;
-
-  private:
-
+    // LoRaWAN keys + spread factor
+    int spreadFactor = 7;
+    char *appEui;
+    char *appKey;
+    // Pins
+    int ledPin;
+    int interruptPin;
 };
 
 #endif

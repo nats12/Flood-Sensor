@@ -3,8 +3,6 @@
   Created by Natalie Mclaren, December 17, 2017.
 */
 
-#include <SPI.h>
-#include <SD.h>
 #include "Arduino.h"
 #include "EngineeringMenu.h"
 #include "SDCard.h"
@@ -14,19 +12,23 @@
 /**
  * 
  */
-EngineeringMenu::EngineeringMenu(SDCard *sdCard, Sensor *sensor, Processor *processor)
+EngineeringMenu::EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor, TheThingsNetwork *ttn)
 {
+  this->sensor = sensor;
+  this->sdCard = sdCard;
+  this->processor = processor;
+  this->ttn = ttn;
   
   bringUpMenu = false;
-  String subMenuOption = "0";
-  this->sdCard = sdCard;
-  this->sensor = sensor;
-  this->processor = processor;
+  subMenuOption = "0";
 }
 
+/*
+ * 
+ */
 void EngineeringMenu::mainMenu(String menuOption)
 {
-  if(menuOption == "1\n") {
+   if(menuOption == "1\n") {
      // Print last sent measurement
      this->sdCard->printCurrentMeasurement(this->sensor->getCurrentMeasurement());
    }
@@ -47,13 +49,44 @@ void EngineeringMenu::mainMenu(String menuOption)
       // Insert a new measurement period
       Serial.println("Insert a new measurement period");
       while((minutes = Serial.readString()) == NULL){};
-      this->processor->changeMeasurementPeriod(minutes); // Call function to update global variable period to minutes
+      this->sensor->changeMeasurementPeriod(minutes.toInt()); // Call function to update global variable period to minutes
    }
 
    if (menuOption == "8\n") {
-    Serial.println("1: Set max water level threshold to trigger \"AR\" mode");
-    Serial.println("2: Check and send measurement every X minutes during \"AR\" mode(input minutes)");
-    this->subMenuOption = "8\n";
+      Serial.println("1: Set max water level threshold to trigger \"AR\" mode");
+      Serial.println("2: Check and send measurement every X minutes during \"AR\" mode(input minutes)");
+      this->subMenuOption = "8\n";
+   }
+
+   // Set the Spreading Factor to use for LoRaWAN
+   if (menuOption == "12\n") {
+      Serial.println("Set new spreading factor between 7 and 12");
+      
+      while((input = Serial.readString()) == NULL){};
+
+      processor->setSpreadingFactor(input.toInt());
+   }
+
+   // Set the App Eui used for LoRaWAN
+   if (menuOption == "13\n") {
+      Serial.println("Set the App Eui");
+      
+      while((input = Serial.readString()) == NULL){};
+ 
+      char chArr[25];
+      input.toCharArray(chArr, 25);
+      processor->setAppEui(chArr);
+   }
+
+   // Set the App Key used for LoRaWAN
+   if (menuOption == "14\n") {
+      Serial.println("Set the App Key");
+      
+      while((input = Serial.readString()) == NULL){};
+
+      char chArr[25];
+      input.toCharArray(chArr, 25);
+      processor->setAppKey(chArr);
    }
 }
 
@@ -104,4 +137,5 @@ void EngineeringMenu::loadEngineeringMenu()
   
   bringUpMenu = false;
 }
+
 

@@ -3,69 +3,160 @@
   Created by Natalie Mclaren, December 18, 2017.
 */
 
+#include "Processor.h"
 #include <SPI.h>
 #include <SD.h>
 #include "Arduino.h"
-#include "Processor.h"
 #include "SDCard.h"
 #include "Sensor.h"
-#include "EngineeringMenu.h"
+
+/*
+ * 
+ */
+Processor::Processor(Sensor *sensor, SDCard *sdCard, TheThingsNetwork *ttn, byte ledPin, byte interruptPin)
+{
+  this->sensor = sensor;
+  this->sdCard = sdCard;
+  this->ttn = ttn;
+  
+  this->ledPin = ledPin;
+  this->interruptPin = interruptPin;
+  
+  this->state = LOW;
+  this->delayPeriod = 5000;
+  this->delayPeriodARMode = 1000;
+  this->ARModeActivationThreshold = 20000; //Threshold (mm) to trigger Accelerated Readings mode
+                                     //defaulted to a value that should never trigger (20 meters - out of range of sensor)
+  this->ignoreThreshold = 0; //Threshold (mm) for which the sensor should ignore readings - don't send any info to server
+}
+
+// State Loop functions
+
+/*
+ * 
+ */
+void Processor::init()
+{
+    //ttn->join(appEui, appKey);
+  
+    String inStr;
+    int initialDistanceToRiverTop;
+    int currentDistanceToRiverTop;
+
+    // Whilst inStr is null, do nothing, skip
+    while ((inStr = Serial.readString()) == NULL){}
+    initialRiverDepth = inStr.toInt();
+    //Serial.println(initialRiverDepth); 
+    initialDistanceToRiverTop = analogRead(sensor->analogPin) * 5;
+    sensor->distanceToRiverBed = initialRiverDepth + initialDistanceToRiverTop;
+}
 
 
 /*
  * 
  */
-Processor::Processor(Sensor *sensor, SDCard *sdCard, EngineeringMenu *menu)
+void Processor::readingProcess()
 {
-  this->sensor = sensor;
-  this->sdCard = sdCard;
-  this->menu = menu;
+  int currentRiverLevel = sensor->getCurrentMeasurement();
   
-  state = LOW;
-  delayPeriod = 5000;
+  if(sensor->isCurrentWorthSending(currentRiverLevel))
+  {
+    bool sent = false;
+    if(sent) {
+      sensor->lastMeasurementSent = currentRiverLevel;
+      //storage.printToLog(lastMeasurementSent);
+    }
+  }
+}
+
+// AR Mode
+void Processor::adjustARModeDelay(int newDelayPeriod){ //adjust accelerated readings mode with new frequent delay period
   delayPeriodARMode = 1000;
-  ARModeActivationThreshold = 20000; //Threshold (mm) to trigger Accelerated Readings mode
-                                     //defaulted to a value that should never trigger (20 meters - out of range of sensor)
-  ignoreThreshold = 0; //Threshold (mm) for which the sensor should ignore readings - don't send any info to server
 }
 
-Processor::adjustARModeDelay(int newDelayPeriod){ //adjust accelerated readings mode with new frequent delay period
-  delayPeriodARMode = 1000;
+void Processor::adjustARModeThreshold(int newActivationThreshold){ //adjust accelerated readings mode with new activation threshold (mm)
+  ARModeActivationThreshold = newActivationThreshold;
 }
 
-Processor::adjustARModeThreshold(int newActivationThreshold){ //adjust accelerated readings mode with new activation threshold (mm)
-  ARModeActivationThreshold = newActivaionThreshold;
-}
-
-Processor::activateOrDeactivateARMode() { // swaps delayPeriod and delayPeriodARMode variables to activate/deactivate Accelerated Readings mode
+void Processor::activateOrDeactivateARMode() { // swaps delayPeriod and delayPeriodARMode variables to activate/deactivate Accelerated Readings mode
   int tempPeriod = 0;
   tempPeriod = delayPeriod;
   delayPeriod = delayPeriodARMode;
   delayPeriodARMode = tempPeriod;
 }
 
-Processor::adjustIgnoreThreshold(int newIgnoreThreshold){ 
+void Processor::adjustIgnoreThreshold(int newIgnoreThreshold){ 
   ignoreThreshold = newIgnoreThreshold;
+}
+
+
+// Helpers
+/*
+ * 
+ */
+void Processor::writeStatus()
+{
+  digitalWrite(this->ledPin, this->state);
 }
 
 /*
  * 
  */
-void Processor::changeMeasurementPeriod(String minutes)
+void Processor::delayWithPeriod()
 {
-  // Update the delay period
-  this->delayPeriod = minutes.toInt() * 60000;
+  Serial.println("Current measurement period is..");
+  Serial.println(this->delayPeriod);
+  delay(this->delayPeriod);
 }
 
+// Setters
+
+/*
+ * 
+ */
+void Processor::setSpreadingFactor(int spreadFactor)
+{
+  this->spreadFactor = spreadFactor;
+}
+
+/*
+ * 
+ */
+void Processor::setAppEui(char *appEui)
+{
+  this->appEui = appEui;
+}
+
+/*
+ * 
+ */
+void Processor::setAppKey(char *appKey)
+{
+  this->appKey = appKey;
+}
+
+/*
+ * 
+ */
+void Sensor::changeMeasurementPeriod(int minutes)
+{
+  this->measurementPeriod = minutes * 60000;
+}
+
+/*
+ * 
+ */
 void Processor::printToSDLog(int lastMeasurementSent)
 {
   this->sdCard->printToLog(lastMeasurementSent);
 }
 
-void Processor:printCurrentMeasurementToSD(int currentMeasurement)
+/*
+ * 
+ */
+void Processor::printCurrentMeasurementToSD(int currentMeasurement)
 {
   this->sdCard->printCurrentMeasurement(currentMeasurement);
 }
-
 
 

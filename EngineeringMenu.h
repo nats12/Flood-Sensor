@@ -3,33 +3,34 @@
   Created by Natalie Mclaren, December 17, 2017.
 */
 
-
 #ifndef EngineeringMenu_h
 #define EngineeringMenu_h
+
+#include <TheThingsNetwork.h>
 #include "SDCard.h"
 #include "Sensor.h"
 #include "Processor.h"
-#include "Arduino.h"
 
 /**
  * 
  */
 class EngineeringMenu
-{  
-  SDCard *sdCard;
-  Sensor *sensor;
-  Processor *processor;
-  
+{
   public:
-    EngineeringMenu(SDCard *sdCard, Sensor *sensor, Processor *processor);
+    EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor, TheThingsNetwork *ttn);
     void mainMenu(String menuOption);
     void subMenuEight(String menuOption);
     void loadEngineeringMenu();
+    
     // Interrupt variable to load engineering menu
     volatile bool bringUpMenu;
-    
   private:
+    Sensor *sensor;
+    SDCard *sdCard;
+    Processor *processor;
+    TheThingsNetwork *ttn; 
     String subMenuOption;
+    String input;
 
 };
 
