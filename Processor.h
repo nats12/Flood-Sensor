@@ -24,11 +24,15 @@ class Processor
     void changeMeasurementPeriod(String minutes);
     void printToSDLog(int lastMeasurementSent);
     void printCurrentMeasurementToSD(int currentMeasurement);
+    void adjustARModeThreshold(int newActivationThreshold);
+    void adjustARModeDelay(int newDelayPeriod);
     const byte ledPin = 1;
     const byte interruptPin = 13;
     volatile byte state;
     int delayPeriod;
-    
+    int delayPeriodARMode;
+    int ARModeActivationThreshold; 
+    int ignoreThreshold;
 
   private:
 

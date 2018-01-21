@@ -11,7 +11,7 @@
 /**
  * 
  */
-Sensor::Sensor(SDCard *sdCard, Processor *processor)
+Sensor::Sensor(Processor *processor)
 {
   // pinMode(pin, OUTPUT);
   analogPin = 0;

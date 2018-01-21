@@ -15,17 +15,21 @@
  * 
  */
 class EngineeringMenu
-{
+{  
   SDCard *sdCard;
   Sensor *sensor;
   Processor *processor;
   
   public:
     EngineeringMenu(SDCard *sdCard, Sensor *sensor, Processor *processor);
+    void mainMenu(String menuOption);
+    void subMenuEight(String menuOption);
     void loadEngineeringMenu();
     // Interrupt variable to load engineering menu
     volatile bool bringUpMenu;
+    
   private:
+    String subMenuOption;
 
 };
 

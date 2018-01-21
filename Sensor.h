@@ -6,7 +6,6 @@
 
 #ifndef Sensor_h
 #define Sensor_h
-#include "SDCard.h"
 #include "Processor.h"
 #include "Arduino.h"
 
@@ -16,12 +15,10 @@
  */
 class Sensor
 { 
-
-    SDCard *sdCard;
     Processor *processor;
     
   public:
-    Sensor(SDCard *sdCard, Processor *processor);
+    Sensor(Processor *processor);
     int getCurrentMeasurement();
     bool isCurrentWorthSending(int currentMeasurement);
     bool sendMeasurement(int currentMeasurement);

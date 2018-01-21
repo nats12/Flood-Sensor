@@ -8,7 +8,7 @@
 
 Processor processor;
 SDCard sdCard;
-Sensor sensor(&sdCard, &processor);
+Sensor sensor(&processor);
 
 EngineeringMenu menu(&sdCard, &sensor, &processor);
 
