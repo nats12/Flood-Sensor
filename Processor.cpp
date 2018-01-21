@@ -3,42 +3,105 @@
   Created by Natalie Mclaren, December 18, 2017.
 */
 
+#include "Processor.h"
 #include <SPI.h>
 #include <SD.h>
 #include "Arduino.h"
-#include "Processor.h"
 #include "SDCard.h"
 #include "Sensor.h"
-#include "EngineeringMenu.h"
+
+/*
+ * 
+ */
+Processor::Processor(Sensor *sensor, SDCard *sdCard, TheThingsNetwork *ttn, byte ledPin, byte interruptPin)
+{
+  this->sensor = sensor;
+  this->sdCard = sdCard;
+  this->ttn = ttn;
+  
+  this->ledPin = ledPin;
+  this->interruptPin = interruptPin;
+  
+  this->state = LOW;
+  this->delayPeriod = 5000;
+}
+
+
+// States
+
+/*
+ * 
+ */
+void Processor::init()
+{
+    ttn->join(appEui, appKey);
+  
+    String inStr;
+    int initialDistanceToRiverTop;
+    int currentDistanceToRiverTop;
+
+    // Whilst inStr is null, do nothing, skip
+    while ((inStr = Serial.readString()) == NULL){}
+    initialRiverDepfth = inStr.toInt();
+    //Serial.println(initialRiverDepth); 
+    initialDistanceToRiverTop = analogRead(sensor->analogPin) * 5;
+    sensor->distanceToRiverBed = initialRiverDepth + initialDistanceToRiverTop;
+}
 
 
 /*
  * 
  */
-Processor::Processor()
+void Processor::readingProcess()
 {
-  state = LOW;
-  delayPeriod = 5000;
+  sensor->startReadingProcess();
+}
 
+
+
+// Helpers
+/*
+ * 
+ */
+void Processor::writeStatus()
+{
+  digitalWrite(this->ledPin, this->state);
 }
 
 /*
  * 
  */
-void Processor::changeMeasurementPeriod(String minutes)
+void Processor::delayWithPeriod()
 {
-  // Update the delay period
-  this->delayPeriod = minutes.toInt();
+  Serial.println("Current measurement period is..");
+  Serial.println(this->delayPeriod);
+  delay(this->delayPeriod);
 }
 
-void Processor::printToSDLog(int lastMeasurementSent)
+// Setters
+
+/*
+ * 
+ */
+void Processor::setSpreadingFactor(int spreadFactor)
 {
-  this->sdCard->printToLog(lastMeasurementSent);
+  this->spreadFactor = spreadFactor;
 }
 
-void Processor:printCurrentMeasurementToSD(int currentMeasurement)
+/*
+ * 
+ */
+void Processor::setAppEui(char *appEui)
 {
-  this->sdCard->printCurrentMeasurement(currentMeasurement);
+  this->appEui = appEui;
+}
+
+/*
+ * 
+ */
+void Processor::setAppKey(char *appKey)
+{
+  this->appKey = appKey;
 }
 
 

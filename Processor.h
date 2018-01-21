@@ -3,35 +3,52 @@
   Created by Natalie Mclaren, December 18, 2017.
 */
 
-#include <SPI.h>
-#include <SD.h>
 #ifndef Processor_h
 #define Processor_h
-#include "EngineeringMenu.h"
+#include <TheThingsNetwork.h>
 #include "SDCard.h"
 #include "Sensor.h"
-
-#include "Arduino.h"
 
 /**
  * 
  */
 class Processor
-{
-  
+{  
   public:
-    Processor();
-    void changeMeasurementPeriod(String minutes);
-    void printToSDLog(int lastMeasurementSent);
-    void printCurrentMeasurementToSD(int currentMeasurement);
-    const byte ledPin = 1;
-    const byte interruptPin = 13;
     volatile byte state;
     int delayPeriod;
+
+    // Constructors
+    Processor(Sensor *sensor, SDCard *sdCard, TheThingsNetwork *ttn, byte ledPin, byte interruptPin);
+
+    // Main States
+    void init();
+    void readingProcess();
+
+    // Helpers
+    void writeStatus();
+    void delayWithPeriod();
     
+    // Setters
+    void setSpreadingFactor(int spreadFactor);
+    void setAppEui(char *appEui);
+    void setAppKey(char *appKey);
 
   private:
-
+    // Components
+    Sensor *sensor;
+    SDCard *sdCard;
+    TheThingsNetwork *ttn;
+    
+    // Initial depth
+    int initialRiverDepth;
+    // LoRaWAN keys + spread factor
+    int spreadFactor = 7;
+    char *appEui;
+    char *appKey;
+    // Pins
+    int ledPin;
+    int interruptPin;
 };
 
 #endif

@@ -3,20 +3,16 @@
   Created by Natalie Mclaren, December 17, 2017.
 */
 
-#include "Arduino.h"
 #include "Sensor.h"
-#include "Processor.h"
-
+#include "Arduino.h"
 
 /**
  * 
  */
-Sensor::Sensor(SDCard *sdCard, Processor *processor)
+Sensor::Sensor(int analogPin)
 {
-  // pinMode(pin, OUTPUT);
-  analogPin = 0;
+  analogPin = analogPin;
   rangeDifferenceThreshold = 50;
-  this->processor = processor;
 }
 
 /*
@@ -51,9 +47,12 @@ bool Sensor::sendMeasurement(int currentMeasurement)
 {
   Serial.println("Measurement Sent:");
   Serial.println(currentMeasurement);
+//  byte data[1];
+//  data[0] = 2;
+//  
+//  ttn->sendBytes(data, sizeof(data));
   return true;
 }
-
 
 /*
  * 
@@ -64,7 +63,7 @@ void Sensor::attemptToSendMeasurement(int currentMeasurement)
   {
     if(sendMeasurement(currentMeasurement))
       lastMeasurementSent = currentMeasurement;
-      this->processor->printToSDLog(lastMeasurementSent);
+      //storage.printToLog(lastMeasurementSent);
   }
   //else ignore current measurement
   
@@ -73,10 +72,19 @@ void Sensor::attemptToSendMeasurement(int currentMeasurement)
 /*
  * 
  */
-void Sensor::startReadingProcess() {
-
+void Sensor::startReadingProcess() 
+{
   currentRiverLevel = getCurrentMeasurement();
-  this->processor->printCurrentMeasurementToSD(getCurrentMeasurement());
+  //storage.printCurrentMeasurement();
   attemptToSendMeasurement(currentRiverLevel);
+}
+
+
+/*
+ * 
+ */
+void Sensor::changeMeasurementPeriod(int minutes)
+{
+  this->measurementPeriod = minutes;
 }
 

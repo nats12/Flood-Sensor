@@ -1,64 +1,49 @@
 // #include "Ticker-master/Ticker.h"
 #include <SPI.h>
 #include <SD.h>
+#include <TheThingsNetwork.h>
+#include "EngineeringMenu.h"
 #include "Sensor.h"
 #include "SDCard.h"
-#include "EngineeringMenu.h"
 #include "Processor.h"
 
-Processor processor;
+#define freqPlan TTN_FP_EU868
+
+const int sFactor = 7;
+const byte ledPin = 1;
+const byte interruptPin = 13;
+
+TheThingsNetwork ttn(Serial1, Serial, freqPlan, sFactor);
+Sensor sensor(0);
 SDCard sdCard;
-Sensor sensor(&sdCard, &processor);
-
-EngineeringMenu menu(&sdCard, &sensor, &processor);
-
-
-
-
-
-// Initial depth
-int initialRiverDepth;
-
+EngineeringMenu menu(&sensor, &sdCard, &ttn);
+Processor processor(&sensor, &sdCard, &ttn, ledPin, interruptPin);
 
 /**
+ * Sets up 
  * 
  */
 void setup()
-
 {
- 
-  // Outputs information to your serial port
-  //  Setup serial
+  //  Setup serial baus, Serial1 used for LoRaWAN, Serial for USB communication.
+  Serial1.begin(57600);
   Serial.begin(9600); 
   
   // Wait for serial to connect
   while (!Serial){}
   
-  int currentDistanceToRiverTop;
-
   // Check for incoming serial data:
   //if (Serial.available() > 0) {
     Serial.println("Set up");
 
-    char initialRiverDepthInput[10];
-    String inStr;
-    int initialDistanceToRiverTop;
-
-    // Whilst inStr is null, do nothing, skip
-    while ((inStr = Serial.readString()) == NULL){}
-    initialRiverDepth = inStr.toInt();
-    //Serial.println(initialRiverDepth); 
-    initialDistanceToRiverTop = analogRead(sensor.analogPin) * 5;
-    sensor.distanceToRiverBed = initialRiverDepth + initialDistanceToRiverTop;
+    processor.init();
   //}
 
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(processor.interruptPin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(processor.interruptPin), setBringUpMenu, CHANGE);
-
+  pinMode(interruptPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), setBringUpMenu, CHANGE);
 }
-
 
 /**
  * 
@@ -68,18 +53,12 @@ void setBringUpMenu()
   menu.bringUpMenu = true;
 }
 
-
 /**
  * 
  */
 void loop()
-
 {
-
-  
-  digitalWrite(processor.ledPin, processor.state);
-
-  sensor.startReadingProcess();
+  processor.writeStatus();
 
   // If button interrupt has been pressed
   if(menu.bringUpMenu) {
@@ -87,8 +66,7 @@ void loop()
     menu.loadEngineeringMenu();
   }
 
-  Serial.println("Current measurement period is..");
-  Serial.println(processor.delayPeriod);
-  delay(processor.delayPeriod);
+  processor.readingProcess();
 
+  processor.delayWithPeriod();
 }
