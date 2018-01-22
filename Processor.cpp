@@ -4,6 +4,7 @@
 */
 
 #include "Processor.h"
+#include <TheThingsNetwork.h>
 #include <SPI.h>
 #include <SD.h>
 #include "Arduino.h"
@@ -37,7 +38,7 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, TheThingsNetwork *ttn, byte
  */
 void Processor::init()
 {
-    //ttn->join(appEui, appKey);
+    ttn->join(appEui, appKey);
   
     String inStr;
     int initialDistanceToRiverTop;
@@ -51,7 +52,6 @@ void Processor::init()
     sensor->distanceToRiverBed = initialRiverDepth + initialDistanceToRiverTop;
 }
 
-
 /*
  * 
  */
@@ -61,10 +61,17 @@ void Processor::readingProcess()
   
   if(sensor->isCurrentWorthSending(currentRiverLevel))
   {
-    bool sent = false;
-    if(sent) {
+    byte data[6];
+    data[0] = 1;
+    data[1] = 100;
+    data[2] = highByte(currentRiverLevel);
+    data[3] = lowByte(currentRiverLevel);
+      
+    ttn_response_t status = ttn->sendBytes(data, sizeof(data));
+   
+    if(status != TTN_ERROR_SEND_COMMAND_FAILED) {
       sensor->lastMeasurementSent = currentRiverLevel;
-      //storage.printToLog(lastMeasurementSent);
+      sdCard->printToLog(currentRiverLevel);
     }
   }
 }
