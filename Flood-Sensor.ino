@@ -1,23 +1,23 @@
 // #include "Ticker-master/Ticker.h"
 #include <SPI.h>
 #include <SD.h>
-#include <TheThingsNetwork.h>
+//#include <TheThingsNetwork.h>
 #include "EngineeringMenu.h"
 #include "Sensor.h"
 #include "SDCard.h"
 #include "Processor.h"
 
-#define freqPlan TTN_FP_EU868
+//#define freqPlan TTN_FP_EU868
 
 const int sFactor = 7;
 const byte ledPin = 1;
 const byte interruptPin = 13;
 
-TheThingsNetwork ttn(Serial1, Serial, freqPlan, sFactor);
+//TheThingsNetwork ttn(Serial1, Serial, freqPlan, sFactor);
 Sensor sensor(0);
 SDCard sdCard;
-Processor processor(&sensor, &sdCard, &ttn, ledPin, interruptPin);
-EngineeringMenu menu(&sensor, &sdCard, &processor, &ttn);
+Processor processor(&sensor, &sdCard, ledPin, interruptPin);// &ttn, ledPin, interruptPin);
+EngineeringMenu menu(&sensor, &sdCard, &processor); //&ttn);
 
 /**
  * Sets up 
@@ -26,7 +26,7 @@ EngineeringMenu menu(&sensor, &sdCard, &processor, &ttn);
 void setup()
 {
   //  Setup serial baus, Serial1 used for LoRaWAN, Serial for USB communication.
-  Serial1.begin(57600);
+//  Serial1.begin(57600);
   Serial.begin(9600); 
   
   // Wait for serial to connect
