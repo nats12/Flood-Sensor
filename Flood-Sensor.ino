@@ -1,23 +1,20 @@
 // #include "Ticker-master/Ticker.h"
 #include <SPI.h>
 #include <SD.h>
-#include <TheThingsNetwork.h>
 #include "EngineeringMenu.h"
 #include "Sensor.h"
 #include "SDCard.h"
 #include "Processor.h"
+#include "Lorawan.h"
 
-#define freqPlan TTN_FP_EU868
-
-const int sFactor = 7;
 const byte ledPin = 1;
 const byte interruptPin = 13;
 
-TheThingsNetwork ttn(Serial1, Serial, freqPlan, sFactor);
 Sensor sensor(0);
 SDCard sdCard;
-Processor processor(&sensor, &sdCard, &ttn, ledPin, interruptPin);
-EngineeringMenu menu(&sensor, &sdCard, &processor, &ttn);
+Lorawan lorawan;
+Processor processor(&sensor, &sdCard, &lorawan, ledPin, interruptPin);
+EngineeringMenu menu(&sensor, &sdCard, &processor, &lorawan);
 
 /**
  * Sets up 
