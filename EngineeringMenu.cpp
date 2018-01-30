@@ -12,12 +12,12 @@
 /**
  * 
  */
-EngineeringMenu::EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor) //TheThingsNetwork *ttn)
+EngineeringMenu::EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor, Lorawan *lorawan)
 {
   this->sensor = sensor;
   this->sdCard = sdCard;
   this->processor = processor;
-//  this->ttn = ttn;
+  this->lorawan = lorawan;
   
   bringUpMenu = false;
   subMenuOption = "0";
@@ -28,11 +28,10 @@ EngineeringMenu::EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *proc
  */
 void EngineeringMenu::printBatteryVoltage()
 {
-  float measuredBatteryVoltage = this->processor->getBatteryVoltage();
   Serial.print("Current battery voltage: " ); 
-  Serial.println(measuredBatteryVoltage);
+  Serial.println(this->processor->getBatteryVoltage());
   Serial.print("Remaining battery %"); //Based on 100% being 4.2V
-  Serial.println((measuredBatteryVoltage - 3.2) * 100);
+  Serial.println(this->processor->getPowerLevel());
 }
 
 /*
@@ -66,7 +65,7 @@ void EngineeringMenu::mainMenu(String menuOption)
       // Insert a new measurement period
       Serial.println("Insert a new measurement period");
       while((minutes = Serial.readString()) == NULL){};
-      this->sensor->changeMeasurementPeriod(minutes.toInt()); // Call function to update global variable period to minutes
+      this->processor->changeMeasurementPeriod(minutes.toInt()); // Call function to update global variable period to minutes
    }
 
    if (menuOption == "8\n") {
@@ -82,7 +81,7 @@ void EngineeringMenu::mainMenu(String menuOption)
       
       while((input = Serial.readString()) == NULL){};
       
-      processor->setSpreadingFactor(input.toInt());
+      lorawan->setSpreadFactor(input.toInt());
    }
 
    // Set the App Eui used for LoRaWAN
@@ -93,7 +92,7 @@ void EngineeringMenu::mainMenu(String menuOption)
       
       char chArr[25];
       input.toCharArray(chArr, 25);
-      processor->setAppEui(chArr);
+      lorawan->setAppEui(chArr);
    }
 
    // Set the App Key used for LoRaWAN
@@ -104,7 +103,7 @@ void EngineeringMenu::mainMenu(String menuOption)
 
       char chArr[25];
       input.toCharArray(chArr, 25);
-      processor->setAppKey(chArr);
+      lorawan->setAppKey(chArr);
    }
 }
 

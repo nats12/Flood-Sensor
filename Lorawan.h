@@ -16,15 +16,28 @@
 class Lorawan
 {
   public:
-    Lorawan(int spreadFactor);
-    
-    int getSpreadFactor();
-    void setSpreadFactor(int spreadFactor);
-  private:
-    TheThingsNetwork ttn(Serial1, Serial, freqPlan, sFactor);
-    int spreadFactor;
-    
+    Lorawan(uint8_t spreadFactor);
 
+    bool join();
+    ttn_response_t sendReading(int16_t reading, uint8_t powerLevel);
+    ttn_response_t sendStillAlive(uint8_t powerLevel);
+    ttn_response_t sendGenericError(uint8_t powerLevel);
+    ttn_response_t sendMicrocontrollerError(uint8_t powerLevel);
+    ttn_response_t sendSensorError(uint8_t powerLevel);
+    ttn_response_t sendBatteryError(uint8_t powerLevel);
+    ttn_response_t sendStorageError(uint8_t powerLevel);
+    uint8_t getSpreadFactor();
+    char* getAppEui();
+    char* getAppKey();
+    void setSpreadFactor(uint8_t spreadFactor);
+    void setAppEui(char *appEui);
+    void setAppKey(char *appKey);
+    
+  private:
+    TheThingsNetwork ttn;
+    uint8_t spreadFactor;
+    char *appEui = "70B3D57EF00000C3";
+    char *appKey = "9219CFB30320D36373218DB4EF00D1CB";
 };
 
 #endif

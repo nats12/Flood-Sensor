@@ -12,7 +12,7 @@ const byte interruptPin = 13;
 
 Sensor sensor(0);
 SDCard sdCard;
-Lorawan lorawan;
+Lorawan lorawan(7);
 Processor processor(&sensor, &sdCard, &lorawan, ledPin, interruptPin);
 EngineeringMenu menu(&sensor, &sdCard, &processor, &lorawan);
 
@@ -23,7 +23,7 @@ EngineeringMenu menu(&sensor, &sdCard, &processor, &lorawan);
 void setup()
 {
   //  Setup serial baus, Serial1 used for LoRaWAN, Serial for USB communication.
-//  Serial1.begin(57600);
+  Serial1.begin(57600);
   Serial.begin(9600); 
   
   // Wait for serial to connect

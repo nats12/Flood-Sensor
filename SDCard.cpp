@@ -79,7 +79,7 @@ void SDCard::checkCardMemory()
 /*
  * 
  */
-void SDCard::printCurrentMeasurement(int measurement)
+void SDCard::printCurrentMeasurement(int16_t measurement)
 {
   Serial.println("Current Measurement: ");
   Serial.println(measurement);
@@ -89,7 +89,7 @@ void SDCard::printCurrentMeasurement(int measurement)
 /*
  * 
  */
-void SDCard::printToLog(int lastMeasurementSent)
+void SDCard::printToLog(int16_t lastMeasurementSent)
 {
 
 

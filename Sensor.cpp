@@ -9,7 +9,7 @@
 /**
  * 
  */
-Sensor::Sensor(int analogPin)
+Sensor::Sensor(uint8_t analogPin)
 {
   analogPin = analogPin;
   rangeDifferenceThreshold = 50;
@@ -18,7 +18,7 @@ Sensor::Sensor(int analogPin)
 /*
  * 
  */
-int Sensor::getCurrentMeasurement()
+int16_t Sensor::getCurrentMeasurement()
 {
   // Read a raw value
   int rawVal = analogRead(analogPin);
@@ -34,7 +34,7 @@ int Sensor::getCurrentMeasurement()
 /*
  * 
  */
-bool Sensor::isCurrentWorthSending(int currentMeasurement)
+bool Sensor::isCurrentWorthSending(int16_t currentMeasurement)
 {
   return (abs(currentMeasurement - lastMeasurementSent)) >= rangeDifferenceThreshold;
 }

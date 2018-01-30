@@ -6,10 +6,10 @@
 #ifndef EngineeringMenu_h
 #define EngineeringMenu_h
 
-//#include <TheThingsNetwork.h>
 #include "SDCard.h"
 #include "Sensor.h"
 #include "Processor.h"
+#include "Lorawan.h"
 
 /**
  * 
@@ -17,7 +17,7 @@
 class EngineeringMenu
 {
   public:
-    EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor); //, TheThingsNetwork *ttn);
+    EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor, Lorawan *lorawan);
     void mainMenu(String menuOption);
     void subMenuEight(String menuOption);
     void loadEngineeringMenu();
@@ -29,7 +29,7 @@ class EngineeringMenu
     Sensor *sensor;
     SDCard *sdCard;
     Processor *processor;
-//    TheThingsNetwork *ttn; 
+    Lorawan *lorawan; 
     String subMenuOption;
     String input;
 
