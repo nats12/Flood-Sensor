@@ -36,8 +36,8 @@ class Lorawan
   private:
     TheThingsNetwork ttn;
     uint8_t spreadFactor;
-    char *appEui = "70B3D57EF00000C3";
-    char *appKey = "9219CFB30320D36373218DB4EF00D1CB";
+    char *appEui = "";
+    char *appKey = "";
 };
 
 #endif
