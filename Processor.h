@@ -5,7 +5,7 @@
 
 #ifndef Processor_h
 #define Processor_h
-#include <TheThingsNetwork.h>
+//#include <TheThingsNetwork.h>
 #include "SDCard.h"
 #include "Sensor.h"
 
@@ -19,7 +19,7 @@ class Processor
     int delayPeriod;
 
     // Constructors
-    Processor(Sensor *sensor, SDCard *sdCard, TheThingsNetwork *ttn, byte ledPin, byte interruptPin);
+    Processor(Sensor *sensor, SDCard *sdCard, byte ledPin, byte interrputPin); //TheThingsNetwork *ttn, byte ledPin, byte interruptPin);
 
     // Main States
     void init();
@@ -35,6 +35,7 @@ class Processor
     void writeStatus();
     void delayWithPeriod();
     void changeMeasurementPeriod(String minutes);
+    float getBatteryVoltage();
     void printToSDLog(int lastMeasurementSent);
     void printCurrentMeasurementToSD(int currentMeasurement);
     
@@ -47,7 +48,7 @@ class Processor
     // Components
     Sensor *sensor;
     SDCard *sdCard;
-    TheThingsNetwork *ttn;
+//    TheThingsNetwork *ttn;
     
     // Initial depth
     int initialRiverDepth;
