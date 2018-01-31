@@ -58,6 +58,7 @@ void Processor::init()
 float Processor::getBatteryVoltage()
  {
   float measuredvbat = analogRead(VBATPIN);
+  //** Get a few samples, and smooth values to output (other influences can affect the voltage) e.g. over a period of 10 seconds **
   measuredvbat *= 2;    // we divided by 2, so multiply back
   measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage
   measuredvbat /= 1024; // convert to voltage
@@ -117,7 +118,9 @@ void Processor::writeStatus()
  */
 void Processor::delayWithPeriod()
 {
-  Serial.println("Current measurement period is..");
+  char currentMeasurementPeriodMessage[] PROGMEM = "Current measurement period is..";
+  Serial.println(currentMeasurementPeriodMessage);
+  
   Serial.println(this->delayPeriod);
   delay(this->delayPeriod);
 }

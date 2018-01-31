@@ -25,50 +25,75 @@ SDCard::SDCard()
  */
 void SDCard::checkCardMemory()
 { 
-  Serial.print("\nPrinting card info...");
+  char cardInfoMessage[] = "\nPrinting card info...";
+  Serial.print(cardInfoMessage);
 
   if (!card.init(SPI_HALF_SPEED, 4)) {
-    Serial.println("initialization failed. Things to check:");
-    Serial.println("* is a card inserted?");
-    Serial.println("* is your wiring correct?");
-    Serial.println("* did you change the chipSelect pin to match your shield or module?");
+    char SDfailedInitializationMessage[] PROGMEM = "initialization failed. Things to check:";
+    char SDcheckIfInsertedMessage[] PROGMEM = "* is a card inserted?";
+    char SDcheckIfWiringCorrectMessage[] PROGMEM = "* is your wiring correct?";
+    char SDcheckIfPinCorrectMessage[] PROGMEM = "* did you change the chipSelect pin to match your shield or module?";
+
+    
+    Serial.println(SDfailedInitializationMessage);
+    Serial.println(SDcheckIfInsertedMessage);
+    Serial.println(SDcheckIfWiringCorrectMessage);
+    Serial.println(SDcheckIfPinCorrectMessage);
     return;
   } else {
-    Serial.println("Wiring is correct and a card is present.");
+
+    char SDconfirmWiringAndInsertedMessage[] PROGMEM = "Wiring is correct and a card is present.";
+    Serial.println(SDconfirmWiringAndInsertedMessage);
   }
   
   // Now we will try to open the 'volume'/'partition' - it should be FAT16 or FAT32
   if (!volume.init(card)) {
-    Serial.println("Could not find FAT16/FAT32 partition.\nMake sure you've formatted the card");
+
+    char SDpartitionNotFoundMessage[] PROGMEM = "Could not find FAT16/FAT32 partition.\nMake sure you've formatted the card";
+    Serial.println(SDpartitionNotFoundMessage);
     return;
   }
 
-  Serial.print("Clusters:          ");
+  char SDclustersMessage[] PROGMEM = "Clusters:          ";
+  Serial.print(SDclustersMessage);
   Serial.println(volume.clusterCount());
-  Serial.print("Blocks x Cluster:  ");
+
+  char SDblocksMultipliedByClusterMessage[] PROGMEM = "Blocks x Cluster:  ";
+  Serial.print(SDblocksMultipliedByClusterMessage);
+  
   Serial.println(volume.blocksPerCluster());
 
-  Serial.print("Total Blocks:      ");
+  char SDtotalBlocksMessage[] PROGMEM = "Total Blocks:      ";
+  Serial.print(SDtotalBlocksMessage);
   Serial.println(volume.blocksPerCluster() * volume.clusterCount());
   Serial.println();
 
   // print the type and size of the first FAT-type volume
   uint32_t volumesize;
-  Serial.print("Volume type is:    FAT");
+  char SDvolumeTypeMessage[] PROGMEM = "Volume type is:    FAT";
+  Serial.print(SDvolumeTypeMessage);
   Serial.println(volume.fatType(), DEC);
 
   volumesize = volume.blocksPerCluster();    // clusters are collections of blocks
   volumesize *= volume.clusterCount();       // we'll have a lot of clusters
   volumesize /= 2;                           // SD card blocks are always 512 bytes (2 blocks are 1KB)
-  Serial.print("Volume size (Kb):  ");
+
+  char SDKbVolumeSizeMessage[] PROGMEM = "Volume size (Kb):  ";
+  Serial.print(SDKbVolumeSizeMessage);
   Serial.println(volumesize);
-  Serial.print("Volume size (Mb):  ");
+
+  char SDMbVolumeSizeMessage[] PROGMEM = "Volume size (Mb):  ";
+  Serial.print(SDMbVolumeSizeMessage);
+  
   volumesize /= 1024;
   Serial.println(volumesize);
-  Serial.print("Volume size (Gb):  ");
+
+  char SDGbVolumeSizeMessage[] PROGMEM = "Volume size (Gb):  ";
+  Serial.print(SDGbVolumeSizeMessage);
   Serial.println((float)volumesize / 1024.0);
 
-  Serial.println("\nFiles found on the card (name, date and size in bytes): ");
+  char filesFoundInSDMessage[] PROGMEM = "\nFiles found on the card (name, date and size in bytes): ";
+  Serial.println(filesFoundInSDMessage);
   root.openRoot(volume);
 
   // list all files in the card with date and size
@@ -81,7 +106,8 @@ void SDCard::checkCardMemory()
  */
 void SDCard::printCurrentMeasurement(int measurement)
 {
-  Serial.println("Current Measurement: ");
+  char currentMeasurementMessage[] PROGMEM = "Current Measurement: ";
+  Serial.println(currentMeasurementMessage);
   Serial.println(measurement);
 }
 
@@ -94,7 +120,9 @@ void SDCard::printToLog(int lastMeasurementSent)
 
 
   if (!SD.begin(4)) {
-    Serial.println("initialization failed!");
+
+    char SDInitializationFailedMessage[] PROGMEM = "initialization failed!";
+    Serial.println(SDInitializationFailedMessage);
   }
 
 
@@ -109,7 +137,8 @@ void SDCard::printToLog(int lastMeasurementSent)
     myFile.close();
   } else {
     // if the file didn't open, print an error:
-    Serial.println("error opening logger.txt");
+    char writingSDFileOpeningErrorMessage[] PROGMEM = "error opening logger.txt";
+    Serial.println(writingSDFileOpeningErrorMessage);
   }
 
   // re-open the file for reading:
@@ -123,6 +152,7 @@ void SDCard::printToLog(int lastMeasurementSent)
     myFile.close();
   } else {
     // if the file didn't open, print an error:
-    Serial.println("error opening logger.txt");
+    char readingSDFileOpeningErrorMessage[] PROGMEM = "error opening logger.txt";
+    Serial.println(readingSDFileOpeningErrorMessage);
   }
 }
