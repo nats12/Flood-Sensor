@@ -3,6 +3,7 @@
 #include <SD.h>
 //#include <TheThingsNetwork.h>
 #include "EngineeringMenu.h"
+#include "EngineeringMenuOptions.h"
 #include "Sensor.h"
 #include "SDCard.h"
 #include "Processor.h"
@@ -17,7 +18,8 @@ const byte interruptPin = 13;
 Sensor sensor(0);
 SDCard sdCard;
 Processor processor(&sensor, &sdCard, ledPin, interruptPin);// &ttn, ledPin, interruptPin);
-EngineeringMenu menu(&sensor, &sdCard, &processor); //&ttn);
+EngineeringMenuOptions options;
+EngineeringMenu menu(&sensor, &sdCard, &processor, &options); //&ttn);
 
 /**
  * Sets up 
@@ -69,4 +71,5 @@ void loop()
   processor.readingProcess();
 
   processor.delayWithPeriod();
+
 }

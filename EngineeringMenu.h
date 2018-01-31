@@ -10,6 +10,7 @@
 #include "SDCard.h"
 #include "Sensor.h"
 #include "Processor.h"
+#include "EngineeringMenuOptions.h"
 
 /**
  * 
@@ -17,7 +18,7 @@
 class EngineeringMenu
 {
   public:
-    EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor); //, TheThingsNetwork *ttn);
+    EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor, EngineeringMenuOptions *options); //, TheThingsNetwork *ttn);
     void mainMenu(String menuOption);
     void subMenuEight(String menuOption);
     void loadEngineeringMenu();
@@ -29,6 +30,7 @@ class EngineeringMenu
     Sensor *sensor;
     SDCard *sdCard;
     Processor *processor;
+    EngineeringMenuOptions *options;
 //    TheThingsNetwork *ttn; 
     String subMenuOption;
     String input;

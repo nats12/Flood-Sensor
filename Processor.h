@@ -19,7 +19,7 @@ class Processor
     int delayPeriod;
 
     // Constructors
-    Processor(Sensor *sensor, SDCard *sdCard, byte ledPin, byte interrputPin); //TheThingsNetwork *ttn, byte ledPin, byte interruptPin);
+    Processor(Sensor *sensor, SDCard *sdCard, byte ledPin, byte interruptPin); //TheThingsNetwork *ttn, byte ledPin, byte interruptPin);
 
     // Main States
     void init();

@@ -8,20 +8,23 @@
 #include "SDCard.h"
 #include "Sensor.h"
 #include "Processor.h"
+#include "EngineeringMenuOptions.h"
 
 /**
  * 
  */
-EngineeringMenu::EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor) //TheThingsNetwork *ttn)
+EngineeringMenu::EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor, EngineeringMenuOptions *options) //TheThingsNetwork *ttn)
 {
   this->sensor = sensor;
   this->sdCard = sdCard;
   this->processor = processor;
+  this->options = options;
 //  this->ttn = ttn;
   
   bringUpMenu = false;
   subMenuOption = "0";
 }
+
 
 /*
  * Return and print current battery voltage (remaing power left in the battery)
@@ -47,17 +50,17 @@ void EngineeringMenu::printBatteryVoltage()
  */
 void EngineeringMenu::mainMenu(String menuOption)
 {
-   if(menuOption == "1\n") {
+   if(this->options->menuOptionOne(menuOption)) {
      // Print last sent measurement
      this->sdCard->printCurrentMeasurement(this->sensor->getCurrentMeasurement());
    }
 
-   if(menuOption == "2\n") {
+   if(this->options->menuOptionTwo(menuOption)) {
      // Print current battery voltage and percentage
      printBatteryVoltage();
    }      
 
-   if(menuOption == "5\n") {
+   if(this->options->menuOptionFive(menuOption)) {
       // Test read/write on SD card
       char testSDReadWriteMessage[] PROGMEM = "Testing read/write...";
       Serial.println(testSDReadWriteMessage);
@@ -65,12 +68,12 @@ void EngineeringMenu::mainMenu(String menuOption)
       this->sdCard->printToLog(5);
    }
 
-   if (menuOption == "6\n") {
+   if (this->options->menuOptionSix(menuOption)) {
       // Print details of SD card space
       this->sdCard->checkCardMemory();
    }
 
-   if (menuOption == "7\n") {
+   if (this->options->menuOptionSeven(menuOption)) {
       String minutes;
       // Insert a new measurement period
       char setNewMeasurementPeriodMessage[] PROGMEM = "Insert a new measurement period";
@@ -80,7 +83,7 @@ void EngineeringMenu::mainMenu(String menuOption)
       this->sensor->changeMeasurementPeriod(minutes.toInt()); // Call function to update global variable period to minutes
    }
 
-   if (menuOption == "8\n") {
+   if (this->options->menuOptionEight(menuOption)) {
     
       char setARModeThresholdMessage[] PROGMEM = "1: Set max water level threshold to trigger \"AR\" mode";
       char setARModeSamplingPeriodMessage[] PROGMEM = "2: Check and send measurement every X minutes during \"AR\" mode(input minutes)";
@@ -94,7 +97,7 @@ void EngineeringMenu::mainMenu(String menuOption)
    }
 
    // Set the Spreading Factor to use for LoRaWAN
-   if (menuOption == "12\n") {
+   if (this->options->menuOptionTwelve(menuOption)) {
 
       char setNewSpreadFactorMessage[] PROGMEM = "Set new spreading factor between 7 and 12";
       
@@ -106,7 +109,7 @@ void EngineeringMenu::mainMenu(String menuOption)
    }
 
    // Set the App Eui used for LoRaWAN
-   if (menuOption == "13\n") {
+   if (this->options->menuOptionThirteen(menuOption)) {
 
       char setAppEuiMessage[] = "Set the App Eui";
       Serial.println(setAppEuiMessage);
@@ -119,7 +122,7 @@ void EngineeringMenu::mainMenu(String menuOption)
    }
 
    // Set the App Key used for LoRaWAN
-   if (menuOption == "14\n") {
+   if (this->options->menuOptionFourteen(menuOption)) {
 
       char setAppKeyMessage[] PROGMEM = "Set the App Key";
       Serial.println(setAppKeyMessage);
@@ -134,7 +137,7 @@ void EngineeringMenu::mainMenu(String menuOption)
 
 void EngineeringMenu::subMenuEight(String menuOption)
 {
-  if(menuOption == "1\n"){
+  if(this->options->menuOptionOne(menuOption)){
     String newThreshold;
 
     char thresholdMessage[] PROGMEM = "Threshold (mm):";
@@ -153,7 +156,7 @@ void EngineeringMenu::subMenuEight(String menuOption)
     }
   }
 
-  if(menuOption == "2\n") {
+  if(this->options->menuOptionTwo(menuOption)) {
     String newDelay;
 
     char setSamplePeriodMessage[] PROGMEM = "Check and send measurement every X minutes: (input minutes)";
@@ -197,6 +200,7 @@ void EngineeringMenu::loadEngineeringMenu()
   Serial.println(menuMessage5);
   Serial.println(menuMessage6);
   Serial.println(menuMessage7);
+  Serial.println(menuMessage8);
   Serial.println(menuMessageExit);
   
   String menuOption;
@@ -210,8 +214,11 @@ void EngineeringMenu::loadEngineeringMenu()
       subMenuEight(menuOption);
     }
   };
+
   
   bringUpMenu = false;
 }
+
+
 
 
