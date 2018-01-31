@@ -17,12 +17,10 @@ class Sensor
     int rangeDifferenceThreshold;
     int lastMeasurementSent;
     int analogPin;
-    int measurementPeriod;
   
     Sensor(int analogPin);
     int getCurrentMeasurement();
     bool isCurrentWorthSending(int currentMeasurement);
-    void changeMeasurementPeriod(int minutes);
   private:
 
 };

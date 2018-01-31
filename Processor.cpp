@@ -154,9 +154,9 @@ void Processor::setAppKey(char *appKey)
 /*
  * 
  */
-void Sensor::changeMeasurementPeriod(int minutes)
+void Processor::changeMeasurementPeriod(int minutes)
 {
-  this->measurementPeriod = minutes * 60000;
+    this->delayPeriod = minutes;
 }
 
 /*

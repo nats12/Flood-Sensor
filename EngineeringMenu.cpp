@@ -80,7 +80,7 @@ void EngineeringMenu::mainMenu(String menuOption)
       Serial.println(setNewMeasurementPeriodMessage);
       
       while((minutes = Serial.readString()) == NULL){};
-      this->sensor->changeMeasurementPeriod(minutes.toInt()); // Call function to update global variable period to minutes
+      this->processor->changeMeasurementPeriod(minutes.toInt()); // Call function to update global variable period to minutes
    }
 
    if (this->options->menuOptionEight(menuOption)) {

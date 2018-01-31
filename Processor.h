@@ -34,7 +34,7 @@ class Processor
     // Helpers
     void writeStatus();
     void delayWithPeriod();
-    void changeMeasurementPeriod(String minutes);
+    void changeMeasurementPeriod(int minutes);
     float getBatteryVoltage();
     void printToSDLog(int lastMeasurementSent);
     void printCurrentMeasurementToSD(int currentMeasurement);
