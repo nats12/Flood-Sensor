@@ -21,9 +21,9 @@ Sensor::Sensor(uint8_t analogPin)
 int16_t Sensor::getCurrentMeasurement()
 {
   // Read a raw value
-  int rawVal = analogRead(analogPin);
+  int16_t rawVal = analogRead(analogPin);
   // As per datasheet (to get mm)   
-  int currentDistanceToRiverTop = rawVal * 5;  
+  int16_t currentDistanceToRiverTop = rawVal * 5;  
   // Output value  
 
   return distanceToRiverBed - currentDistanceToRiverTop;

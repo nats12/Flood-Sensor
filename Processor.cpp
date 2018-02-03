@@ -16,7 +16,7 @@
 /*
  * 
  */
-Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledPin, byte interruptPin) //TheThingsNetwork *ttn, byte ledPin, byte interruptPin)
+Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledPin, byte interruptPin)
 {
   this->sensor = sensor;
   this->sdCard = sdCard;
@@ -60,6 +60,7 @@ void Processor::init()
 float Processor::getBatteryVoltage()
 {
   float measuredvbat = analogRead(VBATPIN);
+  //** Get a few samples, and smooth values to output (other influences can affect the voltage) e.g. over a period of 10 seconds **
   measuredvbat *= 2;    // we divided by 2, so multiply back
   measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage
   measuredvbat /= 1024; // convert to voltage
@@ -71,7 +72,7 @@ float Processor::getBatteryVoltage()
  */
 uint8_t Processor::getPowerLevel()
 {
-  return (int) ((getBatteryVoltage() - 3.2) * 100);
+  return (uint8_t) ((getBatteryVoltage() - 3.2) * 100);
 }
 
 /*
@@ -129,7 +130,9 @@ void Processor::writeStatus()
  */
 void Processor::delayWithPeriod()
 {
-  Serial.println("Current measurement period is..");
+  char currentMeasurementPeriodMessage[] PROGMEM = "Current measurement period is..";
+  Serial.println(currentMeasurementPeriodMessage);
+  
   Serial.println(this->delayPeriod);
   delay(this->delayPeriod);
 }
@@ -141,7 +144,7 @@ void Processor::delayWithPeriod()
  */
 void Processor::changeMeasurementPeriod(int16_t minutes)
 {
-  this->measurementPeriod = minutes * 60000;
+    this->delayPeriod = minutes;
 }
 
 /*

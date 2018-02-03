@@ -2,6 +2,7 @@
 #include <SPI.h>
 #include <SD.h>
 #include "EngineeringMenu.h"
+#include "EngineeringMenuOptions.h"
 #include "Sensor.h"
 #include "SDCard.h"
 #include "Processor.h"
@@ -14,7 +15,8 @@ Sensor sensor(0);
 SDCard sdCard;
 Lorawan lorawan(7);
 Processor processor(&sensor, &sdCard, &lorawan, ledPin, interruptPin);
-EngineeringMenu menu(&sensor, &sdCard, &processor, &lorawan);
+EngineeringMenuOptions options;
+EngineeringMenu menu(&sensor, &sdCard, &processor, &options, &lorawan);
 
 /**
  * Sets up 
@@ -66,4 +68,5 @@ void loop()
   processor.readingProcess();
 
   processor.delayWithPeriod();
+
 }
