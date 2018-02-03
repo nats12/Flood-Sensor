@@ -22,8 +22,8 @@ class SDCard
     
     SDCard();
     void checkCardMemory();
-    void printCurrentMeasurement(int measurement);
-    void printToLog(int lastMeasurementSent);
+    void printCurrentMeasurement(int16_t measurement);
+    void printToLog(int16_t lastMeasurementSent);
   private:
 
 };

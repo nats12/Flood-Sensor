@@ -9,7 +9,7 @@
 /**
  * 
  */
-Sensor::Sensor(int analogPin)
+Sensor::Sensor(uint8_t analogPin)
 {
   analogPin = analogPin;
   rangeDifferenceThreshold = 50;
@@ -18,12 +18,12 @@ Sensor::Sensor(int analogPin)
 /*
  * 
  */
-int Sensor::getCurrentMeasurement()
+int16_t Sensor::getCurrentMeasurement()
 {
   // Read a raw value
-  int rawVal = analogRead(analogPin);
+  int16_t rawVal = analogRead(analogPin);
   // As per datasheet (to get mm)   
-  int currentDistanceToRiverTop = rawVal * 5;  
+  int16_t currentDistanceToRiverTop = rawVal * 5;  
   // Output value  
 
   return distanceToRiverBed - currentDistanceToRiverTop;
@@ -34,7 +34,7 @@ int Sensor::getCurrentMeasurement()
 /*
  * 
  */
-bool Sensor::isCurrentWorthSending(int currentMeasurement)
+bool Sensor::isCurrentWorthSending(int16_t currentMeasurement)
 {
   return (abs(currentMeasurement - lastMeasurementSent)) >= rangeDifferenceThreshold;
 }

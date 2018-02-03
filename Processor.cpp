@@ -5,20 +5,22 @@
 #define VBATPIN A7
 
 #include "Processor.h"
+#include <TheThingsNetwork.h>
 #include <SPI.h>
 #include <SD.h>
 #include "Arduino.h"
 #include "SDCard.h"
 #include "Sensor.h"
+#include "Lorawan.h"
 
 /*
  * 
  */
-Processor::Processor(Sensor *sensor, SDCard *sdCard, byte ledPin, byte interruptPin) //TheThingsNetwork *ttn, byte ledPin, byte interruptPin)
+Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledPin, byte interruptPin)
 {
   this->sensor = sensor;
   this->sdCard = sdCard;
-//  this->ttn = ttn;
+  this->lorawan = lorawan;
   
   this->ledPin = ledPin;
   this->interruptPin = interruptPin;
@@ -38,11 +40,11 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, byte ledPin, byte interrupt
  */
 void Processor::init()
 {
-    //ttn->join(appEui, appKey);
+    lorawan->join();
   
     String inStr;
-    int initialDistanceToRiverTop;
-    int currentDistanceToRiverTop;
+    int16_t initialDistanceToRiverTop;
+    int16_t currentDistanceToRiverTop;
 
     // Whilst inStr is null, do nothing, skip
     while ((inStr = Serial.readString()) == NULL){}
@@ -56,50 +58,60 @@ void Processor::init()
  * 
  */
 float Processor::getBatteryVoltage()
- {
+{
   float measuredvbat = analogRead(VBATPIN);
   //** Get a few samples, and smooth values to output (other influences can affect the voltage) e.g. over a period of 10 seconds **
   measuredvbat *= 2;    // we divided by 2, so multiply back
   measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage
   measuredvbat /= 1024; // convert to voltage
   return measuredvbat;
- }
+}
 
+/*
+ * 
+ */
+uint8_t Processor::getPowerLevel()
+{
+  return (uint8_t) ((getBatteryVoltage() - 3.2) * 100);
+}
 
 /*
  * 
  */
 void Processor::readingProcess()
 {
-  int currentRiverLevel = sensor->getCurrentMeasurement();
+  int16_t currentRiverLevel = sensor->getCurrentMeasurement();
   
   if(sensor->isCurrentWorthSending(currentRiverLevel))
   {
-    bool sent = false;
-    if(sent) {
+    ttn_response_t status = lorawan->sendReading(currentRiverLevel, getPowerLevel());
+   
+    if(status != TTN_ERROR_SEND_COMMAND_FAILED) {
       sensor->lastMeasurementSent = currentRiverLevel;
-      //storage.printToLog(lastMeasurementSent);
+      sdCard->printToLog(currentRiverLevel);
     }
+  } else {
+    ttn_response_t status = lorawan->sendStillAlive(getPowerLevel());
   }
 }
 
 // AR Mode
-void Processor::adjustARModeDelay(int newDelayPeriod){ //adjust accelerated readings mode with new frequent delay period
+void Processor::adjustARModeDelay(int16_t newDelayPeriod){ //adjust accelerated readings mode with new frequent delay period
   delayPeriodARMode = 1000;
 }
 
-void Processor::adjustARModeThreshold(int newActivationThreshold){ //adjust accelerated readings mode with new activation threshold (mm)
+void Processor::adjustARModeThreshold(int16_t newActivationThreshold){ //adjust accelerated readings mode with new activation threshold (mm)
   ARModeActivationThreshold = newActivationThreshold;
 }
 
 void Processor::activateOrDeactivateARMode() { // swaps delayPeriod and delayPeriodARMode variables to activate/deactivate Accelerated Readings mode
-  int tempPeriod = 0;
+  int16_t tempPeriod = 0;
   tempPeriod = delayPeriod;
   delayPeriod = delayPeriodARMode;
   delayPeriodARMode = tempPeriod;
 }
 
-void Processor::adjustIgnoreThreshold(int newIgnoreThreshold){ 
+void Processor::adjustIgnoreThreshold(int16_t newIgnoreThreshold){ 
   ignoreThreshold = newIgnoreThreshold;
 }
 
@@ -130,31 +142,7 @@ void Processor::delayWithPeriod()
 /*
  * 
  */
-void Processor::setSpreadingFactor(int spreadFactor)
-{
-  this->spreadFactor = spreadFactor;
-}
-
-/*
- * 
- */
-void Processor::setAppEui(char *appEui)
-{
-  this->appEui = appEui;
-}
-
-/*
- * 
- */
-void Processor::setAppKey(char *appKey)
-{
-  this->appKey = appKey;
-}
-
-/*
- * 
- */
-void Processor::changeMeasurementPeriod(int minutes)
+void Processor::changeMeasurementPeriod(int16_t minutes)
 {
     this->delayPeriod = minutes;
 }
@@ -162,7 +150,7 @@ void Processor::changeMeasurementPeriod(int minutes)
 /*
  * 
  */
-void Processor::printToSDLog(int lastMeasurementSent)
+void Processor::printToSDLog(int16_t lastMeasurementSent)
 {
   this->sdCard->printToLog(lastMeasurementSent);
 }
@@ -170,7 +158,7 @@ void Processor::printToSDLog(int lastMeasurementSent)
 /*
  * 
  */
-void Processor::printCurrentMeasurementToSD(int currentMeasurement)
+void Processor::printCurrentMeasurementToSD(int16_t currentMeasurement)
 {
   this->sdCard->printCurrentMeasurement(currentMeasurement);
 }

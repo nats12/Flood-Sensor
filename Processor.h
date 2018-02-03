@@ -5,9 +5,10 @@
 
 #ifndef Processor_h
 #define Processor_h
-//#include <TheThingsNetwork.h>
+
 #include "SDCard.h"
 #include "Sensor.h"
+#include "Lorawan.h"
 
 /**
  * 
@@ -16,10 +17,11 @@ class Processor
 {  
   public:
     volatile byte state;
-    int delayPeriod;
+    int16_t delayPeriod;
+    int16_t measurementPeriod;
 
     // Constructors
-    Processor(Sensor *sensor, SDCard *sdCard, byte ledPin, byte interruptPin); //TheThingsNetwork *ttn, byte ledPin, byte interruptPin);
+    Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledPin, byte interrputPin); 
 
     // Main States
     void init();
@@ -27,42 +29,34 @@ class Processor
 
     // AR mode
     void activateOrDeactivateARMode();
-    void adjustIgnoreThreshold(int newIgnoreThreshold);
-    void adjustARModeDelay(int newDelayPeriod);
-    void adjustARModeThreshold(int newActivationThreshold);
+    void adjustIgnoreThreshold(int16_t newIgnoreThreshold);
+    void adjustARModeDelay(int16_t newDelayPeriod);
+    void adjustARModeThreshold(int16_t newActivationThreshold);
 
     // Helpers
     void writeStatus();
     void delayWithPeriod();
-    void changeMeasurementPeriod(int minutes);
+    void changeMeasurementPeriod(int16_t minutes);
     float getBatteryVoltage();
-    void printToSDLog(int lastMeasurementSent);
-    void printCurrentMeasurementToSD(int currentMeasurement);
+    uint8_t getPowerLevel();
+    void printToSDLog(int16_t lastMeasurementSent);
+    void printCurrentMeasurementToSD(int16_t currentMeasurement);
     
-    // Setters
-    void setSpreadingFactor(int spreadFactor);
-    void setAppEui(char *appEui);
-    void setAppKey(char *appKey);
-
   private:
     // Components
     Sensor *sensor;
     SDCard *sdCard;
-//    TheThingsNetwork *ttn;
+    Lorawan *lorawan;
     
     // Initial depth
-    int initialRiverDepth;
+    int16_t initialRiverDepth;
     // AR mode variables
-    int delayPeriodARMode;
-    int ARModeActivationThreshold; 
-    int ignoreThreshold;
-    // LoRaWAN keys + spread factor
-    int spreadFactor = 7;
-    char *appEui;
-    char *appKey;
+    int16_t delayPeriodARMode;
+    int16_t ARModeActivationThreshold; 
+    int16_t ignoreThreshold;
     // Pins
-    int ledPin;
-    int interruptPin;
+    byte ledPin;
+    byte interruptPin;
 };
 
 #endif

@@ -13,13 +13,13 @@
 /**
  * 
  */
-EngineeringMenu::EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor, EngineeringMenuOptions *options) //TheThingsNetwork *ttn)
+EngineeringMenu::EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor, EngineeringMenuOptions *options, Lorawan *lorawan)
 {
   this->sensor = sensor;
   this->sdCard = sdCard;
   this->processor = processor;
+  this->lorawan = lorawan;
   this->options = options;
-//  this->ttn = ttn;
   
   bringUpMenu = false;
   subMenuOption = "0";
@@ -42,7 +42,7 @@ void EngineeringMenu::printBatteryVoltage()
   Serial.print(currentBatteryVoltageMessage); 
   Serial.println(measuredBatteryVoltage);
   Serial.print(remainingBatteryPercentageMessage); //Based on 100% being 4.2V
-  Serial.println((measuredBatteryVoltage - 3.2) * 100);
+  Serial.println(this->processor->getPowerLevel());
 }
 
 /*
@@ -105,7 +105,7 @@ void EngineeringMenu::mainMenu(String menuOption)
       
       while((input = Serial.readString()) == NULL){};
       
-      processor->setSpreadingFactor(input.toInt());
+      lorawan->setSpreadFactor(input.toInt());
    }
 
    // Set the App Eui used for LoRaWAN
@@ -118,7 +118,7 @@ void EngineeringMenu::mainMenu(String menuOption)
       
       char chArr[25];
       input.toCharArray(chArr, 25);
-      processor->setAppEui(chArr);
+      lorawan->setAppEui(chArr);
    }
 
    // Set the App Key used for LoRaWAN
@@ -131,7 +131,7 @@ void EngineeringMenu::mainMenu(String menuOption)
 
       char chArr[25];
       input.toCharArray(chArr, 25);
-      processor->setAppKey(chArr);
+      lorawan->setAppKey(chArr);
    }
 }
 
