@@ -2,7 +2,6 @@
 #include <SPI.h>
 #include <SD.h>
 #include "EngineeringMenu.h"
-#include "EngineeringMenuOptions.h"
 #include "Sensor.h"
 #include "SDCard.h"
 #include "Processor.h"
@@ -15,8 +14,7 @@ Sensor sensor(0);
 SDCard sdCard;
 Lorawan lorawan(7);
 Processor processor(&sensor, &sdCard, &lorawan, ledPin, interruptPin);
-EngineeringMenuOptions options;
-EngineeringMenu menu(&sensor, &sdCard, &processor, &options, &lorawan);
+EngineeringMenu menu(&sensor, &sdCard, &processor, &lorawan);
 
 /**
  * Sets up 
@@ -57,7 +55,7 @@ void setBringUpMenu()
  */
 void loop()
 {
-  processor.writeStatus();
+  //processor.writeStatus();
 
   // If button interrupt has been pressed
   if(menu.bringUpMenu) {
@@ -65,8 +63,8 @@ void loop()
     menu.loadEngineeringMenu();
   }
 
-  processor.readingProcess();
+  //processor.readingProcess();
 
-  processor.delayWithPeriod();
+  //processor.delayWithPeriod();
 
 }

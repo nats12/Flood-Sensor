@@ -40,7 +40,7 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledP
  */
 void Processor::init()
 {
-    lorawan->join();
+    //lorawan->join();
   
     String inStr;
     int16_t initialDistanceToRiverTop;
@@ -52,6 +52,9 @@ void Processor::init()
     //Serial.println(initialRiverDepth); 
     initialDistanceToRiverTop = analogRead(sensor->analogPin) * 5;
     sensor->distanceToRiverBed = initialRiverDepth + initialDistanceToRiverTop;
+
+    Serial.println("Current Measurement: ");
+    Serial.println(sensor->getCurrentMeasurement());
 }
 
 /*
@@ -97,7 +100,7 @@ void Processor::readingProcess()
 
 // AR Mode
 void Processor::adjustARModeDelay(int16_t newDelayPeriod){ //adjust accelerated readings mode with new frequent delay period
-  delayPeriodARMode = 1000;
+  delayPeriodARMode = newDelayPeriod;
 }
 
 void Processor::adjustARModeThreshold(int16_t newActivationThreshold){ //adjust accelerated readings mode with new activation threshold (mm)
@@ -144,7 +147,7 @@ void Processor::delayWithPeriod()
  */
 void Processor::changeMeasurementPeriod(int16_t minutes)
 {
-    this->delayPeriod = minutes;
+    this->delayPeriod = minutes * 1000;
 }
 
 /*
