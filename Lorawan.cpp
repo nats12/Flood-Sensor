@@ -10,9 +10,14 @@
 /**
  * 
  */
-Lorawan::Lorawan(uint8_t spreadFactor) : ttn(Serial1, Serial, freqPlan, spreadFactor)
+Lorawan::Lorawan(uint8_t spreadFactor)
 {
-  setSpreadFactor(spreadFactor);
+  this->debugStream = &Serial;
+  this->modemStream = &Serial1;
+  this->modemStream->setTimeout(10000);
+  this->fp = freqPlan;
+  this->sf = spreadFactor;
+  this->fsb = TTN_DEFAULT_FSB;
 }
 
 /*
@@ -20,7 +25,37 @@ Lorawan::Lorawan(uint8_t spreadFactor) : ttn(Serial1, Serial, freqPlan, spreadFa
  */
 bool Lorawan::join() 
 {
-  return ttn.join(appEui, appKey);
+  provision(appEui, appKey);
+  int8_t retries = -1;
+  uint32_t retryDelay = 10000;
+
+  int8_t attempts = 0;
+  configureChannels(fsb);
+  setSF(sf);
+  while (retries == -1 || attempts <= retries)
+  {
+    attempts++;
+    if (!sendJoinSet(MAC_JOIN_MODE_OTAA))
+    {
+      debugPrintMessage(ERR_MESSAGE, ERR_JOIN_FAILED);
+      delay(retryDelay);
+      continue;
+    }
+    readLine(buffer, sizeof(buffer));
+    if (pgmstrcmp(buffer, CMP_ACCEPTED) != 0)
+    {
+      debugPrintMessage(ERR_MESSAGE, ERR_JOIN_NOT_ACCEPTED, buffer);
+      debugPrintMessage(ERR_MESSAGE, ERR_CHECK_CONFIGURATION);
+      delay(retryDelay);
+      continue;
+    }
+    readResponse(MAC_TABLE, MAC_CH_TABLE, MAC_CHANNEL_STATUS, buffer, sizeof(buffer));
+    debugPrintMessage(SUCCESS_MESSAGE, SCS_JOIN_ACCEPTED, buffer);
+    readResponse(MAC_TABLE, MAC_GET_SET_TABLE, MAC_DEVADDR, buffer, sizeof(buffer));
+    debugPrintIndex(SHOW_DEVADDR, buffer);
+    return true;
+  }
+  return false;
 }
 
 /*
@@ -34,7 +69,7 @@ ttn_response_t Lorawan::sendReading(int16_t reading, uint8_t powerLevel)
   data[2] = highByte(reading);
   data[3] = lowByte(reading);
   
-  return ttn.sendBytes(data, sizeof(data));
+  return sendBytes(data, sizeof(data));
 }
 
 /*
@@ -46,7 +81,7 @@ ttn_response_t Lorawan::sendStillAlive(uint8_t powerLevel)
   data[0] = 1;
   data[1] = powerLevel;
   
-  return ttn.sendBytes(data, sizeof(data));
+  return sendBytes(data, sizeof(data));
 }
 
 /*
@@ -58,7 +93,7 @@ ttn_response_t Lorawan::sendGenericError(uint8_t powerLevel)
   data[0] = 2;
   data[1] = powerLevel;
   
-  return ttn.sendBytes(data, sizeof(data));
+  return sendBytes(data, sizeof(data));
 }
 
 /*
@@ -70,7 +105,7 @@ ttn_response_t Lorawan::sendMicrocontrollerError(uint8_t powerLevel)
   data[0] = 3;
   data[1] = powerLevel;
   
-  return ttn.sendBytes(data, sizeof(data));
+  return sendBytes(data, sizeof(data));
 }
 
 /*
@@ -82,7 +117,7 @@ ttn_response_t Lorawan::sendSensorError(uint8_t powerLevel)
   data[0] = 4;
   data[1] = powerLevel;
   
-  return ttn.sendBytes(data, sizeof(data));
+  return sendBytes(data, sizeof(data));
 }
 
 /*
@@ -94,7 +129,7 @@ ttn_response_t Lorawan::sendBatteryError(uint8_t powerLevel)
   data[0] = 5;
   data[1] = powerLevel;
   
-  return ttn.sendBytes(data, sizeof(data));
+  return sendBytes(data, sizeof(data));
 }
 
 /*
@@ -106,7 +141,7 @@ ttn_response_t Lorawan::sendStorageError(uint8_t powerLevel)
   data[0] = 6;
   data[1] = powerLevel;
   
-  return ttn.sendBytes(data, sizeof(data));
+  return sendBytes(data, sizeof(data));
 }
 
 /*

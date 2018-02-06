@@ -13,10 +13,10 @@
 /**
  * 
  */
-class Lorawan
+class Lorawan: public TheThingsNetwork
 {
   public:
-    Lorawan(uint8_t spreadFactor);
+    Lorawan(uint8_t spreadFactor = TTN_DEFAULT_SF);
 
     bool join();
     ttn_response_t sendReading(int16_t reading, uint8_t powerLevel);
@@ -34,7 +34,6 @@ class Lorawan
     void setAppKey(char *appKey);
     
   private:
-    TheThingsNetwork ttn;
     uint8_t spreadFactor;
     char *appEui = "";
     char *appKey = "";
