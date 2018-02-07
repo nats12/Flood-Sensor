@@ -53,8 +53,8 @@ void Processor::init()
     initialDistanceToRiverTop = analogRead(sensor->analogPin) * 5;
     sensor->distanceToRiverBed = initialRiverDepth + initialDistanceToRiverTop;
 
-    Serial.println("Current Measurement: ");
-    Serial.println(sensor->getCurrentMeasurement());
+    //Serial.println("Current Measurement: ");
+    //Serial.println(sensor->getCurrentMeasurement());
 }
 
 /*
