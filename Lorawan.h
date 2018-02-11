@@ -18,7 +18,7 @@ class Lorawan
   public:
     Lorawan(uint8_t spreadFactor);
 
-    bool join();
+    boolean join();
     ttn_response_t sendReading(int16_t reading, uint8_t powerLevel);
     ttn_response_t sendStillAlive(uint8_t powerLevel);
     ttn_response_t sendGenericError(uint8_t powerLevel);

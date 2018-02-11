@@ -22,7 +22,7 @@ class Sensor
   
     Sensor(uint8_t analogPin);
     int16_t getCurrentMeasurement();
-    bool isCurrentWorthSending(int16_t currentMeasurement);
+    boolean isCurrentWorthSending(int16_t currentMeasurement);
   private:
 
 };

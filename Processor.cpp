@@ -53,8 +53,8 @@ void Processor::init()
     initialDistanceToRiverTop = analogRead(sensor->analogPin) * 5;
     sensor->distanceToRiverBed = initialRiverDepth + initialDistanceToRiverTop;
 
-    //Serial.println("Current Measurement: ");
-    //Serial.println(sensor->getCurrentMeasurement());
+    Serial.println("Current Measurement: ");
+    Serial.println(sensor->getCurrentMeasurement());
 }
 
 /*
@@ -86,7 +86,8 @@ void Processor::readingProcess()
   int16_t currentRiverLevel = sensor->getCurrentMeasurement();
   
   if(sensor->isCurrentWorthSending(currentRiverLevel))
-  {
+  { 
+    sdCard->printToLog(currentRiverLevel);
     ttn_response_t status = lorawan->sendReading(currentRiverLevel, getPowerLevel());
    
     if(status != TTN_ERROR_SEND_COMMAND_FAILED) {

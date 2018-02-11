@@ -237,7 +237,7 @@ void EngineeringMenu::loadEngineeringMenu()
 
   Serial.println(loadingMessage);
   printMainMenuOptions();  
-  while((menuOption = Serial.readString()) != "exit"){
+  while((menuOption = Serial.readString()) != "exit\n"){
     mainMenu(menuOption);
 
     if(this->subMenuOption == "8\n")

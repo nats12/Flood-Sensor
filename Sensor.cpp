@@ -34,8 +34,8 @@ int16_t Sensor::getCurrentMeasurement()
 /*
  * 
  */
-bool Sensor::isCurrentWorthSending(int16_t currentMeasurement)
-{
+boolean Sensor::isCurrentWorthSending(int16_t currentMeasurement)
+{ 
   return (abs(currentMeasurement - lastMeasurementSent)) >= rangeDifferenceThreshold;
 }
 

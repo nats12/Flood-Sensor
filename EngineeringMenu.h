@@ -26,7 +26,7 @@ class EngineeringMenu
     boolean checkValidMenuOption(String menuOptionInput, String expectedOption);
     
     // Interrupt variable to load engineering menu
-    volatile bool bringUpMenu;
+    boolean volatile  bringUpMenu;
   private:
     Sensor *sensor;
     SDCard *sdCard;

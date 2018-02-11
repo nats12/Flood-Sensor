@@ -18,7 +18,7 @@ Lorawan::Lorawan(uint8_t spreadFactor) : ttn(Serial1, Serial, freqPlan, spreadFa
 /*
  * 
  */
-bool Lorawan::join() 
+boolean Lorawan::join() 
 {
   return ttn.join(appEui, appKey);
 }
