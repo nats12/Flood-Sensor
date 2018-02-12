@@ -12,6 +12,11 @@
 /**
  * Constructor, including all other objects to be accessed.
  * Engineering menu functions that are to be used by an maintenance engineer for the device.
+ * @param {Sensor} {*sensor} pointer to Sensor object.
+ * @param {SDCard} {*sdCard} pointer to SDCard object.
+ * @param {Processor} {*processor} pointer to Processor object.
+ * @param {Lorawan} {*lorawan} pointer to Lorawan object.
+ * @return N/A
  */
 EngineeringMenu::EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor, Lorawan *lorawan)
 {
@@ -26,6 +31,8 @@ EngineeringMenu::EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *proc
 
 /*
  * Print all possible menu options (main menu) to Serial device.
+ * @param N/A
+ * @return {Void} N/A
  */
 void EngineeringMenu::printMainMenuOptions()
 {
@@ -49,7 +56,10 @@ void EngineeringMenu::printMainMenuOptions()
 }
 
 /*
- * Compare menu input to expected menu.
+ * Compare menu input to expected menu to check if it is a valid option in the engineering menu.
+ * @param {String} {menuOptionInput} menu option manually entered by the engineer.
+ * @param {String} {expectedOption} an possible option that valid in the engineering menu.
+ * @return {boolean} return valid option or not (true or false).
  */
 boolean EngineeringMenu::checkValidMenuOption(String menuOptionInput, String expectedOption)
 {
@@ -61,6 +71,8 @@ boolean EngineeringMenu::checkValidMenuOption(String menuOptionInput, String exp
 
 /*
  * Return and print current battery voltage (remaing power left in the battery).
+ * @param N/A
+ * @return {Void} N/A
  */
 void EngineeringMenu::printBatteryVoltage()
 {
@@ -80,6 +92,8 @@ void EngineeringMenu::printBatteryVoltage()
 
 /*
  * Take serial input from user (menuOption String) and execute chosen option.
+ * @param {String} {menuOption} input string typed in from engineer user to choose a menu function to run.
+ * @return {Void} N/A
  */
 void EngineeringMenu::mainMenu(String menuOption)
 {
@@ -178,6 +192,8 @@ void EngineeringMenu::mainMenu(String menuOption)
 /*
  * Show sub-menu options for Main menu option 8.
  * Call function based on user input (menuOption String).
+ * @param {String} {menuOption} input string typed in from engineer user to choose a menu function to run. 
+ * @return {void} N/A
  */
 void EngineeringMenu::subMenuEight(String menuOption)
 {
@@ -226,7 +242,10 @@ void EngineeringMenu::subMenuEight(String menuOption)
 }
  
 /*
- * Use serial input to select menu options functions.
+ * Print engineering menu options to Serial device for the engineer user to view.
+ * Use serial input (from the engineer user) to select menu options functions.
+ * @param N/A
+ * @return {void} N/A
  */
 void EngineeringMenu::loadEngineeringMenu() 
 {  
@@ -237,7 +256,7 @@ void EngineeringMenu::loadEngineeringMenu()
 
   Serial.println(loadingMessage);
   printMainMenuOptions();  
-  while((menuOption = Serial.readString()) != "exit\n"){
+  while((menuOption = Serial.readString()) != "exit"){
     mainMenu(menuOption);
 
     if(this->subMenuOption == "8\n")

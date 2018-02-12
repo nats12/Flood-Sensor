@@ -8,7 +8,7 @@
 #include "Lorawan.h"
 
 const byte ledPin = 1;
-const byte interruptPin = 13;
+const byte interruptPin = 13; //Engineering menu button
 
 Sensor sensor(0);
 SDCard sdCard;
@@ -17,8 +17,9 @@ Processor processor(&sensor, &sdCard, &lorawan, ledPin, interruptPin);
 EngineeringMenu menu(&sensor, &sdCard, &processor, &lorawan);
 
 /**
- * Sets up 
- * 
+ * Initialises default values and sets up Serial devices, pinModes and engineering menu interrupt.
+ * @param N/A
+ * @return {Void} N/A
  */
 void setup()
 {
@@ -43,7 +44,9 @@ void setup()
 }
 
 /**
- * 
+ * Interrupt function to trigger engineering menu.
+ * @param N/A
+ * @return {Void} N/A
  */
 void setBringUpMenu() 
 {
@@ -51,7 +54,11 @@ void setBringUpMenu()
 }
 
 /**
- * 
+ * Loop function to run indefinately.
+ * Waits for delay period before attempting to take a river level measurement.
+ * Or triggers engineering menu if interrupt function was triggered.
+ * @param N/A
+ * @return {Void} N/A
  */
 void loop()
 {
@@ -66,7 +73,5 @@ void loop()
   //processor.readingProcess();
 
   //processor.delayWithPeriod();
-  
-  
 
 }

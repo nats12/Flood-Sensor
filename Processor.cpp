@@ -14,7 +14,14 @@
 #include "Lorawan.h"
 
 /*
- * 
+ * Processor constructor
+ * Sets default device settings values (delayPeriod etc...)
+ * @param {Sensor} {*sensor} pointer to Sensor object.
+ * @param {SDCard} {*sdCard} pointer to SDCard object.
+ * @param {Lorawan} {*lorawan} pointer to Lorawan object.
+ * @param {byte} {ledPin} LED pin number
+ * @param {byte} {interruptPin} engineering menu button interrupt pin number
+ * @return N/A
  */
 Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledPin, byte interruptPin)
 {
@@ -36,7 +43,10 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledP
 // State Loop functions
 
 /*
- * 
+ * Initialise default sensor settings and values
+ * Takes initial river depth input from engineer user from serial input to populate other defaults.
+ * @param N/A
+ * @return {void} N/A
  */
 void Processor::init()
 {
@@ -58,7 +68,9 @@ void Processor::init()
 }
 
 /*
- * 
+ * Calculates and returns current battery voltage value.
+ * @param N/A
+ * @return {float} returns measuredvbat value.
  */
 float Processor::getBatteryVoltage()
 {
@@ -71,7 +83,9 @@ float Processor::getBatteryVoltage()
 }
 
 /*
- * 
+ * Calculates and returns battery percentage (powerlevel) based on voltage.
+ * @param N/A
+ * @return {uint8_t} return battery percentage.
  */
 uint8_t Processor::getPowerLevel()
 {
@@ -79,7 +93,9 @@ uint8_t Processor::getPowerLevel()
 }
 
 /*
- * 
+ * Process current river depth measurement, and send if relevant.
+ * @param N/A
+ * @return {void} N/A
  */
 void Processor::readingProcess()
 {
@@ -89,7 +105,8 @@ void Processor::readingProcess()
   { 
     sdCard->printToLog(currentRiverLevel);
     ttn_response_t status = lorawan->sendReading(currentRiverLevel, getPowerLevel());
-   
+
+    //Log error in SDCard log
     if(status != TTN_ERROR_SEND_COMMAND_FAILED) {
       sensor->lastMeasurementSent = currentRiverLevel;
       sdCard->printToLog(currentRiverLevel);
@@ -99,30 +116,57 @@ void Processor::readingProcess()
   }
 }
 
-// AR Mode
-void Processor::adjustARModeDelay(int16_t newDelayPeriod){ //adjust accelerated readings mode with new frequent delay period
+// Accelerated Readings (AR) Mode
+
+/*
+ * Set delay period to be used whilst the device is in AR (Accelerated Readings) Mode.
+ * @param {int16_t} {newDelayPeriod} new delay period to be used.
+ * @return {void} N/A
+ */
+void Processor::adjustARModeDelay(int16_t newDelayPeriod) //adjust accelerated readings mode with new delay period
+{
   delayPeriodARMode = newDelayPeriod;
 }
 
-void Processor::adjustARModeThreshold(int16_t newActivationThreshold){ //adjust accelerated readings mode with new activation threshold (mm)
+/*
+ * Set max river depth threshold to trigger AR Mode (Measured in: mm).
+ * @param {int16_t} {newActivationThreshold}  new maximum threshold to trigger AR mode.
+ * @return {void} N/A
+ */
+void Processor::adjustARModeThreshold(int16_t newActivationThreshold)
+{
   ARModeActivationThreshold = newActivationThreshold;
 }
 
-void Processor::activateOrDeactivateARMode() { // swaps delayPeriod and delayPeriodARMode variables to activate/deactivate Accelerated Readings mode
+/*
+ * Swaps delayPeriod and delayPeriodARMode variables to activate/deactivate Accelerated Readings mode.
+ * @param N/A
+ * @return {void} N/A
+ */
+void Processor::activateOrDeactivateARMode()
+{
   int16_t tempPeriod = 0;
   tempPeriod = delayPeriod;
   delayPeriod = delayPeriodARMode;
   delayPeriodARMode = tempPeriod;
 }
 
-void Processor::adjustIgnoreThreshold(int16_t newIgnoreThreshold){ 
+/*
+ * Set minimum river depth threshold (anything below this value will be ignored, and considered "not worth" sending) (mm).
+ * @param {int16_t} {newIgnoreThreshold} new minimum river depth threshold to be set (mm).
+ * @return {void} N/A
+ */
+void Processor::adjustIgnoreThreshold(int16_t newIgnoreThreshold)
+{ 
   ignoreThreshold = newIgnoreThreshold;
 }
 
 
 // Helpers
-/*
+/* 
  * 
+ * @param N/A
+ * @return {void} N/A
  */
 void Processor::writeStatus()
 {
@@ -131,6 +175,8 @@ void Processor::writeStatus()
 
 /*
  * 
+ * @param N/A
+ * @return {void} N/A
  */
 void Processor::delayWithPeriod()
 {
@@ -144,7 +190,9 @@ void Processor::delayWithPeriod()
 // Setters
 
 /*
- * 
+ * Set the delay period between each measurement to be taken.
+ * @param {int16_t} {minutes} new delay period (in minutes) set.
+ * @return {void} N/A
  */
 void Processor::changeMeasurementPeriod(int16_t minutes)
 {
@@ -152,7 +200,9 @@ void Processor::changeMeasurementPeriod(int16_t minutes)
 }
 
 /*
- * 
+ * Call SDCard class function to store the last measurement sent to a log on the SD card.
+ * @param {int16_t} {lastMeasurementSent} last measurement that was sent to the api sucessfully.
+ * @return {void} N/A
  */
 void Processor::printToSDLog(int16_t lastMeasurementSent)
 {
@@ -160,7 +210,9 @@ void Processor::printToSDLog(int16_t lastMeasurementSent)
 }
 
 /*
- * 
+ * Call SDCard class function to store the current river depth measurement to a log on the SD card.
+ * @param {int16_t} {currentMeasurement} current measurement value to be stored in the SD card log.
+ * @return {void} N/A
  */
 void Processor::printCurrentMeasurementToSD(int16_t currentMeasurement)
 {
