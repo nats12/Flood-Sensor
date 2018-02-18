@@ -15,7 +15,6 @@
 Sensor::Sensor(uint8_t analogPin)
 {
   analogPin = analogPin;
-  rangeDifferenceThreshold = 50;
 }
 
 /*

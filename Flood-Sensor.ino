@@ -25,7 +25,7 @@ void setup()
 {
   //  Setup serial baus, Serial1 used for LoRaWAN, Serial for USB communication.
   Serial1.begin(57600);
-  Serial.begin(9600); 
+  Serial.begin(11200); 
   
   // Wait for serial to connect
   while (!Serial){}
@@ -71,7 +71,10 @@ void loop()
   }
 
   //processor.readingProcess();
-
+  menu.loadEngineeringMenu();
   //processor.delayWithPeriod();
+//  for(int i = 0; i > 14; i++) {
+//    Serial.println(i);
+//   }
 
 }

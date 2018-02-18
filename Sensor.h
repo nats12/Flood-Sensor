@@ -16,7 +16,7 @@ class Sensor
   public:
     int16_t currentRiverLevel;
     int16_t distanceToRiverBed;
-    int16_t rangeDifferenceThreshold;
+    int16_t rangeDifferenceThreshold = 50;
     int16_t lastMeasurementSent;
     int16_t analogPin;
   
