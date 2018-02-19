@@ -35,6 +35,7 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledP
   this->state = LOW;
   this->delayPeriod = 5000;
   this->delayPeriodARMode = 1000;
+  this->ARModeOn = false;
   this->ARModeActivationThreshold = 20000; //Threshold (mm) to trigger Accelerated Readings mode
                                      //defaulted to a value that should never trigger (20 meters - out of range of sensor)
   this->ignoreThreshold = 0; //Threshold (mm) for which the sensor should ignore readings - don't send any info to server
@@ -69,27 +70,56 @@ void Processor::init()
 
 /*
  * Calculates and returns current battery voltage value.
+ * Gets an average of 5 readings over 5 seconds.
  * @param N/A
  * @return {float} returns measuredvbat value.
  */
 float Processor::getBatteryVoltage()
 {
-  float measuredvbat = analogRead(VBATPIN);
-  //** Get a few samples, and smooth values to output (other influences can affect the voltage) e.g. over a period of 10 seconds **
-  measuredvbat *= 2;    // we divided by 2, so multiply back
-  measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage
-  measuredvbat /= 1024; // convert to voltage
-  return measuredvbat;
+  float avgMeasuredVBat;
+  float totalMeasuredVBat = 0;
+  
+  // Get avg of 5 readings over a period of 4 seconds
+  totalMeasuredVBat += analogRead(VBATPIN);
+  for(uint8_t i = 0; i < 4; i++)
+  {
+    delay(1000); //wait for 1 second before taking checking voltage again
+    totalMeasuredVBat += analogRead(VBATPIN);
+  }
+  avgMeasuredVBat = totalMeasuredVBat / 5;
+  avgMeasuredVBat *= 2;    // we divided by 2, so multiply back
+  avgMeasuredVBat *= 3.3;  // Multiply by 3.3V, our reference voltage
+  avgMeasuredVBat /= 1024; // convert to voltage
+  
+  return avgMeasuredVBat;
 }
 
 /*
- * Calculates and returns battery percentage (powerlevel) based on voltage.
+ * Converts battery voltage to a byte to be sent to the API 
+ * Done to save TTN bandwidth (So we don't need to send send a full floating point number).
+ * @param N/A
+ * @return {uint8_t} returns voltage as an interger between 1 and 100 to be then recalculated in the API
+ */
+uint8_t Processor::getBatteryVoltageByte()
+{
+  return floor((getBatteryVoltage()- 3.2) * 100);
+}
+
+/*
+ * Calculates and returns estimated battery percentage (powerlevel/capacity) based on voltage and mAh of the battery.
+ * Expected default battery:
+ * 4.2v max (and 3.2v min cut off)
+ * 700mAh
  * @param N/A
  * @return {uint8_t} return battery percentage.
  */
-uint8_t Processor::getPowerLevel()
+uint8_t Processor::getEstimatedPowerLevel()
 {
-  return (uint8_t) ((getBatteryVoltage() - 3.2) * 100);
+  //100% capacity based on 2.94 Watt hours (4.2v and 0.7Ah)
+  //Remove usless power below 3.2v (2.94 - 2.24 = 0.7) - MaxCapacityVal
+  //percentage = (( (voltage * Ah) -2.24) / MaxCapacityVal) * 100
+  uint8_t estimatedPercentage = floor( ( ( ( (getBatteryVoltage() * 0.7) - 2.24) / 0.7) * 100)); // We are using a 700mAh battery
+  return estimatedPercentage;
 }
 
 /*
@@ -100,11 +130,12 @@ uint8_t Processor::getPowerLevel()
 void Processor::readingProcess()
 {
   int16_t currentRiverLevel = sensor->getCurrentMeasurement();
-  
-  if(sensor->isCurrentWorthSending(currentRiverLevel))
+
+  //Check if it is worth sending and higher than (or equal to) the ignored depth threshold
+  if(sensor->isCurrentWorthSending(currentRiverLevel) && currentRiverLevel >= ignoreThreshold)
   { 
     sdCard->printToLog(currentRiverLevel);
-    ttn_response_t status = lorawan->sendReading(currentRiverLevel, getPowerLevel());
+    ttn_response_t status = lorawan->sendReading(currentRiverLevel, getBatteryVoltageByte());
 
     //Log error in SDCard log
     if(status != TTN_ERROR_SEND_COMMAND_FAILED) {
@@ -112,7 +143,13 @@ void Processor::readingProcess()
       sdCard->printToLog(currentRiverLevel);
     }
   } else {
-    ttn_response_t status = lorawan->sendStillAlive(getPowerLevel());
+    ttn_response_t status = lorawan->sendStillAlive(getBatteryVoltageByte());
+  }
+
+  //Check AR Mode threshold
+  if((currentRiverLevel >= ARModeActivationThreshold && !this->ARModeOn) || (currentRiverLevel < ARModeActivationThreshold && this->ARModeOn))
+  {
+    activateOrDeactivateARMode();
   }
 }
 
@@ -149,6 +186,7 @@ void Processor::activateOrDeactivateARMode()
   tempPeriod = delayPeriod;
   delayPeriod = delayPeriodARMode;
   delayPeriodARMode = tempPeriod;
+  ARModeOn = !ARModeOn;
 }
 
 /*
@@ -174,16 +212,17 @@ void Processor::writeStatus()
 }
 
 /*
- * 
+ * Makes the entire device sleep for a specified period of time.
+ * Used to sleep inbetween taking river depth measurements.
  * @param N/A
  * @return {void} N/A
  */
 void Processor::delayWithPeriod()
 {
-  char currentMeasurementPeriodMessage[] PROGMEM = "Current measurement period is..";
-  Serial.println(currentMeasurementPeriodMessage);
+  //char currentMeasurementPeriodMessage[] PROGMEM = "Current measurement period is..";
+  //Serial.println(currentMeasurementPeriodMessage);
   
-  Serial.println(this->delayPeriod);
+  //Serial.println(this->delayPeriod);
   delay(this->delayPeriod);
 }
 
