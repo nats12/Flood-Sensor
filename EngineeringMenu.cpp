@@ -79,23 +79,22 @@ boolean EngineeringMenu::checkValidMenuOption(String menuOptionInput, String exp
 
 /*
  * Return and print current battery voltage (remaing power left in the battery).
+ * Also print an estimated battery percentage (capacity remaining)
  * @param N/A
  * @return {Void} N/A
  */
 void EngineeringMenu::printBatteryVoltage()
 {
   //Plot voltage against its remaining capacity - check datasheets
-  //Pack into 2 bytes voltage[0], voltage[1]
-  //Maybe process this only for the engineering menu, just send voltage to api
   float measuredBatteryVoltage = this->processor->getBatteryVoltage();
 
   char currentBatteryVoltageMessage[] PROGMEM = "Current battery voltage: ";
-  char remainingBatteryPercentageMessage[] PROGMEM = "Remaining battery %";
+  char remainingBatteryPercentageMessage[] PROGMEM = "Estimated remaining battery %";
   
   Serial.print(currentBatteryVoltageMessage); 
   Serial.println(measuredBatteryVoltage);
   Serial.print(remainingBatteryPercentageMessage); //Based on 100% being 4.2V
-  Serial.println(this->processor->getPowerLevel());
+  Serial.println(this->processor->getEstimatedPowerLevel());
 }
 
 /*
@@ -209,7 +208,7 @@ void EngineeringMenu::subMenuEight(String menuOption)
     Serial.println(cancelMessage);
     while(newThreshold = Serial.readString() == NULL){};
     if(newThreshold == "r\n"){ //Check if wanting to return to previous menu
-      subMenuOption = "0\n"; 
+      subMenuOption = "0\n";
       printMainMenuOptions();
     }
     else {
