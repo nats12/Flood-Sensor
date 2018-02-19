@@ -71,10 +71,7 @@ void loop()
   }
 
   //processor.readingProcess();
-  menu.loadEngineeringMenu();
+  
   //processor.delayWithPeriod();
-//  for(int i = 0; i > 14; i++) {
-//    Serial.println(i);
-//   }
 
 }
