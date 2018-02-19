@@ -119,7 +119,7 @@ boolean EngineeringMenu::mainMenu(String menuOption)
           // Test read/write on SD card
           char testSDReadWriteMessage[] PROGMEM = "Testing read/write...";
           Serial.println(testSDReadWriteMessage);
-          this->sdCard->printToLog(5);
+          this->sdCard->printToLog(this->sensor->getCurrentMeasurement());
           printMainMenuOptions();
        } else if (checkValidMenuOption(menuOption, "6\n")) {    // If option six
           // Print details of SD card space

@@ -19,11 +19,13 @@ class SDCard
     SdVolume volume;
     SdFile root;
     Sd2Card card;
+    int16_t fileSize;
     
     SDCard();
     void checkCardMemory();
     void printCurrentMeasurement(int16_t measurement);
     void printToLog(int16_t lastMeasurementSent);
+    boolean fileHasReachedSizeLimit();
   private:
 
 };

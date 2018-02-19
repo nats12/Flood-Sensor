@@ -134,13 +134,30 @@ void Processor::readingProcess()
   //Check if it is worth sending and higher than (or equal to) the ignored depth threshold
   if(sensor->isCurrentWorthSending(currentRiverLevel) && currentRiverLevel >= ignoreThreshold)
   { 
-    sdCard->printToLog(currentRiverLevel);
+    // If the SDCard file is full
+    if(this->sdCard->fileHasReachedSizeLimit()) {
+      // Send a storage error
+      this->lorawan->sendStorageError(getEstimatedPowerLevel());
+    } else {
+      // Log the measurement
+      sdCard->printToLog(currentRiverLevel);
+    }
+
     ttn_response_t status = lorawan->sendReading(currentRiverLevel, getBatteryVoltageByte());
 
     //Log error in SDCard log
     if(status != TTN_ERROR_SEND_COMMAND_FAILED) {
       sensor->lastMeasurementSent = currentRiverLevel;
-      sdCard->printToLog(currentRiverLevel);
+      
+      // If the SDCard file is full
+      if(this->sdCard->fileHasReachedSizeLimit()) {
+        // Send a storage error
+        this->lorawan->sendStorageError(getEstimatedPowerLevel());
+      } else {
+        // Log the error
+        sdCard->printToLog(status);
+      }
+      
     }
   } else {
     ttn_response_t status = lorawan->sendStillAlive(getBatteryVoltageByte());

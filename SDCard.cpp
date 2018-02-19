@@ -80,6 +80,7 @@ void SDCard::checkCardMemory()
   Serial.println(volume.fatType(), DEC);
 
   volumesize = volume.blocksPerCluster();    // clusters are collections of blocks
+  
   volumesize *= volume.clusterCount();       // we'll have a lot of clusters
   volumesize /= 2;                           // SD card blocks are always 512 bytes (2 blocks are 1KB)
 
@@ -96,6 +97,7 @@ void SDCard::checkCardMemory()
   char SDGbVolumeSizeMessage[] PROGMEM = "Volume size (Gb):  ";
   Serial.print(SDGbVolumeSizeMessage);
   Serial.println((float)volumesize / 1024.0);
+
 
   char filesFoundInSDMessage[] PROGMEM = "\nFiles found on the card (name, date and size in bytes): ";
   Serial.println(filesFoundInSDMessage);
@@ -135,33 +137,50 @@ void SDCard::printToLog(int16_t lastMeasurementSent)
   }
 
 
-  // open the file. note that only one file can be open at a time,
-  // so you have to close this one before opening another.
+  // Open the text file - only one file can be opened at a time so closing right after is important
   myFile = SD.open("logger.txt", FILE_WRITE);
 
-  // if the file opened okay, write to it:
+  // If the file opened okay
   if (myFile) {
+    // Write to it
     myFile.println(lastMeasurementSent);
-    // close the file:
+    // Get the file size
+    fileSize = myFile.size(); 
+    // Close the file:
     myFile.close();
   } else {
-    // if the file didn't open, print an error:
-    char writingSDFileOpeningErrorMessage[] PROGMEM = "error opening logger.txt";
+    // If the file didn't open, print an error:
+    char writingSDFileOpeningErrorMessage[] PROGMEM = "Error opening logger.txt";
     Serial.println(writingSDFileOpeningErrorMessage);
   }
 
-  // re-open the file for reading:
+  // Re-open the file for reading:
   myFile = SD.open("logger.txt");
   if (myFile) {
-    // read from the file until there's nothing else in it:
+    // Read from the file until there's nothing else in it:
     while (myFile.available()) {
       Serial.write(myFile.read());
     }
-    // close the file:
+    // Close the file:
     myFile.close();
   } else {
-    // if the file didn't open, print an error:
+    // If the file didn't open, print an error:
     char readingSDFileOpeningErrorMessage[] PROGMEM = "error opening logger.txt";
     Serial.println(readingSDFileOpeningErrorMessage);
   }
 }
+
+/*
+ * Check whether the text file has reached its size limit (7.21 GB or 7741678551 bytes)
+ * @param N/A
+ * @return {boolean} True if the file has reached its size limit, otherwise false
+ * 
+ */
+boolean SDCard::fileHasReachedSizeLimit()
+{ 
+  // If the file size is larger than 7741678551 bytes (7.21GB)
+  if(fileSize > 7741678551) {
+    return true;
+  }
+}
+
