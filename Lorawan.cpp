@@ -23,7 +23,7 @@ Lorawan::Lorawan(Stream &modemStream, Stream &debugStream, ttn_fp_t fp, uint8_t 
 /*
  * 
  */
-bool Lorawan::join() 
+boolean Lorawan::join() 
 {
   provision(appEui, appKey);
   int8_t retries = -1;

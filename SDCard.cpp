@@ -11,7 +11,9 @@ SdFile root;
 Sd2Card card;
 
 /**
- * 
+ * SDCard constructor
+ * @param N/A
+ * @return N/A
  */
 SDCard::SDCard()
 {
@@ -21,7 +23,10 @@ SDCard::SDCard()
 
 
 /*
- * 
+ * Print details of SD card (memory available etc..)
+ * Debugging function to check the status of the SD card - Is everything working correctly?
+ * @param N/A
+ * @return {void} N/A
  */
 void SDCard::checkCardMemory()
 { 
@@ -102,7 +107,9 @@ void SDCard::checkCardMemory()
 
 
 /*
- * 
+ * Print current measurement value (river depth in mm) to the serial device. 
+ * @param {int16_t} {measurement} measurement value to print.
+ * @return {void} N/A
  */
 void SDCard::printCurrentMeasurement(int16_t measurement)
 {
@@ -112,8 +119,10 @@ void SDCard::printCurrentMeasurement(int16_t measurement)
 }
 
 
-/*
- * 
+/* 
+ * Print the last measurement sent to a new line in a log file on the SD card.
+ * @param {int16_t} {lastMeasurementSent} last measurement value sent successfully, to be logged.
+ * @return {void} N/A
  */
 void SDCard::printToLog(int16_t lastMeasurementSent)
 {

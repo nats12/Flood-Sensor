@@ -9,7 +9,6 @@
 #include "SDCard.h"
 #include "Sensor.h"
 #include "Processor.h"
-#include "EngineeringMenuOptions.h"
 #include "Lorawan.h"
 
 /**
@@ -18,19 +17,21 @@
 class EngineeringMenu
 {
   public:
-    EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor, EngineeringMenuOptions *options, Lorawan *lorawan);
-    void mainMenu(String menuOption);
+    EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor, Lorawan *lorawan);
+    boolean mainMenu(String menuOption);
     void subMenuEight(String menuOption);
     void loadEngineeringMenu();
+    void printLoadingEngineeringMenuBox(String loadingMessage);
+    void printMainMenuOptions();
     void printBatteryVoltage();
+    boolean checkValidMenuOption(String menuOptionInput, String expectedOption);
     
     // Interrupt variable to load engineering menu
-    volatile bool bringUpMenu;
+    boolean volatile  bringUpMenu;
   private:
     Sensor *sensor;
     SDCard *sdCard;
     Processor *processor;
-    EngineeringMenuOptions *options;
     Lorawan *lorawan; 
     String subMenuOption;
     String input;

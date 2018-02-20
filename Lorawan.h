@@ -17,7 +17,7 @@ class Lorawan: public TheThingsNetwork
   public:
     Lorawan(Stream &modemStream, Stream &debugStream, ttn_fp_t fp, uint8_t sf = TTN_DEFAULT_SF, uint8_t fsb = TTN_DEFAULT_FSB);
 
-    bool join();
+    boolean join();
     ttn_response_t sendReading(int16_t reading, uint8_t powerLevel);
     ttn_response_t sendStillAlive(uint8_t powerLevel);
     ttn_response_t sendGenericError(uint8_t powerLevel);

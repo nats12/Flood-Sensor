@@ -2,7 +2,6 @@
 #include <SPI.h>
 #include <SD.h>
 #include "EngineeringMenu.h"
-#include "EngineeringMenuOptions.h"
 #include "Sensor.h"
 #include "SDCard.h"
 #include "Processor.h"
@@ -10,24 +9,24 @@
 #define freqPlan TTN_FP_EU868
 
 const byte ledPin = 1;
-const byte interruptPin = 13;
+const byte interruptPin = 13; //Engineering menu button
 
 Sensor sensor(0);
 SDCard sdCard;
 Lorawan lorawan(Serial, Serial1, freqPlan);
 Processor processor(&sensor, &sdCard, &lorawan, ledPin, interruptPin);
-EngineeringMenuOptions options;
-EngineeringMenu menu(&sensor, &sdCard, &processor, &options, &lorawan);
+EngineeringMenu menu(&sensor, &sdCard, &processor, &lorawan);
 
 /**
- * Sets up 
- * 
+ * Initialises default values and sets up Serial devices, pinModes and engineering menu interrupt.
+ * @param N/A
+ * @return {Void} N/A
  */
 void setup()
 {
   //  Setup serial baus, Serial1 used for LoRaWAN, Serial for USB communication.
   Serial1.begin(57600);
-  Serial.begin(9600); 
+  Serial.begin(11200); 
   
   // Wait for serial to connect
   while (!Serial){}
@@ -46,7 +45,9 @@ void setup()
 }
 
 /**
- * 
+ * Interrupt function to trigger engineering menu.
+ * @param N/A
+ * @return {Void} N/A
  */
 void setBringUpMenu() 
 {
@@ -54,11 +55,15 @@ void setBringUpMenu()
 }
 
 /**
- * 
+ * Loop function to run indefinately.
+ * Waits for delay period before attempting to take a river level measurement.
+ * Or triggers engineering menu if interrupt function was triggered.
+ * @param N/A
+ * @return {Void} N/A
  */
 void loop()
 {
-  processor.writeStatus();
+  //processor.writeStatus();
 
   // If button interrupt has been pressed
   if(menu.bringUpMenu) {
@@ -66,8 +71,8 @@ void loop()
     menu.loadEngineeringMenu();
   }
 
-  processor.readingProcess();
-
-  processor.delayWithPeriod();
+  //processor.readingProcess();
+  
+  //processor.delayWithPeriod();
 
 }

@@ -7,16 +7,20 @@
 #include "Arduino.h"
 
 /**
- * 
+ * Sensor class constructor.
+ * Sets default range difference threshold (anything below this threshold in mm, should not be sent to api).
+ * @param {uint8_t} {analogPin} Serial input pin for ultrasonic sensor output.
+ * @return N/A
  */
 Sensor::Sensor(uint8_t analogPin)
 {
   analogPin = analogPin;
-  rangeDifferenceThreshold = 50;
 }
 
 /*
- * 
+ * Use ultrasonic sensor to calculate the current river depth level in mm.
+ * @param N/A
+ * @return {int16_t} current river depth level measurement (mm).
  */
 int16_t Sensor::getCurrentMeasurement()
 {
@@ -32,10 +36,12 @@ int16_t Sensor::getCurrentMeasurement()
 
 
 /*
- * 
+ * Check if the current measurement is different enough from the last one sent (worth sending?).
+ * @param {int16_t} {currentMeasurement} current river depth measurement taken to compare to last measurement sent.
+ * @return {boolean} is worth sending or not (true or false) - Difference between the last measurement sent and current is more than or equal to the rangeDifferenceThreshold set.
  */
-bool Sensor::isCurrentWorthSending(int16_t currentMeasurement)
-{
+boolean Sensor::isCurrentWorthSending(int16_t currentMeasurement)
+{ 
   return (abs(currentMeasurement - lastMeasurementSent)) >= rangeDifferenceThreshold;
 }
 

@@ -19,6 +19,7 @@ class Processor
     volatile byte state;
     int16_t delayPeriod;
     int16_t measurementPeriod;
+    boolean ARModeOn;
 
     // Constructors
     Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledPin, byte interrputPin, int16_t delayPeriod = 5000, int16_t delayPeriodARMode = 1000, int16_t ARModeActivationThreshold = 20000, int16_t ignoreThreshold = 0); 
@@ -38,7 +39,8 @@ class Processor
     void delayWithPeriod();
     void changeMeasurementPeriod(int16_t minutes);
     float getBatteryVoltage();
-    uint8_t getPowerLevel();
+    uint8_t getBatteryVoltageByte();
+    uint8_t getEstimatedPowerLevel();
     void printToSDLog(int16_t lastMeasurementSent);
     void printCurrentMeasurementToSD(int16_t currentMeasurement);
     
