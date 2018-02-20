@@ -5,7 +5,6 @@
 
 #ifndef Lorawan_h
 #define Lorawan_h
-#define freqPlan TTN_FP_EU868
 
 #include <TheThingsNetwork.h>
 
@@ -16,7 +15,7 @@
 class Lorawan: public TheThingsNetwork
 {
   public:
-    Lorawan(uint8_t spreadFactor = TTN_DEFAULT_SF);
+    Lorawan(Stream &modemStream, Stream &debugStream, ttn_fp_t fp, uint8_t sf = TTN_DEFAULT_SF, uint8_t fsb = TTN_DEFAULT_FSB);
 
     bool join();
     ttn_response_t sendReading(int16_t reading, uint8_t powerLevel);

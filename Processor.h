@@ -21,7 +21,7 @@ class Processor
     int16_t measurementPeriod;
 
     // Constructors
-    Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledPin, byte interrputPin); 
+    Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledPin, byte interrputPin, int16_t delayPeriod = 5000, int16_t delayPeriodARMode = 1000, int16_t ARModeActivationThreshold = 20000, int16_t ignoreThreshold = 0); 
 
     // Main States
     void init();
@@ -47,7 +47,9 @@ class Processor
     Sensor *sensor;
     SDCard *sdCard;
     Lorawan *lorawan;
-    
+
+    // Still Here count
+    uint8_t stillHereCount;
     // Initial depth
     int16_t initialRiverDepth;
     // AR mode variables

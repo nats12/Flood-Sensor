@@ -7,13 +7,14 @@
 #include "SDCard.h"
 #include "Processor.h"
 #include "Lorawan.h"
+#define freqPlan TTN_FP_EU868
 
 const byte ledPin = 1;
 const byte interruptPin = 13;
 
 Sensor sensor(0);
 SDCard sdCard;
-Lorawan lorawan(7);
+Lorawan lorawan(Serial, Serial1, freqPlan);
 Processor processor(&sensor, &sdCard, &lorawan, ledPin, interruptPin);
 EngineeringMenuOptions options;
 EngineeringMenu menu(&sensor, &sdCard, &processor, &options, &lorawan);
