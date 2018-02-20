@@ -1,5 +1,5 @@
 /*
-  Sensor.cpp - Library for ultrasonic sensor water level measurements.
+  Lorawan.cpp - Network based functions using lorawan
   Created by Natalie Mclaren, December 17, 2017.
 */
 
@@ -11,13 +11,10 @@
  * 
  */
 Lorawan::Lorawan(Stream &modemStream, Stream &debugStream, ttn_fp_t fp, uint8_t sf, uint8_t fsb)
+  : TheThingsNetwork(modemStream, debugStream, fp, sf, fsb)
 {
-  this->debugStream = &modemStream;
-  this->modemStream = &debugStream;
-  this->modemStream->setTimeout(10000);
-  this->fp = fp; // Frequency Plan
-  this->sf = sf; // Spread Factor
-  this->fsb = fsb;
+  this->spreadFactor = sf; 
+  this->freqSubBand = fsb;
 }
 
 /*
@@ -30,11 +27,11 @@ boolean Lorawan::join()
   uint32_t retryDelay = 10000;
 
   int8_t attempts = 0;
-  configureChannels(fsb);
+  configureChannels(freqSubBand);
   
   for (uint8_t curSf = sf; curSf < 13; curSf++) 
   {
-    setSF(sf);
+    setSF(spreadFactor);
       
     while (retries == -1 || attempts <= retries)
     {
@@ -77,7 +74,7 @@ ttn_response_t Lorawan::sendReading(int16_t reading, uint8_t powerLevel)
   data[2] = highByte(reading);
   data[3] = lowByte(reading);
   
-  return sendBytes(data, sizeof(data), 1, false, sf);
+  return sendBytes(data, sizeof(data), 1, false, spreadFactor);
 }
 
 /*
@@ -89,7 +86,7 @@ ttn_response_t Lorawan::sendStillAlive(uint8_t powerLevel)
   data[0] = 1;
   data[1] = powerLevel;
   
-  return sendBytes(data, sizeof(data), 1, true, sf);
+  return sendBytes(data, sizeof(data), 1, true, spreadFactor);
 }
 
 /*
@@ -101,7 +98,7 @@ ttn_response_t Lorawan::sendGenericError(uint8_t powerLevel)
   data[0] = 2;
   data[1] = powerLevel;
   
-  return sendBytes(data, sizeof(data), 1, false, sf);
+  return sendBytes(data, sizeof(data), 1, false, spreadFactor);
 }
 
 /*
@@ -113,7 +110,7 @@ ttn_response_t Lorawan::sendMicrocontrollerError(uint8_t powerLevel)
   data[0] = 3;
   data[1] = powerLevel;
   
-  return sendBytes(data, sizeof(data), 1, false, sf);
+  return sendBytes(data, sizeof(data), 1, false, spreadFactor);
 }
 
 /*
@@ -125,7 +122,7 @@ ttn_response_t Lorawan::sendSensorError(uint8_t powerLevel)
   data[0] = 4;
   data[1] = powerLevel;
   
-  return sendBytes(data, sizeof(data), 1, false, sf);
+  return sendBytes(data, sizeof(data), 1, false, spreadFactor);
 }
 
 /*
@@ -137,7 +134,7 @@ ttn_response_t Lorawan::sendBatteryError(uint8_t powerLevel)
   data[0] = 5;
   data[1] = powerLevel;
   
-  return sendBytes(data, sizeof(data), 1, false, sf);
+  return sendBytes(data, sizeof(data), 1, false, spreadFactor);
 }
 
 /*
@@ -149,7 +146,7 @@ ttn_response_t Lorawan::sendStorageError(uint8_t powerLevel)
   data[0] = 6;
   data[1] = powerLevel;
   
-  return sendBytes(data, sizeof(data), 1, false, sf);
+  return sendBytes(data, sizeof(data), 1, false, spreadFactor);
 }
 
 /*
@@ -172,7 +169,7 @@ void Lorawan::setSpreadFactor(uint8_t spreadfactor)
   }
   
   this->spreadFactor = spreadFactor;
-  setSF(sf);
+  setSF(spreadFactor);
   saveState();
 }
 
