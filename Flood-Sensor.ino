@@ -23,17 +23,19 @@ EngineeringMenu menu(&sensor, &sdCard, &processor, &lorawan);
  */
 void setup()
 {
-  //  Setup serial baus, Serial1 used for LoRaWAN, Serial for USB communication.
-  Serial1.begin(57600);
+  //  Setup serial baud, Serial1 used for LoRaWAN, Serial for USB communication.
+  Serial1.begin(19200);
   Serial.begin(11200); 
   
   // Wait for serial to connect
-  while (!Serial){}
+  while(!Serial)
   
   // Check for incoming serial data:
   //if (Serial.available() > 0) {
     Serial.println("Set up");
 
+   while(!Serial1){}
+   Serial.println("LoRaWan connected");
     processor.init();
   //}
 
@@ -62,15 +64,15 @@ void setBringUpMenu()
  */
 void loop()
 {
-  //processor.writeStatus();
-
+  processor.writeStatus();
+  
   // If button interrupt has been pressed
   if(menu.bringUpMenu) {
     // Load the engineering menu
     menu.loadEngineeringMenu();
   }
 
-  //processor.readingProcess();
-  menu.loadEngineeringMenu();
-  //processor.delayWithPeriod();
+  processor.readingProcess();
+
+  processor.delayWithPeriod();
 }

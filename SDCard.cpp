@@ -108,54 +108,43 @@ void SDCard::checkCardMemory()
 }
 
 
-/*
- * Print current measurement value (river depth in mm) to the serial device. 
- * @param {int16_t} {measurement} measurement value to print.
- * @return {void} N/A
- */
-void SDCard::printCurrentMeasurement(int16_t measurement)
-{
-  char currentMeasurementMessage[] PROGMEM = "Current Measurement: ";
-  Serial.println(currentMeasurementMessage);
-  Serial.println(measurement);
-}
-
-
 /* 
  * Print the last measurement sent to a new line in a log file on the SD card.
  * @param {int16_t} {lastMeasurementSent} last measurement value sent successfully, to be logged.
  * @return {void} N/A
  */
-void SDCard::printToLog(int16_t lastMeasurementSent)
+boolean SDCard::writeToLog(String data)
 {
 
-
-  if (!SD.begin(4)) {
-
-    char SDInitializationFailedMessage[] PROGMEM = "initialization failed!";
-    Serial.println(SDInitializationFailedMessage);
-  }
-
-
   // Open the text file - only one file can be opened at a time so closing right after is important
-  myFile = SD.open("logger.txt", FILE_WRITE);
+  myFile = SD.open("LOGGER.TXT", FILE_WRITE);
 
   // If the file opened okay
   if (myFile) {
     // Write to it
-    myFile.println(lastMeasurementSent);
+    myFile.println(data);
     // Get the file size
     fileSize = myFile.size(); 
     // Close the file:
     myFile.close();
+    return true;
   } else {
     // If the file didn't open, print an error:
     char writingSDFileOpeningErrorMessage[] PROGMEM = "Error opening logger.txt";
     Serial.println(writingSDFileOpeningErrorMessage);
+    return false;
   }
+}
 
+
+
+/*
+ * 
+ */
+boolean SDCard::readLog()
+{
   // Re-open the file for reading:
-  myFile = SD.open("logger.txt");
+  myFile = SD.open("LOGGER.TXT");
   if (myFile) {
     // Read from the file until there's nothing else in it:
     while (myFile.available()) {
@@ -163,12 +152,52 @@ void SDCard::printToLog(int16_t lastMeasurementSent)
     }
     // Close the file:
     myFile.close();
+    return true;
   } else {
     // If the file didn't open, print an error:
     char readingSDFileOpeningErrorMessage[] PROGMEM = "error opening logger.txt";
     Serial.println(readingSDFileOpeningErrorMessage);
+    return false;
   }
 }
+
+
+/*
+ * 
+ */
+boolean SDCard::testReadLog(String data) 
+{
+  
+  // Re-open the file for reading:
+  myFile = SD.open("LOGGER.TXT");
+  if (myFile) {
+
+    char dataArray[data.length()];
+    
+    myFile.seek(myFile.size() - (data.length()+2));
+    
+    // Read from the file until there's nothing else in it:
+//    while (myFile.available()) {
+      myFile.read(dataArray, data.length());
+//    }
+
+    Serial.println(dataArray);
+    // Close the file:
+    myFile.close();
+    
+    if(strcmp(dataArray, data.c_str()) == 0) {
+      return true;
+    } 
+
+    return false;
+  } else {
+    // If the file didn't open, print an error:
+    char readingSDFileOpeningErrorMessage[] PROGMEM = "error opening logger.txt";
+    Serial.println(readingSDFileOpeningErrorMessage);
+    return false;
+  }
+}
+
 
 /*
  * Check whether the text file has reached its size limit (7.21 GB or 7741678551 bytes)
@@ -178,9 +207,45 @@ void SDCard::printToLog(int16_t lastMeasurementSent)
  */
 boolean SDCard::fileHasReachedSizeLimit()
 { 
+  
   // If the file size is larger than 7741678551 bytes (7.21GB)
   if(fileSize > 7741678551) {
     return true;
   }
+
+  return false;
+}
+
+
+/*
+ * 
+ */
+boolean SDCard::initSDCard()
+{
+
+  if (!SD.begin(4)) {
+    char SDInitializationFailedMessage[] PROGMEM = "initialization failed!";
+    Serial.println(SDInitializationFailedMessage);
+  }
+
+  char initSDCardMessage[] PROGMEM = "SDCard initialised";
+  
+  // Open the text file - only one file can be opened at a time so closing right after is important
+  myFile = SD.open("LOGGER.TXT", FILE_READ);
+
+  // If the file opened okay
+  if (myFile) {
+    fileSize = myFile.size(); 
+    // Close the file:
+    myFile.close();
+    Serial.println(initSDCardMessage);
+    return true;
+  } else {
+    // If the file didn't open, print an error:
+    char writingSDFileOpeningErrorMessage[] PROGMEM = "Error opening logger.txt";
+    Serial.println(writingSDFileOpeningErrorMessage);
+    return false;
+  }
+  
 }
 

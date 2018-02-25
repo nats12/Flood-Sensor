@@ -109,7 +109,7 @@ boolean EngineeringMenu::mainMenu(String menuOption)
       // If option one 
       if(checkValidMenuOption(menuOption, "1\n")) {   // If option one
          // Print last sent measurement
-         this->sdCard->printCurrentMeasurement(this->sensor->getCurrentMeasurement());
+         Serial.println(this->sensor->getCurrentMeasurement());
          printMainMenuOptions();
        } else if(checkValidMenuOption(menuOption, "2\n")) {   // If option two
          // Print current battery voltage and percentage
@@ -119,7 +119,32 @@ boolean EngineeringMenu::mainMenu(String menuOption)
           // Test read/write on SD card
           char testSDReadWriteMessage[] PROGMEM = "Testing read/write...";
           Serial.println(testSDReadWriteMessage);
-          this->sdCard->printToLog(this->sensor->getCurrentMeasurement());
+
+          // If the file was written to okay
+          if(this->sdCard->writeToLog("test string")) {
+            char testSDWritePassedMessage[] PROGMEM = "Writing: passed";
+            Serial.println(testSDWritePassedMessage);
+          } else {
+            char testSDWriteFailedMessage[] PROGMEM = "Writing: failed";
+            Serial.println(testSDWriteFailedMessage);
+          }
+          
+          // If the file was read ok
+          if(this->sdCard->testReadLog("test string")) {
+            char testSDReadPassedMessage[] PROGMEM = "Reading: passed";
+            Serial.println(testSDReadPassedMessage);
+          } else {
+            char testSDReadFailedMessage[] PROGMEM = "Reading: failed";
+            Serial.println(testSDReadFailedMessage);
+          }
+          
+          // If the SDCard file is full
+          if(this->sdCard->fileHasReachedSizeLimit()) {
+            // Send a storage error
+//            this->lorawan->sendStorageError(getBatteryVoltageByte());
+            char fullSDCardFileMessage[] PROGMEM = "The SDCard seems to be full, error writing to it...";
+            Serial.println(fullSDCardFileMessage);
+          } 
           printMainMenuOptions();
        } else if (checkValidMenuOption(menuOption, "6\n")) {    // If option six
           // Print details of SD card space
@@ -288,7 +313,7 @@ void EngineeringMenu::loadEngineeringMenu()
   printMainMenuOptions();
 
   // While the option is not empty
-  while((menuOption = Serial.readString()) != " ") {
+  while((menuOption = Serial.readString()) != " " && bringUpMenu) {
     
     // Run with the entered option
     mainMenu(menuOption);

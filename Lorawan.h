@@ -36,8 +36,8 @@ class Lorawan
   private:
     TheThingsNetwork ttn;
     uint8_t spreadFactor;
-    char *appEui = "";
-    char *appKey = "";
+    const char *appEui = "70B3D57EF00000C3";
+    const char *appKey = "ttn-account-v2._GgABDAVOs2zzGe7Jb8xqE8z1jNPsJNgDXheXo3OpwY";
 };
 
 #endif

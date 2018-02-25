@@ -41,8 +41,7 @@ class Processor
     float getBatteryVoltage();
     uint8_t getBatteryVoltageByte();
     uint8_t getEstimatedPowerLevel();
-    void printToSDLog(int16_t lastMeasurementSent);
-    void printCurrentMeasurementToSD(int16_t currentMeasurement);
+    void printMeasurementToSDLog(int16_t measurement);
     
   private:
     // Components

@@ -23,9 +23,11 @@ class SDCard
     
     SDCard();
     void checkCardMemory();
-    void printCurrentMeasurement(int16_t measurement);
-    void printToLog(int16_t lastMeasurementSent);
     boolean fileHasReachedSizeLimit();
+    boolean initSDCard();
+    boolean readLog();
+    boolean testReadLog(String data);
+    boolean writeToLog(String data);
   private:
 
 };
