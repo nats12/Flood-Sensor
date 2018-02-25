@@ -83,7 +83,7 @@ ttn_response_t Lorawan::sendReading(int16_t reading, uint8_t powerLevel)
 ttn_response_t Lorawan::sendStillAlive(uint8_t powerLevel)
 {
   byte data[2];
-  data[0] = 1;
+  data[0] = 0;
   data[1] = powerLevel;
   
   return sendBytes(data, sizeof(data), 1, true, spreadFactor);
