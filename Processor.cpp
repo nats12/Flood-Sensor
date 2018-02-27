@@ -39,6 +39,11 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledP
   this->ignoreThreshold = ignoreThreshold; //Threshold (mm) for which the sensor should ignore readings - don't send any info to server
   
   this->state = LOW;
+<<<<<<< HEAD
+=======
+  this->delayPeriod = 60000;
+  this->delayPeriodARMode = 1000;
+>>>>>>> error_handling
   this->ARModeOn = false;
   this->stillHereCount = 0;
 }
@@ -52,8 +57,10 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledP
  * @return {void} N/A
  */
 void Processor::init()
-{
-    //lorawan->join();
+{ 
+//    lorawan->join();
+
+    sdCard->initSDCard();
   
     String inStr;
     int16_t initialDistanceToRiverTop;
@@ -104,7 +111,16 @@ float Processor::getBatteryVoltage()
  */
 uint8_t Processor::getBatteryVoltageByte()
 {
-  return floor((getBatteryVoltage()- 3.2) * 100);
+//  Serial.println(getBatteryVoltage());
+  float voltage = getBatteryVoltage() - 3.2;
+
+  if(voltage > 1.0) {
+    voltage = 1.0;
+  } else if(voltage > 1.0) {
+    voltage = 0;
+  }
+  
+  return floor(voltage * 100);
 }
 
 /*
@@ -132,26 +148,37 @@ uint8_t Processor::getEstimatedPowerLevel()
 void Processor::readingProcess()
 {
   int16_t currentRiverLevel = sensor->getCurrentMeasurement();
-
+  
   //Check if it is worth sending and higher than (or equal to) the ignored depth threshold
-  if(sensor->isCurrentWorthSending(currentRiverLevel) && currentRiverLevel >= ignoreThreshold)
-  { 
-    sdCard->printToLog(currentRiverLevel);
-    ttn_response_t status = lorawan->sendReading(currentRiverLevel, getBatteryVoltageByte());
-
-    //Log error in SDCard log
-    if(status != TTN_ERROR_SEND_COMMAND_FAILED) {
-      sensor->lastMeasurementSent = currentRiverLevel;
-      sdCard->printToLog(currentRiverLevel);
-      stillHereCount = 0;
+  if(sensor->isCurrentWorthSending(currentRiverLevel) && currentRiverLevel >= ignoreThreshold) { 
+    // If the SDCard file is full
+    if(this->sdCard->fileHasReachedSizeLimit()) {
+      // Send a storage error
+      this->lorawan->sendStorageError(getBatteryVoltageByte());
+      char fullSDCardFileMessage[] PROGMEM = "The SDCard seems to be full, error writing to it...";
+      Serial.println(fullSDCardFileMessage);
     } else {
-      //ERROR
+      // Log the measurement
+      printMeasurementToSDLog(currentRiverLevel);
     }
+
+    ttn_response_t status = lorawan->sendReading(currentRiverLevel, getBatteryVoltageByte());
+    
+    
+    //Log error in SDCard log
+    if(status != TTN_ERROR_SEND_COMMAND_FAILED) 
+    {
+      sensor->lastMeasurementSent = currentRiverLevel;
+      printMeasurementToSDLog(currentRiverLevel);
+      stillHereCount = 0;
+    } else if(!this->sdCard->fileHasReachedSizeLimit()) {
+      printMeasurementToSDLog(status);
+    } 
   } else if (stillHereCount >= 24) {
     ttn_response_t status = lorawan->sendStillAlive(getBatteryVoltageByte());
        
-    if(status == TTN_ERROR_SEND_COMMAND_FAILED) {
-      // ERROR
+    if(status == TTN_ERROR_SEND_COMMAND_FAILED && !this->sdCard->fileHasReachedSizeLimit()) {
+      printMeasurementToSDLog(status);
     } else {
       stillHereCount = 0; 
     }
@@ -232,11 +259,11 @@ void Processor::writeStatus()
  */
 void Processor::delayWithPeriod()
 {
-  //char currentMeasurementPeriodMessage[] PROGMEM = "Current measurement period is..";
-  //Serial.println(currentMeasurementPeriodMessage);
+//  char currentMeasurementPeriodMessage[] PROGMEM = "Current measurement period is..";
+//  Serial.println(currentMeasurementPeriodMessage);
   
-  //Serial.println(this->delayPeriod);
-  delay(this->delayPeriod);
+//  Serial.println(this->delayPeriod);
+  delay(300);
 }
 
 // Setters
@@ -248,7 +275,7 @@ void Processor::delayWithPeriod()
  */
 void Processor::changeMeasurementPeriod(int16_t minutes)
 {
-    this->delayPeriod = minutes * 1000;
+    this->delayPeriod = (minutes * 1000) * 60;
 }
 
 /*
@@ -256,19 +283,9 @@ void Processor::changeMeasurementPeriod(int16_t minutes)
  * @param {int16_t} {lastMeasurementSent} last measurement that was sent to the api sucessfully.
  * @return {void} N/A
  */
-void Processor::printToSDLog(int16_t lastMeasurementSent)
+void Processor::printMeasurementToSDLog(int16_t measurement)
 {
-  this->sdCard->printToLog(lastMeasurementSent);
-}
-
-/*
- * Call SDCard class function to store the current river depth measurement to a log on the SD card.
- * @param {int16_t} {currentMeasurement} current measurement value to be stored in the SD card log.
- * @return {void} N/A
- */
-void Processor::printCurrentMeasurementToSD(int16_t currentMeasurement)
-{
-  this->sdCard->printCurrentMeasurement(currentMeasurement);
+  this->sdCard->writeToLog(String(measurement));
 }
 
 

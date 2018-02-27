@@ -24,7 +24,7 @@ boolean Lorawan::join()
   
   for (; sf < 13; sf++) 
   {
-    TheThingsNetwork::join(3, 10000); 
+    return TheThingsNetwork::join(3, 10000); 
   }
 
   return false;
@@ -145,7 +145,7 @@ void Lorawan::setSpreadFactor(uint8_t spreadfactor)
  */
 char* Lorawan::getAppEui()
 {
-  return appEui;
+  return "70B3D57EF00000C3";
 }
 
 /*
@@ -154,7 +154,7 @@ char* Lorawan::getAppEui()
 void Lorawan::setAppEui(char *appEui)
 {
   delete[] this->appEui;
-  this->appEui = appEui;
+  this->appEui = "70B3D57EF00000C3";
 }
 
 /*
@@ -162,7 +162,7 @@ void Lorawan::setAppEui(char *appEui)
  */
 char* Lorawan::getAppKey()
 {
-  return appKey;
+  return "ttn-account-v2._GgABDAVOs2zzGe7Jb8xqE8z1jNPsJNgDXheXo3OpwY";
 }
 
 
@@ -172,7 +172,7 @@ char* Lorawan::getAppKey()
 void Lorawan::setAppKey(char *appKey)
 {
   delete[] this->appKey;
-  this->appKey = appKey;
+  this->appKey = "ttn-account-v2._GgABDAVOs2zzGe7Jb8xqE8z1jNPsJNgDXheXo3OpwY";
 }
 
 
