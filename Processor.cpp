@@ -185,7 +185,7 @@ void Processor::readingProcess()
   } else {
     stillHereCount++;
   } 
-
+  
   //Check AR Mode threshold
   if((currentRiverLevel >= ARModeActivationThreshold && !this->ARModeOn) || (currentRiverLevel < ARModeActivationThreshold && this->ARModeOn))
   {

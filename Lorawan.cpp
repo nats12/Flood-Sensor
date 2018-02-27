@@ -127,7 +127,7 @@ uint8_t Lorawan::getSpreadFactor()
 /*
  * 
  */
-void Lorawan::setSpreadFactor(uint8_t spreadfactor)
+void Lorawan::setSpreadFactor(uint8_t spreadFactor)
 {
   if(spreadFactor < 7) {
     spreadFactor = 7;
@@ -145,7 +145,7 @@ void Lorawan::setSpreadFactor(uint8_t spreadfactor)
  */
 char* Lorawan::getAppEui()
 {
-  return "70B3D57EF00000C3";
+  return appEui;
 }
 
 /*
@@ -154,7 +154,7 @@ char* Lorawan::getAppEui()
 void Lorawan::setAppEui(char *appEui)
 {
   delete[] this->appEui;
-  this->appEui = "70B3D57EF00000C3";
+  this->appEui = appEui;
 }
 
 /*
@@ -162,7 +162,7 @@ void Lorawan::setAppEui(char *appEui)
  */
 char* Lorawan::getAppKey()
 {
-  return "ttn-account-v2._GgABDAVOs2zzGe7Jb8xqE8z1jNPsJNgDXheXo3OpwY";
+  return appKey;
 }
 
 
@@ -172,7 +172,7 @@ char* Lorawan::getAppKey()
 void Lorawan::setAppKey(char *appKey)
 {
   delete[] this->appKey;
-  this->appKey = "ttn-account-v2._GgABDAVOs2zzGe7Jb8xqE8z1jNPsJNgDXheXo3OpwY";
+  this->appKey = appKey;
 }
 
 
