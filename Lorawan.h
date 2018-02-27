@@ -33,9 +33,7 @@ class Lorawan: public TheThingsNetwork
     void setAppKey(char *appKey);
     
   private:
-    uint8_t spreadFactor;
-    uint8_t freqSubBand;
-    char *appEui = "";
+    char *appEui = "70B3D57EF00000C3";
     char *appKey = "";
 };
 
