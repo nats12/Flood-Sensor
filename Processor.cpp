@@ -39,11 +39,6 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledP
   this->ignoreThreshold = ignoreThreshold; //Threshold (mm) for which the sensor should ignore readings - don't send any info to server
   
   this->state = LOW;
-<<<<<<< HEAD
-=======
-  this->delayPeriod = 60000;
-  this->delayPeriodARMode = 1000;
->>>>>>> error_handling
   this->ARModeOn = false;
   this->stillHereCount = 0;
 }
