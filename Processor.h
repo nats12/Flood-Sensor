@@ -19,7 +19,7 @@ class Processor
     volatile byte state;
     int16_t delayPeriod;
     int16_t measurementPeriod;
-    boolean ARModeOn;
+    bool ARModeOn;
 
     // Constructors
     Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledPin, byte interrputPin, int16_t delayPeriod = 5000, int16_t delayPeriodARMode = 1000, int16_t ARModeActivationThreshold = 20000, int16_t ignoreThreshold = 0); 

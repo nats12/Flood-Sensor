@@ -8,7 +8,6 @@
 
 #include <TheThingsNetwork.h>
 
-
 /**
  * 
  */
@@ -17,7 +16,8 @@ class Lorawan: public TheThingsNetwork
   public:
     Lorawan(Stream &modemStream, Stream &debugStream, ttn_fp_t fp, uint8_t sf = TTN_DEFAULT_SF, uint8_t fsb = TTN_DEFAULT_FSB);
 
-    boolean join();
+    bool join();
+    bool provision();
     ttn_response_t sendReading(int16_t reading, uint8_t powerLevel);
     ttn_response_t sendStillAlive(uint8_t powerLevel);
     ttn_response_t sendGenericError(uint8_t powerLevel);
@@ -26,14 +26,14 @@ class Lorawan: public TheThingsNetwork
     ttn_response_t sendBatteryError(uint8_t powerLevel);
     ttn_response_t sendStorageError(uint8_t powerLevel);
     uint8_t getSpreadFactor();
-    char* getAppEui();
+    char* getCharAppEui();
     char* getAppKey();
     void setSpreadFactor(uint8_t spreadFactor);
-    void setAppEui(char *appEui);
+    void setCharAppEui(char *appEui);
     void setAppKey(char *appKey);
     
   private:
-    char *appEui = "70B3D57EF00000C3";
+    char *appEui = "";
     char *appKey = "";
 };
 

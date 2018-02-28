@@ -18,16 +18,23 @@ Lorawan::Lorawan(Stream &modemStream, Stream &debugStream, ttn_fp_t fp, uint8_t 
 /*
  * 
  */
-boolean Lorawan::join() 
+bool Lorawan::join() 
 {
-  provision(appEui, appKey);
+  provision();
   
   for (; sf < 13; sf++) 
   {
-    return TheThingsNetwork::join(3, 10000); 
+    if(TheThingsNetwork::join(3, 10000)) {
+      return true; 
+    }
   }
 
   return false;
+}
+
+bool Lorawan::provision()
+{
+  return TheThingsNetwork::provision(appEui, appKey);
 }
 
 /*
@@ -137,13 +144,12 @@ void Lorawan::setSpreadFactor(uint8_t spreadFactor)
   
   this->sf = spreadFactor;
   setSF(spreadFactor);
-  saveState();
 }
 
 /*
  * 
  */
-char* Lorawan::getAppEui()
+char* Lorawan::getCharAppEui()
 {
   return appEui;
 }
@@ -151,10 +157,11 @@ char* Lorawan::getAppEui()
 /*
  * 
  */
-void Lorawan::setAppEui(char *appEui)
+void Lorawan::setCharAppEui(char *appEui)
 {
   delete[] this->appEui;
   this->appEui = appEui;
+  provision();
 }
 
 /*
@@ -173,6 +180,7 @@ void Lorawan::setAppKey(char *appKey)
 {
   delete[] this->appKey;
   this->appKey = appKey;
+  provision();
 }
 
 

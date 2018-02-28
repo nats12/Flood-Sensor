@@ -53,7 +53,7 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledP
  */
 void Processor::init()
 { 
-//    lorawan->join();
+    lorawan->join();
 
     sdCard->initSDCard();
   
@@ -159,12 +159,9 @@ void Processor::readingProcess()
 
     ttn_response_t status = lorawan->sendReading(currentRiverLevel, getBatteryVoltageByte());
     
-    
     //Log error in SDCard log
-    if(status != TTN_ERROR_SEND_COMMAND_FAILED) 
-    {
+    if(status != TTN_ERROR_SEND_COMMAND_FAILED) {
       sensor->lastMeasurementSent = currentRiverLevel;
-      printMeasurementToSDLog(currentRiverLevel);
       stillHereCount = 0;
     } else if(!this->sdCard->fileHasReachedSizeLimit()) {
       printMeasurementToSDLog(status);
