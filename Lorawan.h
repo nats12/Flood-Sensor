@@ -5,20 +5,19 @@
 
 #ifndef Lorawan_h
 #define Lorawan_h
-#define freqPlan TTN_FP_EU868
 
 #include <TheThingsNetwork.h>
-
 
 /**
  * 
  */
-class Lorawan
+class Lorawan: public TheThingsNetwork
 {
   public:
-    Lorawan(uint8_t spreadFactor);
+    Lorawan(Stream &modemStream, Stream &debugStream, ttn_fp_t fp, uint8_t sf = TTN_DEFAULT_SF, uint8_t fsb = TTN_DEFAULT_FSB);
 
-    boolean join();
+    bool join();
+    bool provision();
     ttn_response_t sendReading(int16_t reading, uint8_t powerLevel);
     ttn_response_t sendStillAlive(uint8_t powerLevel);
     ttn_response_t sendGenericError(uint8_t powerLevel);
@@ -27,17 +26,15 @@ class Lorawan
     ttn_response_t sendBatteryError(uint8_t powerLevel);
     ttn_response_t sendStorageError(uint8_t powerLevel);
     uint8_t getSpreadFactor();
-    char* getAppEui();
+    char* getCharAppEui();
     char* getAppKey();
     void setSpreadFactor(uint8_t spreadFactor);
-    void setAppEui(char *appEui);
+    void setCharAppEui(char *appEui);
     void setAppKey(char *appKey);
     
   private:
-    TheThingsNetwork ttn;
-    uint8_t spreadFactor;
-    const char *appEui = "70B3D57EF00000C3";
-    const char *appKey = "ttn-account-v2._GgABDAVOs2zzGe7Jb8xqE8z1jNPsJNgDXheXo3OpwY";
+    char *appEui = "";
+    char *appKey = "";
 };
 
 #endif

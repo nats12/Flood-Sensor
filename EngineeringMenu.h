@@ -18,16 +18,16 @@ class EngineeringMenu
 {
   public:
     EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *processor, Lorawan *lorawan);
-    boolean mainMenu(String menuOption);
+    bool mainMenu(String menuOption);
     void subMenuEight(String menuOption);
     void loadEngineeringMenu();
     void printLoadingEngineeringMenuBox(String loadingMessage);
     void printMainMenuOptions();
     void printBatteryVoltage();
-    boolean checkValidMenuOption(String menuOptionInput, String expectedOption);
+    bool checkValidMenuOption(String menuOptionInput, String expectedOption);
     
     // Interrupt variable to load engineering menu
-    boolean volatile  bringUpMenu;
+    bool volatile  bringUpMenu;
   private:
     Sensor *sensor;
     SDCard *sdCard;

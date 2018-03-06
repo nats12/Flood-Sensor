@@ -23,11 +23,11 @@ class SDCard
     
     SDCard();
     void checkCardMemory();
-    boolean fileHasReachedSizeLimit();
-    boolean initSDCard();
-    boolean readLog();
-    boolean testReadLog(String data);
-    boolean writeToLog(String data);
+    bool fileHasReachedSizeLimit();
+    bool initSDCard();
+    bool readLog();
+    bool testReadLog(String data);
+    bool writeToLog(String data);
   private:
 
 };

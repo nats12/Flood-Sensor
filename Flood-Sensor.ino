@@ -6,13 +6,14 @@
 #include "SDCard.h"
 #include "Processor.h"
 #include "Lorawan.h"
+#define freqPlan TTN_FP_EU868
 
 const byte ledPin = 1;
 const byte interruptPin = 13; //Engineering menu button
 
 Sensor sensor(0);
 SDCard sdCard;
-Lorawan lorawan(7);
+Lorawan lorawan(Serial1, Serial, freqPlan);
 Processor processor(&sensor, &sdCard, &lorawan, ledPin, interruptPin);
 EngineeringMenu menu(&sensor, &sdCard, &processor, &lorawan);
 
@@ -25,19 +26,18 @@ void setup()
 {
   //  Setup serial baud, Serial1 used for LoRaWAN, Serial for USB communication.
   Serial1.begin(19200);
-  Serial.begin(11200); 
+  Serial.begin(115200); 
   
   // Wait for serial to connect
-  while(!Serial)
-  
-  // Check for incoming serial data:
-  //if (Serial.available() > 0) {
-    Serial.println("Set up");
+  while(!Serial) {}
+  Serial.println("USB Serial Setup");
 
-   while(!Serial1){}
-   Serial.println("LoRaWan connected");
-    processor.init();
-  //}
+  while(!Serial1){}
+  Serial.println("LoRaWan Serial Setup");
+
+  // initialize device
+  processor.init();
+  Serial.println("Device Initialized");
 
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(LED_BUILTIN, OUTPUT);
