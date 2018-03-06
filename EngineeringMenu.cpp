@@ -202,6 +202,12 @@ boolean EngineeringMenu::mainMenu(String menuOption)
           char chArr[25];
           input.toCharArray(chArr, 25);
           lorawan->setAppKey(chArr);
+        } else if (checkValidMenuOption(menuOption, "15\n")) { // If option fourteen
+         // Set the App Key used for LoRaWAN
+          char getDevEuiMessage[] PROGMEM = "Get the Dev Eui";
+          Serial.println(getDevEuiMessage);
+          
+          Serial.println(lorawan->getHardwareEui());
        } else if(checkValidMenuOption(menuOption, "exit\n")) {    // If option is exit
         char menuExitingMessage[] PROGMEM = "You have left the engineering menu, and the device will continue normal operation.";
         Serial.println(menuExitingMessage);

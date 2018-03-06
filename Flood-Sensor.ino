@@ -7,8 +7,10 @@
 #include "Processor.h"
 #include "Lorawan.h"
 
+const byte pin = 6;
 const byte ledPin = 1;
 const byte interruptPin = 13; //Engineering menu button
+
 
 Sensor sensor(0);
 SDCard sdCard;
@@ -43,6 +45,9 @@ void setup()
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(interruptPin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(interruptPin), setBringUpMenu, CHANGE);
+
+  pinMode(pin, INPUT);   
+  digitalWrite(pin, HIGH);  
 }
 
 /**

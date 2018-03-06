@@ -33,7 +33,7 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledP
   this->interruptPin = interruptPin;
   
   this->state = LOW;
-  this->delayPeriod = 60000;
+  this->delayPeriod = 5000;
   this->delayPeriodARMode = 1000;
   this->ARModeOn = false;
   this->ARModeActivationThreshold = 20000; //Threshold (mm) to trigger Accelerated Readings mode
@@ -51,7 +51,7 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledP
  */
 void Processor::init()
 { 
-//    lorawan->join();
+    lorawan->join();
 
     sdCard->initSDCard();
   
@@ -246,8 +246,8 @@ void Processor::delayWithPeriod()
 //  char currentMeasurementPeriodMessage[] PROGMEM = "Current measurement period is..";
 //  Serial.println(currentMeasurementPeriodMessage);
   
-//  Serial.println(this->delayPeriod);
-  delay(300);
+  Serial.println(this->delayPeriod);
+  delay(this->delayPeriod);
 }
 
 // Setters

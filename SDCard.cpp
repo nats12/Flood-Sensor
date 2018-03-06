@@ -173,7 +173,8 @@ boolean SDCard::testReadLog(String data)
   if (myFile) {
 
     char dataArray[data.length()];
-    
+
+    Serial.println(dataArray);
     myFile.seek(myFile.size() - (data.length()+2));
     
     // Read from the file until there's nothing else in it:
