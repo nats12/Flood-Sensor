@@ -1,5 +1,5 @@
 /*
-  Sensor.cpp - Library for ultrasonic sensor water level measurements.
+  Lorawan.cpp - Network based functions using lorawan
   Created by Natalie Mclaren, December 17, 2017.
 */
 
@@ -10,18 +10,31 @@
 /**
  * 
  */
-Lorawan::Lorawan(uint8_t spreadFactor) : ttn(Serial1, Serial, freqPlan, 8)
+Lorawan::Lorawan(Stream &modemStream, Stream &debugStream, ttn_fp_t fp, uint8_t sf, uint8_t fsb)
+  : TheThingsNetwork(modemStream, debugStream, fp, sf, fsb)
 {
-  setSpreadFactor(spreadFactor);
 }
 
 /*
  * 
  */
-boolean Lorawan::join() 
+bool Lorawan::join() 
 {
-  ttn.provision(appEui, appKey);
-  return ttn.join();
+  provision();
+  
+  for (; sf < 13; sf++) 
+  {
+    if(TheThingsNetwork::join(3, 10000)) {
+      return true; 
+    }
+  }
+
+  return false;
+}
+
+bool Lorawan::provision()
+{
+  return TheThingsNetwork::provision(appEui, appKey);
 }
 
 /*
@@ -35,7 +48,7 @@ ttn_response_t Lorawan::sendReading(int16_t reading, uint8_t powerLevel)
   data[2] = highByte(reading);
   data[3] = lowByte(reading);
   
-  return ttn.sendBytes(data, sizeof(data));
+  return sendBytes(data, sizeof(data), 1, false, sf);
 }
 
 /*
@@ -47,7 +60,7 @@ ttn_response_t Lorawan::sendStillAlive(uint8_t powerLevel)
   data[0] = 0;
   data[1] = powerLevel;
   
-  return ttn.sendBytes(data, sizeof(data));
+  return sendBytes(data, sizeof(data), 1, true, sf);
 }
 
 /*
@@ -59,7 +72,7 @@ ttn_response_t Lorawan::sendGenericError(uint8_t powerLevel)
   data[0] = 2;
   data[1] = powerLevel;
   
-  return ttn.sendBytes(data, sizeof(data));
+  return sendBytes(data, sizeof(data), 1, false, sf);
 }
 
 /*
@@ -71,7 +84,7 @@ ttn_response_t Lorawan::sendMicrocontrollerError(uint8_t powerLevel)
   data[0] = 3;
   data[1] = powerLevel;
   
-  return ttn.sendBytes(data, sizeof(data));
+  return sendBytes(data, sizeof(data), 1, false, sf);
 }
 
 /*
@@ -83,7 +96,7 @@ ttn_response_t Lorawan::sendSensorError(uint8_t powerLevel)
   data[0] = 4;
   data[1] = powerLevel;
   
-  return ttn.sendBytes(data, sizeof(data));
+  return sendBytes(data, sizeof(data), 1, false, sf);
 }
 
 /*
@@ -95,7 +108,7 @@ ttn_response_t Lorawan::sendBatteryError(uint8_t powerLevel)
   data[0] = 5;
   data[1] = powerLevel;
   
-  return ttn.sendBytes(data, sizeof(data));
+  return sendBytes(data, sizeof(data), 1, false, sf);
 }
 
 /*
@@ -107,7 +120,7 @@ ttn_response_t Lorawan::sendStorageError(uint8_t powerLevel)
   data[0] = 6;
   data[1] = powerLevel;
   
-  return ttn.sendBytes(data, sizeof(data));
+  return sendBytes(data, sizeof(data), 1, false, sf);
 }
 
 /*
@@ -115,13 +128,13 @@ ttn_response_t Lorawan::sendStorageError(uint8_t powerLevel)
  */
 uint8_t Lorawan::getSpreadFactor()
 {
-  return spreadFactor;
+  return sf;
 }
 
 /*
  * 
  */
-void Lorawan::setSpreadFactor(uint8_t spreadfactor)
+void Lorawan::setSpreadFactor(uint8_t spreadFactor)
 {
   if(spreadFactor < 7) {
     spreadFactor = 7;
@@ -129,25 +142,26 @@ void Lorawan::setSpreadFactor(uint8_t spreadfactor)
     spreadFactor = 12;
   }
   
-  this->spreadFactor = spreadFactor;
-  // Set SpreadFactor on TTN
+  this->sf = spreadFactor;
+  setSF(spreadFactor);
 }
 
 /*
  * 
  */
-char* Lorawan::getAppEui()
+char* Lorawan::getCharAppEui()
 {
-  return "70B3D57EF00000C3";
+  return appEui;
 }
 
 /*
  * 
  */
-void Lorawan::setAppEui(char *appEui)
+void Lorawan::setCharAppEui(char *appEui)
 {
   delete[] this->appEui;
-  this->appEui = "70B3D57EF00000C3";
+  this->appEui = appEui;
+  provision();
 }
 
 /*
@@ -155,7 +169,7 @@ void Lorawan::setAppEui(char *appEui)
  */
 char* Lorawan::getAppKey()
 {
-  return "ttn-account-v2._GgABDAVOs2zzGe7Jb8xqE8z1jNPsJNgDXheXo3OpwY";
+  return appKey;
 }
 
 
@@ -165,7 +179,8 @@ char* Lorawan::getAppKey()
 void Lorawan::setAppKey(char *appKey)
 {
   delete[] this->appKey;
-  this->appKey = "ttn-account-v2._GgABDAVOs2zzGe7Jb8xqE8z1jNPsJNgDXheXo3OpwY";
+  this->appKey = appKey;
+  provision();
 }
 
 

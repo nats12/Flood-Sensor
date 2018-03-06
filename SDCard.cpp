@@ -113,7 +113,7 @@ void SDCard::checkCardMemory()
  * @param {int16_t} {lastMeasurementSent} last measurement value sent successfully, to be logged.
  * @return {void} N/A
  */
-boolean SDCard::writeToLog(String data)
+bool SDCard::writeToLog(String data)
 {
 
   // Open the text file - only one file can be opened at a time so closing right after is important
@@ -141,7 +141,7 @@ boolean SDCard::writeToLog(String data)
 /*
  * 
  */
-boolean SDCard::readLog()
+bool SDCard::readLog()
 {
   // Re-open the file for reading:
   myFile = SD.open("LOGGER.TXT");
@@ -165,7 +165,7 @@ boolean SDCard::readLog()
 /*
  * 
  */
-boolean SDCard::testReadLog(String data) 
+bool SDCard::testReadLog(String data) 
 {
   
   // Re-open the file for reading:
@@ -203,10 +203,10 @@ boolean SDCard::testReadLog(String data)
 /*
  * Check whether the text file has reached its size limit (7.21 GB or 7741678551 bytes)
  * @param N/A
- * @return {boolean} True if the file has reached its size limit, otherwise false
+ * @return {bool} True if the file has reached its size limit, otherwise false
  * 
  */
-boolean SDCard::fileHasReachedSizeLimit()
+bool SDCard::fileHasReachedSizeLimit()
 { 
   
   // If the file size is larger than 7741678551 bytes (7.21GB)
@@ -221,7 +221,7 @@ boolean SDCard::fileHasReachedSizeLimit()
 /*
  * 
  */
-boolean SDCard::initSDCard()
+bool SDCard::initSDCard()
 {
 
   if (!SD.begin(4)) {

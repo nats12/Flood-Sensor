@@ -67,9 +67,9 @@ void EngineeringMenu::printMainMenuOptions()
  * Compare menu input to expected menu to check if it is a valid option in the engineering menu.
  * @param {String} {menuOptionInput} menu option manually entered by the engineer.
  * @param {String} {expectedOption} an possible option that valid in the engineering menu.
- * @return {boolean} return valid option or not (true or false).
+ * @return {bool} return valid option or not (true or false).
  */
-boolean EngineeringMenu::checkValidMenuOption(String menuOptionInput, String expectedOption)
+bool EngineeringMenu::checkValidMenuOption(String menuOptionInput, String expectedOption)
 {
   if(menuOptionInput == expectedOption) {
     return true;
@@ -102,7 +102,7 @@ void EngineeringMenu::printBatteryVoltage()
  * @param {String} {menuOption} input string typed in from engineer user to choose a menu function to run.
  * @return {Void} N/A
  */
-boolean EngineeringMenu::mainMenu(String menuOption)
+bool EngineeringMenu::mainMenu(String menuOption)
 { 
    
     if(menuOption != "") {
@@ -191,7 +191,7 @@ boolean EngineeringMenu::mainMenu(String menuOption)
           
           char chArr[25];
           input.toCharArray(chArr, 25);
-          lorawan->setAppEui(chArr);
+          lorawan->setCharAppEui(chArr);
        } else if (checkValidMenuOption(menuOption, "14\n")) { // If option fourteen
          // Set the App Key used for LoRaWAN
           char setAppKeyMessage[] PROGMEM = "Set the App Key";

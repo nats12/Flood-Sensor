@@ -23,7 +23,7 @@
  * @param {byte} {interruptPin} engineering menu button interrupt pin number
  * @return N/A
  */
-Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledPin, byte interruptPin)
+Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledPin, byte interruptPin, int16_t delayPeriod, int16_t delayPeriodARMode, int16_t ARModeActivationThreshold, int16_t ignoreThreshold)
 {
   this->sensor = sensor;
   this->sdCard = sdCard;
@@ -32,13 +32,17 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledP
   this->ledPin = ledPin;
   this->interruptPin = interruptPin;
   
+  this->delayPeriod = delayPeriod;
+  this->delayPeriodARMode = delayPeriodARMode;
+  this->ARModeActivationThreshold = ARModeActivationThreshold; //Threshold (mm) to trigger Accelerated Readings mode
+                                     //defaulted to a value that should never trigger (20 meters - out of range of sensor)
+  this->ignoreThreshold = ignoreThreshold; //Threshold (mm) for which the sensor should ignore readings - don't send any info to server
+  
   this->state = LOW;
   this->delayPeriod = 5000;
   this->delayPeriodARMode = 1000;
   this->ARModeOn = false;
-  this->ARModeActivationThreshold = 20000; //Threshold (mm) to trigger Accelerated Readings mode
-                                     //defaulted to a value that should never trigger (20 meters - out of range of sensor)
-  this->ignoreThreshold = 0; //Threshold (mm) for which the sensor should ignore readings - don't send any info to server
+  this->stillHereCount = 0;
 }
 
 // State Loop functions
@@ -143,12 +147,11 @@ void Processor::readingProcess()
   int16_t currentRiverLevel = sensor->getCurrentMeasurement();
   
   //Check if it is worth sending and higher than (or equal to) the ignored depth threshold
-  if(sensor->isCurrentWorthSending(currentRiverLevel) && currentRiverLevel >= ignoreThreshold)
-  { 
+  if(sensor->isCurrentWorthSending(currentRiverLevel) && currentRiverLevel >= ignoreThreshold) { 
     // If the SDCard file is full
     if(this->sdCard->fileHasReachedSizeLimit()) {
       // Send a storage error
-//      this->lorawan->sendStorageError(getBatteryVoltageByte());
+      this->lorawan->sendStorageError(getBatteryVoltageByte());
       char fullSDCardFileMessage[] PROGMEM = "The SDCard seems to be full, error writing to it...";
       Serial.println(fullSDCardFileMessage);
     } else {
@@ -158,17 +161,24 @@ void Processor::readingProcess()
 
     ttn_response_t status = lorawan->sendReading(currentRiverLevel, getBatteryVoltageByte());
     
-    
     //Log error in SDCard log
     if(status != TTN_ERROR_SEND_COMMAND_FAILED) {
       sensor->lastMeasurementSent = currentRiverLevel;
+      stillHereCount = 0;
     } else if(!this->sdCard->fileHasReachedSizeLimit()) {
-        printMeasurementToSDLog(status);
+      printMeasurementToSDLog(status);
     } 
-    
+  } else if (stillHereCount >= 24) {
+    ttn_response_t status = lorawan->sendStillAlive(getBatteryVoltageByte());
+       
+    if(status == TTN_ERROR_SEND_COMMAND_FAILED && !this->sdCard->fileHasReachedSizeLimit()) {
+      printMeasurementToSDLog(status);
+    } else {
+      stillHereCount = 0; 
+    }
   } else {
-     ttn_response_t status = lorawan->sendStillAlive(getBatteryVoltageByte());
-  }
+    stillHereCount++;
+  } 
   
   //Check AR Mode threshold
   if((currentRiverLevel >= ARModeActivationThreshold && !this->ARModeOn) || (currentRiverLevel < ARModeActivationThreshold && this->ARModeOn))
