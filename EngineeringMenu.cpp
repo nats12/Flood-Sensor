@@ -206,8 +206,11 @@ bool EngineeringMenu::mainMenu(String menuOption)
          // Set the App Key used for LoRaWAN
           char getDevEuiMessage[] PROGMEM = "Get the Dev Eui";
           Serial.println(getDevEuiMessage);
+
+          char bufR[20];
+          lorawan->showStatus();
           
-          Serial.println(lorawan->getHardwareEui());
+//          Serial.println(lorawan->getHardwareEui(bufR, 20));
        } else if(checkValidMenuOption(menuOption, "exit\n")) {    // If option is exit
         char menuExitingMessage[] PROGMEM = "You have left the engineering menu, and the device will continue normal operation.";
         Serial.println(menuExitingMessage);

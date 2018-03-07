@@ -46,7 +46,7 @@ void setup()
   pinMode(interruptPin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(interruptPin), setBringUpMenu, CHANGE);
 
-  pinMode(pin, INPUT);   
+  pinMode(pin, OUTPUT);   
   digitalWrite(pin, HIGH);  
 }
 
@@ -69,7 +69,7 @@ void setBringUpMenu()
  */
 void loop()
 {
-  processor.writeStatus();
+  
   
   // If button interrupt has been pressed
   if(menu.bringUpMenu) {
@@ -77,6 +77,9 @@ void loop()
     menu.loadEngineeringMenu();
   }
 
+//  menu.loadEngineeringMenu();
+
+  processor.writeStatus();
   processor.readingProcess();
 
   processor.delayWithPeriod();
