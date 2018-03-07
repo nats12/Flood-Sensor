@@ -19,17 +19,16 @@
  * @param {Sensor} {*sensor} pointer to Sensor object.
  * @param {SDCard} {*sdCard} pointer to SDCard object.
  * @param {Lorawan} {*lorawan} pointer to Lorawan object.
- * @param {byte} {ledPin} LED pin number
+ * @param {byte} {sensorPowerPin} LED pin number
  * @param {byte} {interruptPin} engineering menu button interrupt pin number
  * @return N/A
  */
-Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledPin, byte interruptPin, int16_t delayPeriod, int16_t delayPeriodARMode, int16_t ARModeActivationThreshold, int16_t ignoreThreshold)
+Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte interruptPin, int16_t delayPeriod, int16_t delayPeriodARMode, int16_t ARModeActivationThreshold, int16_t ignoreThreshold)
 {
   this->sensor = sensor;
   this->sdCard = sdCard;
   this->lorawan = lorawan;
   
-  this->ledPin = ledPin;
   this->interruptPin = interruptPin;
   
   this->delayPeriod = delayPeriod;
@@ -37,10 +36,8 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledP
   this->ARModeActivationThreshold = ARModeActivationThreshold; //Threshold (mm) to trigger Accelerated Readings mode
                                      //defaulted to a value that should never trigger (20 meters - out of range of sensor)
   this->ignoreThreshold = ignoreThreshold; //Threshold (mm) for which the sensor should ignore readings - don't send any info to server
-  
-  this->state = LOW;
-  this->delayPeriod = 5000;
-  this->delayPeriodARMode = 1000;
+  this->delayPeriod = delayPeriod;
+  this->delayPeriodARMode = delayPeriodARMode;
   this->ARModeOn = false;
   this->stillHereCount = 0;
 }
@@ -58,6 +55,7 @@ void Processor::init()
     lorawan->join();
 
     sdCard->initSDCard();
+    sensor->init();
   
     String inStr;
     int16_t initialDistanceToRiverTop;
@@ -67,7 +65,7 @@ void Processor::init()
     while ((inStr = Serial.readString()) == NULL){}
     initialRiverDepth = inStr.toInt();
     //Serial.println(initialRiverDepth); 
-    initialDistanceToRiverTop = analogRead(sensor->analogPin) * 5;
+    initialDistanceToRiverTop = analogRead(sensor->sensorAnalogPin) * 5;
     sensor->distanceToRiverBed = initialRiverDepth + initialDistanceToRiverTop;
 
     Serial.println("Current Measurement: ");
@@ -235,16 +233,6 @@ void Processor::adjustIgnoreThreshold(int16_t newIgnoreThreshold)
 
 
 // Helpers
-/* 
- * 
- * @param N/A
- * @return {void} N/A
- */
-void Processor::writeStatus()
-{
-  digitalWrite(this->ledPin, this->state);
-}
-
 /*
  * Makes the entire device sleep for a specified period of time.
  * Used to sleep inbetween taking river depth measurements.

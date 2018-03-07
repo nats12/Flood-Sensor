@@ -8,15 +8,15 @@
 #include "Lorawan.h"
 #define freqPlan TTN_FP_EU868
 
-const byte pin = 6;
-const byte ledPin = 1;
+const byte sensorPin = 0;
+const byte sensorPowerPin = 6;
 const byte interruptPin = 13; //Engineering menu button
 
 
-Sensor sensor(0);
+Sensor sensor(sensorPin, sensorPowerPin);
 SDCard sdCard;
 Lorawan lorawan(Serial1, Serial, freqPlan);
-Processor processor(&sensor, &sdCard, &lorawan, ledPin, interruptPin);
+Processor processor(&sensor, &sdCard, &lorawan, interruptPin);
 EngineeringMenu menu(&sensor, &sdCard, &processor, &lorawan);
 
 /**
@@ -41,13 +41,8 @@ void setup()
   processor.init();
   Serial.println("Device Initialized");
 
-  // initialize digital pin LED_BUILTIN as an output.
-  pinMode(LED_BUILTIN, OUTPUT);
   pinMode(interruptPin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(interruptPin), setBringUpMenu, CHANGE);
-
-  pinMode(pin, OUTPUT);   
-  digitalWrite(pin, HIGH);  
 }
 
 /**
@@ -77,9 +72,6 @@ void loop()
     menu.loadEngineeringMenu();
   }
 
-//  menu.loadEngineeringMenu();
-
-  processor.writeStatus();
   processor.readingProcess();
 
   processor.delayWithPeriod();

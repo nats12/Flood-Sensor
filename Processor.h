@@ -16,13 +16,12 @@
 class Processor
 {  
   public:
-    volatile byte state;
     int16_t delayPeriod;
     int16_t measurementPeriod;
     bool ARModeOn;
 
     // Constructors
-    Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte ledPin, byte interrputPin, int16_t delayPeriod = 5000, int16_t delayPeriodARMode = 1000, int16_t ARModeActivationThreshold = 20000, int16_t ignoreThreshold = 0); 
+    Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte interrputPin, int16_t delayPeriod = 1800000, int16_t delayPeriodARMode = 600000, int16_t ARModeActivationThreshold = 200000, int16_t ignoreThreshold = 0); 
 
     // Main States
     void init();
@@ -35,7 +34,6 @@ class Processor
     void adjustARModeThreshold(int16_t newActivationThreshold);
 
     // Helpers
-    void writeStatus();
     void delayWithPeriod();
     void changeMeasurementPeriod(int16_t minutes);
     float getBatteryVoltage();
@@ -58,7 +56,6 @@ class Processor
     int16_t ARModeActivationThreshold; 
     int16_t ignoreThreshold;
     // Pins
-    byte ledPin;
     byte interruptPin;
 };
 

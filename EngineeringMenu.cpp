@@ -27,7 +27,7 @@ EngineeringMenu::EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *proc
   this->processor = processor;
   this->lorawan = lorawan;
   
-  bringUpMenu = false;
+  bringUpMenu = true; //true to test
   subMenuOption = "0";
 }
 
@@ -48,8 +48,12 @@ void EngineeringMenu::printMainMenuOptions()
   char menuMessage12[] PROGMEM = "12: Set the Spreading Factor to use for LoRaWAN";
   char menuMessage13[] PROGMEM = "13: Set the App Eui used for LoRaWAN";
   char menuMessage14[] PROGMEM = "14: Set the App Key used for LoRaWAN";
+  char menuMessage15[] PROGMEM = "15: Get and print the App Eui used for LoRaWAN";
   char menuMessageExit[] PROGMEM = "exit: Exit engineering menu";
+  char menuBoxMessage[] PROGMEM = "Engineering Menu";
 
+  printLoadingEngineeringMenuBox(menuBoxMessage);
+  
   Serial.println(menuMessageSelect);
   Serial.println(menuMessage1);
   Serial.println(menuMessage2);
@@ -60,6 +64,7 @@ void EngineeringMenu::printMainMenuOptions()
   Serial.println(menuMessage12);
   Serial.println(menuMessage13);
   Serial.println(menuMessage14);
+  Serial.println(menuMessage15);
   Serial.println(menuMessageExit);
 }
 
@@ -107,7 +112,7 @@ bool EngineeringMenu::mainMenu(String menuOption)
    
     if(menuOption != "") {
       // If option one 
-      if(checkValidMenuOption(menuOption, "1\n")) {   // If option one
+      if(checkValidMenuOption(menuOption, "1")) {   // If option one
          // Print last sent measurement
          Serial.println(this->sensor->getCurrentMeasurement());
          printMainMenuOptions();

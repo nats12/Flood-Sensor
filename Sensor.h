@@ -18,9 +18,11 @@ class Sensor
     int16_t distanceToRiverBed;
     int16_t rangeDifferenceThreshold = 50;
     int16_t lastMeasurementSent;
-    int16_t analogPin;
+    byte sensorPowerPin;
+    byte sensorAnalogPin;
   
-    Sensor(uint8_t analogPin);
+    Sensor(byte sensorAnalogPin, byte sensorPowerPin);
+    void init();
     int16_t getCurrentMeasurement();
     bool isCurrentWorthSending(int16_t currentMeasurement);
   private:

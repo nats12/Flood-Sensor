@@ -10,11 +10,23 @@
  * Sensor class constructor.
  * Sets default range difference threshold (anything below this threshold in mm, should not be sent to api).
  * @param {uint8_t} {analogPin} Serial input pin for ultrasonic sensor output.
- * @return N/A
+ * @return {void} N/A
  */
-Sensor::Sensor(uint8_t analogPin)
+Sensor::Sensor(byte sensorAnalogPin, byte sensorPowerPin)
 {
-  analogPin = analogPin;
+  this->sensorAnalogPin = sensorAnalogPin;
+  this->sensorPowerPin = sensorPowerPin;
+}
+
+/*
+ * Initialise sensor
+ * @param N/A
+ * @return {void} N/A
+ */
+void Sensor::init()
+{
+    pinMode(sensorPowerPin, OUTPUT);
+    digitalWrite(sensorPowerPin, LOW);
 }
 
 /*
@@ -24,8 +36,10 @@ Sensor::Sensor(uint8_t analogPin)
  */
 int16_t Sensor::getCurrentMeasurement()
 { 
-  // Read a raw value
-  int16_t rawVal = analogRead(analogPin);
+  // Read a raw value (Turn on sensor power to measure, and turn off again once done)
+  digitalWrite(sensorPowerPin, HIGH);
+  int16_t rawVal = analogRead(sensorAnalogPin);
+  digitalWrite(sensorPowerPin, LOW);
   // As per datasheet (to get mm)   
   int16_t currentDistanceToRiverTop = rawVal * 5;  
   // Output value  
