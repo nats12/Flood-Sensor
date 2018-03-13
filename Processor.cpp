@@ -12,6 +12,15 @@
 #include "SDCard.h"
 #include "Sensor.h"
 #include "Lorawan.h"
+#include "FlashStorage.h"
+
+//Reserve space for default device settings in flash storage (EEPROM)
+FlashStorage(setupDone_FlashStore, boolean);
+FlashStorage(distanceToRiverBed_FlashStore, int16_t);
+FlashStorage(delayPeriod_FlashStore, int16_t);
+FlashStorage(delayPeriodARMode_FlashStore, int16_t);
+FlashStorage(ARModeActivationThreshold_FlashStore, int16_t);
+FlashStorage(ignoreThreshold_FlashStore, int16_t);
 
 /*
  * Processor constructor
@@ -36,8 +45,6 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte inte
   this->ARModeActivationThreshold = ARModeActivationThreshold; //Threshold (mm) to trigger Accelerated Readings mode
                                      //defaulted to a value that should never trigger (20 meters - out of range of sensor)
   this->ignoreThreshold = ignoreThreshold; //Threshold (mm) for which the sensor should ignore readings - don't send any info to server
-  this->delayPeriod = delayPeriod;
-  this->delayPeriodARMode = delayPeriodARMode;
   this->ARModeOn = false;
   this->stillHereCount = 0;
 }
@@ -56,17 +63,44 @@ void Processor::init()
 
     sdCard->initSDCard();
     sensor->init();
-  
-    String inStr;
-    int16_t initialDistanceToRiverTop;
-    int16_t currentDistanceToRiverTop;
+    
+    if (!setupDone_FlashStore.read()) //no settings saved in flash memory - run setup
+    {
+      String inStr;
+      int16_t initialDistanceToRiverTop;
+      int16_t currentDistanceToRiverTop;
+      char requestCurrentDepthMessage[] PROGMEM = "Please input initial river depth measurement (mm):";
+      char initialRiverDepthMessage[] PROGMEM = "Initial river depth set to: ";
 
-    // Whilst inStr is null, do nothing, skip
-    while ((inStr = Serial.readString()) == NULL){}
-    initialRiverDepth = inStr.toInt();
-    //Serial.println(initialRiverDepth); 
-    initialDistanceToRiverTop = analogRead(sensor->sensorAnalogPin) * 5;
-    sensor->distanceToRiverBed = initialRiverDepth + initialDistanceToRiverTop;
+      Serial.println(requestCurrentDepthMessage);
+      // Whilst inStr is null, do nothing, skip
+      while ((initialRiverDepth = Serial.readString().toInt()) == 0){}
+      //initialRiverDepth = inStr.toInt();
+      //Serial.println(initialRiverDepth); 
+      Serial.print(initialRiverDepthMessage);
+      Serial.print(initialRiverDepth);
+      Serial.print("\r\n");
+      initialDistanceToRiverTop = analogRead(sensor->sensorAnalogPin) * 5;
+      sensor->distanceToRiverBed = initialRiverDepth + initialDistanceToRiverTop;
+
+      //Store default values in flash storage in case device loses power/resets
+      distanceToRiverBed_FlashStore.write(sensor->distanceToRiverBed);
+      delayPeriod_FlashStore.write(this->delayPeriod);
+      delayPeriodARMode_FlashStore.write(this->delayPeriodARMode);
+      ARModeActivationThreshold_FlashStore.write(this->ARModeActivationThreshold);
+      ignoreThreshold_FlashStore.write(this->ignoreThreshold);
+      
+      setupDone_FlashStore.write(true);
+    }
+    else
+    {
+      //Read saved default values from flash storage
+      sensor->distanceToRiverBed = distanceToRiverBed_FlashStore.read();
+      this->delayPeriod = delayPeriod_FlashStore.read();
+      this->delayPeriodARMode = delayPeriodARMode_FlashStore.read();
+      this->ARModeActivationThreshold = ARModeActivationThreshold_FlashStore.read();
+      this->ignoreThreshold = ignoreThreshold_FlashStore.read();
+    }
 
     Serial.println("Current Measurement: ");
     Serial.println(sensor->getCurrentMeasurement());
@@ -166,7 +200,8 @@ void Processor::readingProcess()
     } else if(!this->sdCard->fileHasReachedSizeLimit()) {
       printMeasurementToSDLog(status);
     } 
-  } else if (stillHereCount >= 24) {
+  } 
+  else if (stillHereCount >= 24) {
     ttn_response_t status = lorawan->sendStillAlive(getBatteryVoltageByte());
        
     if(status == TTN_ERROR_SEND_COMMAND_FAILED && !this->sdCard->fileHasReachedSizeLimit()) {
@@ -174,9 +209,10 @@ void Processor::readingProcess()
     } else {
       stillHereCount = 0; 
     }
-  } else {
-    stillHereCount++;
   } 
+  else {
+    stillHereCount++;
+  }
   
   //Check AR Mode threshold
   if((currentRiverLevel >= ARModeActivationThreshold && !this->ARModeOn) || (currentRiverLevel < ARModeActivationThreshold && this->ARModeOn))
@@ -195,6 +231,7 @@ void Processor::readingProcess()
 void Processor::adjustARModeDelay(int16_t newDelayPeriod) //adjust accelerated readings mode with new delay period
 {
   delayPeriodARMode = newDelayPeriod;
+  delayPeriodARMode_FlashStore.write(newDelayPeriod);
 }
 
 /*
@@ -205,6 +242,7 @@ void Processor::adjustARModeDelay(int16_t newDelayPeriod) //adjust accelerated r
 void Processor::adjustARModeThreshold(int16_t newActivationThreshold)
 {
   ARModeActivationThreshold = newActivationThreshold;
+  ARModeActivationThreshold_FlashStore.write(newActivationThreshold);
 }
 
 /*
@@ -258,6 +296,7 @@ void Processor::delayWithPeriod()
 void Processor::changeMeasurementPeriod(int16_t minutes)
 {
     this->delayPeriod = (minutes * 1000) * 60;
+    delayPeriod_FlashStore.write(this->delayPeriod);
 }
 
 /*

@@ -10,7 +10,7 @@
 
 const byte sensorPin = 0;
 const byte sensorPowerPin = 6;
-const byte interruptPin = 13; //Engineering menu button
+const byte interruptPin = 12; //Engineering menu button jumper
 
 
 Sensor sensor(sensorPin, sensorPowerPin);
@@ -42,18 +42,9 @@ void setup()
   Serial.println("Device Initialized");
 
   pinMode(interruptPin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(interruptPin), setBringUpMenu, CHANGE);
+  //attachInterrupt(digitalPinToInterrupt(interruptPin), setBringUpMenu, CHANGE);
 }
 
-/**
- * Interrupt function to trigger engineering menu.
- * @param N/A
- * @return {Void} N/A
- */
-void setBringUpMenu() 
-{
-  menu.bringUpMenu = true;
-}
 
 /**
  * Loop function to run indefinately.
@@ -67,7 +58,7 @@ void loop()
   
   
   // If button interrupt has been pressed
-  if(menu.bringUpMenu) {
+  if(digitalRead(interruptPin) == HIGH) {
     // Load the engineering menu
     menu.loadEngineeringMenu();
   }

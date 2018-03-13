@@ -27,7 +27,7 @@ EngineeringMenu::EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *proc
   this->processor = processor;
   this->lorawan = lorawan;
   
-  bringUpMenu = true; //true to test
+  bringUpMenu = false;
   subMenuOption = "0";
 }
 
@@ -112,7 +112,7 @@ bool EngineeringMenu::mainMenu(String menuOption)
    
     if(menuOption != "") {
       // If option one 
-      if(checkValidMenuOption(menuOption, "1")) {   // If option one
+      if(checkValidMenuOption(menuOption, "1\n")) {   // If option one
          // Print last sent measurement
          Serial.println(this->sensor->getCurrentMeasurement());
          printMainMenuOptions();
@@ -126,7 +126,8 @@ bool EngineeringMenu::mainMenu(String menuOption)
           Serial.println(testSDReadWriteMessage);
 
           // If the file was written to okay
-          if(this->sdCard->writeToLog("test string")) {
+          char testString[] = "test string";
+          if(this->sdCard->writeToLog(testString)) {
             char testSDWritePassedMessage[] PROGMEM = "Writing: passed";
             Serial.println(testSDWritePassedMessage);
           } else {
@@ -151,22 +152,25 @@ bool EngineeringMenu::mainMenu(String menuOption)
             Serial.println(fullSDCardFileMessage);
           } 
           printMainMenuOptions();
+          
        } else if (checkValidMenuOption(menuOption, "6\n")) {    // If option six
           // Print details of SD card space
           this->sdCard->checkCardMemory();
           printMainMenuOptions();
+          
        } else if (checkValidMenuOption(menuOption, "7\n")) {    // If option seven
-          String minutes;
+          int16_t minutes;
           // Insert a new measurement period
           char setNewMeasurementPeriodMessage[] PROGMEM = "Insert a new measurement period (Number of minutes)";
           char showNewMeasurementPeriodMessage[] PROGMEM = "New measurement delay period (min):";
-          Serial.println(setNewMeasurementPeriodMessage);
           
-          while((minutes = Serial.readString()) == NULL){};
-          this->processor->changeMeasurementPeriod(minutes.toInt()); // Call function to update global variable period to minutes
+          Serial.println(setNewMeasurementPeriodMessage);
+          while((minutes = Serial.readString().toInt()) == 0){};
+          this->processor->changeMeasurementPeriod(minutes); // Call function to update global variable period to minutes
           Serial.print(showNewMeasurementPeriodMessage);
           Serial.println(processor->delayPeriod / 1000);
           printMainMenuOptions();
+          
        } else if (checkValidMenuOption(menuOption, "8\n")) {    // If option eight
         
           char setARModeThresholdMessage[] PROGMEM = "1: Set max water level threshold to trigger \"AR\" mode";
@@ -325,6 +329,7 @@ void EngineeringMenu::loadEngineeringMenu()
     
   printLoadingEngineeringMenuBox(loadingMessage);
   printMainMenuOptions();
+  bringUpMenu = true;
 
   // While the option is not empty
   while((menuOption = Serial.readString()) != " " && bringUpMenu) {

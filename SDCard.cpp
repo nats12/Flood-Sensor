@@ -132,6 +132,7 @@ bool SDCard::writeToLog(String data)
     // If the file didn't open, print an error:
     char writingSDFileOpeningErrorMessage[] PROGMEM = "Error opening logger.txt";
     Serial.println(writingSDFileOpeningErrorMessage);
+    myFile.close();
     return false;
   }
 }
