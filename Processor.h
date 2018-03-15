@@ -36,6 +36,10 @@ class Processor
     // Helpers
     void delayWithPeriod();
     void changeMeasurementPeriod(int16_t minutes);
+    void recalibrateSensor();
+    void triggerClearFlash();
+    void adjustAppEui(String newAppEui);
+    void adjustAppKey(String newAppKey);
     float getBatteryVoltage();
     uint8_t getBatteryVoltageByte();
     uint8_t getEstimatedPowerLevel();

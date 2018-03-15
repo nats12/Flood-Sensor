@@ -45,10 +45,11 @@ void EngineeringMenu::printMainMenuOptions()
   char menuMessage6[] PROGMEM = "6: Print details of SD Card";
   char menuMessage7[] PROGMEM = "7: Change measurement period";
   char menuMessage8[] PROGMEM = "8: Adjust \"Accelerated Readings\" thresholds and periods";
+  char menuMessage9[] PROGMEM = "9: Recalibrate sensor distance";
   char menuMessage11[] PROGMEM = "11: Clear flash";
   char menuMessage12[] PROGMEM = "12: Set the Spreading Factor to use for LoRaWAN";
-  char menuMessage13[] PROGMEM = "13: Set the App Eui used for LoRaWAN";
-  char menuMessage14[] PROGMEM = "14: Set the App Key used for LoRaWAN";
+  char menuMessage13[] PROGMEM = "13: Change the App Eui used for LoRaWAN";
+  char menuMessage14[] PROGMEM = "14: Change the App Key used for LoRaWAN";
   char menuMessage15[] PROGMEM = "15: Get and print the App Eui used for LoRaWAN";
   char menuMessage16[] PROGMEM = "16: Test sending a reading";
   char menuMessage17[] PROGMEM = "17: Test sending a 'still here'";
@@ -65,6 +66,7 @@ void EngineeringMenu::printMainMenuOptions()
   Serial.println(menuMessage6);
   Serial.println(menuMessage7);
   Serial.println(menuMessage8);
+  Serial.println(menuMessage9);
   Serial.println(menuMessage11);
   Serial.println(menuMessage12);
   Serial.println(menuMessage13);
@@ -190,9 +192,10 @@ bool EngineeringMenu::mainMenu(String menuOption)
           Serial.println(returnToMainMenuMessage);
           
           this->subMenuOption = "8\n";
+       } else if (checkValidMenuOption(menuOption, "9\n")) {    // If option nine
+          processor->recalibrateSensor();
        } else if (checkValidMenuOption(menuOption, "11\n")) {   // If option eleven 
-//          processor->setupDone_FlashStore.write(false);
-
+          processor->triggerClearFlash();
        } else if (checkValidMenuOption(menuOption, "12\n")) {   // If option twelve
           // Set the Spreading Factor to use for LoRaWAN
           char setNewSpreadFactorMessage[] PROGMEM = "Set new spreading factor between 7 and 12";
@@ -204,24 +207,20 @@ bool EngineeringMenu::mainMenu(String menuOption)
           lorawan->setSpreadFactor(input.toInt());
        } else if (checkValidMenuOption(menuOption, "13\n")) {   // If option thirteen
           // Set the App Eui used for LoRaWAN
-          char setAppEuiMessage[] PROGMEM = "Set the App Eui";
+          char setAppEuiMessage[] PROGMEM = "Enter new App EUI: ";
           Serial.println(setAppEuiMessage);
-          
+
+          String input;
           while((input = Serial.readString()) == NULL){};
-          
-          char chArr[25];
-          input.toCharArray(chArr, 25);
-          lorawan->setCharAppEui(chArr);
+          processor->adjustAppEui(input);
        } else if (checkValidMenuOption(menuOption, "14\n")) { // If option fourteen
          // Set the App Key used for LoRaWAN
-          char setAppKeyMessage[] PROGMEM = "Set the App Key";
+          char setAppKeyMessage[] PROGMEM = "Enter new App Key: ";
           Serial.println(setAppKeyMessage);
-          
+
+          String input;
           while((input = Serial.readString()) == NULL){};
-    
-          char chArr[25];
-          input.toCharArray(chArr, 25);
-          lorawan->setAppKey(chArr);
+          processor->adjustAppKey(input);
         } else if (checkValidMenuOption(menuOption, "15\n")) { // If option fifteen
          // Set the App Key used for LoRaWAN
           char getDevEuiMessage[] PROGMEM = "Get the Dev Eui";
