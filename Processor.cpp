@@ -29,16 +29,16 @@ FlashStorage(ignoreThreshold_FlashStore, int16_t);
  * @param {SDCard} {*sdCard} pointer to SDCard object.
  * @param {Lorawan} {*lorawan} pointer to Lorawan object.
  * @param {byte} {sensorPowerPin} LED pin number
- * @param {byte} {interruptPin} engineering menu button interrupt pin number
+ * @param {byte} {engineeringMenuJumperPin} engineering menu button interrupt pin number
  * @return N/A
  */
-Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte interruptPin, int16_t delayPeriod, int16_t delayPeriodARMode, int16_t ARModeActivationThreshold, int16_t ignoreThreshold)
+Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte engineeringMenuJumperPin, int16_t delayPeriod, int16_t delayPeriodARMode, int16_t ARModeActivationThreshold, int16_t ignoreThreshold)
 {
   this->sensor = sensor;
   this->sdCard = sdCard;
   this->lorawan = lorawan;
   
-  this->interruptPin = interruptPin;
+  this->engineeringMenuJumperPin = engineeringMenuJumperPin;
   
   this->delayPeriod = delayPeriod;
   this->delayPeriodARMode = delayPeriodARMode;
@@ -61,8 +61,10 @@ void Processor::init()
 { 
     lorawan->join();
 
-    sdCard->initSDCard();
+    sdCard->init();
     sensor->init();
+
+    char setupSensorMessage[] PROGMEM = "Please place sensor within five minutes for setup to complete.";
     
     if (!setupDone_FlashStore.read()) //no settings saved in flash memory - run setup
     {
@@ -75,11 +77,12 @@ void Processor::init()
       Serial.println(requestCurrentDepthMessage);
       // Whilst inStr is null, do nothing, skip
       while ((initialRiverDepth = Serial.readString().toInt()) == 0){}
-      //initialRiverDepth = inStr.toInt();
-      //Serial.println(initialRiverDepth); 
       Serial.print(initialRiverDepthMessage);
       Serial.print(initialRiverDepth);
       Serial.print("\r\n");
+      Serial.println(setupSensorMessage);
+      // Delay for 5 minutes
+      delay(300000);
       initialDistanceToRiverTop = analogRead(sensor->sensorAnalogPin) * 5;
       sensor->distanceToRiverBed = initialRiverDepth + initialDistanceToRiverTop;
 
@@ -100,11 +103,17 @@ void Processor::init()
       this->delayPeriodARMode = delayPeriodARMode_FlashStore.read();
       this->ARModeActivationThreshold = ARModeActivationThreshold_FlashStore.read();
       this->ignoreThreshold = ignoreThreshold_FlashStore.read();
-    }
 
+      Serial.println(setupSensorMessage);
+      // Delay for 5 minutes
+      delay(300000);
+    }
+    
     Serial.println("Current Measurement: ");
     Serial.println(sensor->getCurrentMeasurement());
 }
+
+
 
 /*
  * Calculates and returns current battery voltage value.

@@ -56,7 +56,6 @@ class Processor
     int16_t ARModeActivationThreshold; 
     int16_t ignoreThreshold;
     // Pins
-    byte interruptPin;
-};
+    byte engineeringMenuJumperPin;
 
 #endif
