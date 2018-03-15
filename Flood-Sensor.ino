@@ -10,13 +10,13 @@
 
 const byte sensorPin = 0;
 const byte sensorPowerPin = 6;
-const byte interruptPin = 12; //Engineering menu button jumper
+const byte engineeringMenuJumperPin = 12; //Engineering menu jumper pin
 
 
 Sensor sensor(sensorPin, sensorPowerPin);
 SDCard sdCard;
 Lorawan lorawan(Serial1, Serial, freqPlan);
-Processor processor(&sensor, &sdCard, &lorawan, interruptPin);
+Processor processor(&sensor, &sdCard, &lorawan, engineeringMenuJumperPin);
 EngineeringMenu menu(&sensor, &sdCard, &processor, &lorawan);
 
 /**
@@ -41,8 +41,7 @@ void setup()
   processor.init();
   Serial.println("Device Initialized");
 
-  pinMode(interruptPin, INPUT_PULLUP);
-  //attachInterrupt(digitalPinToInterrupt(interruptPin), setBringUpMenu, CHANGE);
+  pinMode(engineeringMenuJumperPin, INPUT_PULLUP);
 }
 
 
@@ -58,7 +57,7 @@ void loop()
   
   
   // If button interrupt has been pressed
-  if(digitalRead(interruptPin) == HIGH) {
+  if(digitalRead(engineeringMenuJumperPin) == HIGH) {
     // Load the engineering menu
     menu.loadEngineeringMenu();
   }
