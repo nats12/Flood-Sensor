@@ -45,10 +45,14 @@ void EngineeringMenu::printMainMenuOptions()
   char menuMessage6[] PROGMEM = "6: Print details of SD Card";
   char menuMessage7[] PROGMEM = "7: Change measurement period";
   char menuMessage8[] PROGMEM = "8: Adjust \"Accelerated Readings\" thresholds and periods";
+  char menuMessage11[] PROGMEM = "11: Clear flash";
   char menuMessage12[] PROGMEM = "12: Set the Spreading Factor to use for LoRaWAN";
   char menuMessage13[] PROGMEM = "13: Set the App Eui used for LoRaWAN";
   char menuMessage14[] PROGMEM = "14: Set the App Key used for LoRaWAN";
   char menuMessage15[] PROGMEM = "15: Get and print the App Eui used for LoRaWAN";
+  char menuMessage16[] PROGMEM = "16: Test sending a reading";
+  char menuMessage17[] PROGMEM = "17: Test sending a 'still here'";
+  char menuMessage18[] PROGMEM = "18: Test sending an error";
   char menuMessageExit[] PROGMEM = "exit: Exit engineering menu";
   char menuBoxMessage[] PROGMEM = "Engineering Menu";
 
@@ -61,10 +65,14 @@ void EngineeringMenu::printMainMenuOptions()
   Serial.println(menuMessage6);
   Serial.println(menuMessage7);
   Serial.println(menuMessage8);
+  Serial.println(menuMessage11);
   Serial.println(menuMessage12);
   Serial.println(menuMessage13);
   Serial.println(menuMessage14);
   Serial.println(menuMessage15);
+  Serial.println(menuMessage16);
+  Serial.println(menuMessage17);
+  Serial.println(menuMessage18);
   Serial.println(menuMessageExit);
 }
 
@@ -182,6 +190,9 @@ bool EngineeringMenu::mainMenu(String menuOption)
           Serial.println(returnToMainMenuMessage);
           
           this->subMenuOption = "8\n";
+       } else if (checkValidMenuOption(menuOption, "11\n")) {   // If option eleven 
+//          processor->setupDone_FlashStore.write(false);
+
        } else if (checkValidMenuOption(menuOption, "12\n")) {   // If option twelve
           // Set the Spreading Factor to use for LoRaWAN
           char setNewSpreadFactorMessage[] PROGMEM = "Set new spreading factor between 7 and 12";
@@ -211,15 +222,29 @@ bool EngineeringMenu::mainMenu(String menuOption)
           char chArr[25];
           input.toCharArray(chArr, 25);
           lorawan->setAppKey(chArr);
-        } else if (checkValidMenuOption(menuOption, "15\n")) { // If option fourteen
+        } else if (checkValidMenuOption(menuOption, "15\n")) { // If option fifteen
          // Set the App Key used for LoRaWAN
           char getDevEuiMessage[] PROGMEM = "Get the Dev Eui";
           Serial.println(getDevEuiMessage);
 
-          char bufR[20];
           lorawan->showStatus();
+        } else if (checkValidMenuOption(menuOption, "16\n")) { // If option sixteen
+          char testSendReadingMessage[] PROGMEM = "Sending a test reading...";
+          Serial.println(testSendReadingMessage);
+          lorawan->sendReading(this->sensor->getCurrentMeasurement(), 20);
           
-//          Serial.println(lorawan->getHardwareEui(bufR, 20));
+          // Test that it sends a 'still here'
+        } else if (checkValidMenuOption(menuOption, "17\n")) { // If option seventeen
+          char testSendStillHereMessage[] PROGMEM = "Sending a test 'still here'...";
+          Serial.println(testSendStillHereMessage);
+          lorawan->sendStillAlive(20);
+          
+          // Test that it sends error
+        } else if (checkValidMenuOption(menuOption, "18\n")) { // If option eighteen
+          char testSendErrorMessage[] PROGMEM = "Sending a test error...";
+          Serial.println(testSendErrorMessage);
+          lorawan->sendGenericError(20);
+          
        } else if(checkValidMenuOption(menuOption, "exit\n")) {    // If option is exit
         char menuExitingMessage[] PROGMEM = "You have left the engineering menu, and the device will continue normal operation.";
         Serial.println(menuExitingMessage);
