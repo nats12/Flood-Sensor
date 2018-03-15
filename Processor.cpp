@@ -21,6 +21,8 @@ FlashStorage(delayPeriod_FlashStore, int16_t);
 FlashStorage(delayPeriodARMode_FlashStore, int16_t);
 FlashStorage(ARModeActivationThreshold_FlashStore, int16_t);
 FlashStorage(ignoreThreshold_FlashStore, int16_t);
+FlashStorage(appEui_FlashStore, String);
+FlashStorage(appKey_FlashStore, String);
 
 /*
  * Processor constructor
@@ -71,22 +73,34 @@ void Processor::init()
       String inStr;
       int16_t initialDistanceToRiverTop;
       int16_t currentDistanceToRiverTop;
-      char requestCurrentDepthMessage[] PROGMEM = "Please input initial river depth measurement (mm):";
+      char requestAppEuiMessage[] PROGMEM = "Please input appEui for this device: ";
+      char requestCurrentDepthMessage[] PROGMEM = "Please input initial river depth measurement (mm): ";
       char initialRiverDepthMessage[] PROGMEM = "Initial river depth set to: ";
-
-      Serial.println(requestCurrentDepthMessage);
+      
       // Whilst inStr is null, do nothing, skip
+      //Wait for AppEui input
+      Serial.println(requestAppEuiMessage);
+      while ((inStr = Serial.readString()) == ""){}
+      char chArr[25];
+      inStr.toCharArray(chArr, 25);
+      lorawan->setCharAppEui(chArr);
+      //Wait for initial/current river depth input
+      Serial.println(requestCurrentDepthMessage);
       while ((initialRiverDepth = Serial.readString().toInt()) == 0){}
       Serial.print(initialRiverDepthMessage);
       Serial.print(initialRiverDepth);
       Serial.print("\r\n");
       Serial.println(setupSensorMessage);
-      // Delay for 5 minutes
-      delay(300000);
+
+      // Delay for 10 minutes
+      delay(600000);
+      
+      // Delay for 5 minutes for device to placed and setup physically
       initialDistanceToRiverTop = analogRead(sensor->sensorAnalogPin) * 5;
       sensor->distanceToRiverBed = initialRiverDepth + initialDistanceToRiverTop;
 
       //Store default values in flash storage in case device loses power/resets
+      appEui_FlashStore.write(inStr);
       distanceToRiverBed_FlashStore.write(sensor->distanceToRiverBed);
       delayPeriod_FlashStore.write(this->delayPeriod);
       delayPeriodARMode_FlashStore.write(this->delayPeriodARMode);
@@ -105,8 +119,8 @@ void Processor::init()
       this->ignoreThreshold = ignoreThreshold_FlashStore.read();
 
       Serial.println(setupSensorMessage);
-      // Delay for 5 minutes
-      delay(300000);
+      // Delay for 10 minutes
+      delay(600000);
     }
     
     Serial.println("Current Measurement: ");
@@ -228,6 +242,39 @@ void Processor::readingProcess()
   {
     activateOrDeactivateARMode();
   }
+}
+
+void Processor::recalibrateSensor()
+{
+  int16_t newCurrentDepth;
+  int16_t distanceToRiverTop;
+  
+  //wait for/get current depth input from engineer
+  while ((newCurrentDepth = Serial.readString().toInt()) == 0){};
+  distanceToRiverTop = analogRead(sensor->sensorAnalogPin) * 5;
+  sensor->distanceToRiverBed = newCurrentDepth + distanceToRiverTop; //river depth + distanceToRiverTop
+  distanceToRiverBed_FlashStore.write(sensor->distanceToRiverBed);
+}
+
+void Processor::triggerClearFlash()
+{
+  setupDone_FlashStore.write(false);
+}
+
+void Processor::adjustAppEui(String newAppEui)
+{
+  char chArr[25];
+  newAppEui.toCharArray(chArr, 25);
+  lorawan->setCharAppEui(chArr);
+  appEui_FlashStore.write(newAppEui);
+}
+
+void Processor::adjustAppKey(String newAppKey)
+{
+  char chArr[25];
+  newAppKey.toCharArray(chArr, 25);
+  lorawan->setAppKey(chArr);
+  appKey_FlashStore.write(newAppKey);
 }
 
 // Accelerated Readings (AR) Mode

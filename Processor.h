@@ -1,5 +1,5 @@
 /*
-  Processor.h - Library for dealing with processor settings i.e. its interrupt/led pins.
+  Processor.h - Library for dealing with processor settings i.e. its engineeringMenuJumper/led pins.
   Created by Natalie Mclaren, December 18, 2017.
 */
 
@@ -36,6 +36,10 @@ class Processor
     // Helpers
     void delayWithPeriod();
     void changeMeasurementPeriod(int16_t minutes);
+    void recalibrateSensor();
+    void triggerClearFlash();
+    void adjustAppEui(String newAppEui);
+    void adjustAppKey(String newAppKey);
     float getBatteryVoltage();
     uint8_t getBatteryVoltageByte();
     uint8_t getEstimatedPowerLevel();
@@ -57,5 +61,6 @@ class Processor
     int16_t ignoreThreshold;
     // Pins
     byte engineeringMenuJumperPin;
+};
 
 #endif

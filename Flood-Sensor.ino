@@ -62,8 +62,8 @@ void setup()
 void loop()
 {
   
-  
   // If engineering menu jumper has been pulled off
+
   if(digitalRead(engineeringMenuJumperPin) == HIGH) {
     // Load the engineering menu
     menu.loadEngineeringMenu();
