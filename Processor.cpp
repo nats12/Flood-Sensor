@@ -63,6 +63,8 @@ void Processor::init()
 
     sdCard->init();
     sensor->init();
+
+    char setupSensorMessage[] PROGMEM = "Please place sensor within five minutes for setup to complete.";
     
     if (!setupDone_FlashStore.read()) //no settings saved in flash memory - run setup
     {
@@ -75,11 +77,15 @@ void Processor::init()
       Serial.println(requestCurrentDepthMessage);
       // Whilst inStr is null, do nothing, skip
       while ((initialRiverDepth = Serial.readString().toInt()) == 0){}
-      //initialRiverDepth = inStr.toInt();
-      //Serial.println(initialRiverDepth); 
+      
       Serial.print(initialRiverDepthMessage);
       Serial.print(initialRiverDepth);
       Serial.print("\r\n");
+      Serial.println(setupSensorMessage);
+
+      // Delay for 5 minutes
+      delay(300000);
+      
       initialDistanceToRiverTop = analogRead(sensor->sensorAnalogPin) * 5;
       sensor->distanceToRiverBed = initialRiverDepth + initialDistanceToRiverTop;
 
@@ -100,6 +106,10 @@ void Processor::init()
       this->delayPeriodARMode = delayPeriodARMode_FlashStore.read();
       this->ARModeActivationThreshold = ARModeActivationThreshold_FlashStore.read();
       this->ignoreThreshold = ignoreThreshold_FlashStore.read();
+      
+      Serial.println(setupSensorMessage);
+      // Delay for 5 minutes
+      delay(300000);
     }
 
     Serial.println("Current Measurement: ");
