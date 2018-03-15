@@ -29,16 +29,16 @@ FlashStorage(ignoreThreshold_FlashStore, int16_t);
  * @param {SDCard} {*sdCard} pointer to SDCard object.
  * @param {Lorawan} {*lorawan} pointer to Lorawan object.
  * @param {byte} {sensorPowerPin} LED pin number
- * @param {byte} {interruptPin} engineering menu button interrupt pin number
+ * @param {byte} {engineeringMenuJumperPin} engineering menu button interrupt pin number
  * @return N/A
  */
-Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte interruptPin, int16_t delayPeriod, int16_t delayPeriodARMode, int16_t ARModeActivationThreshold, int16_t ignoreThreshold)
+Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte engineeringMenuJumperPin, int16_t delayPeriod, int16_t delayPeriodARMode, int16_t ARModeActivationThreshold, int16_t ignoreThreshold)
 {
   this->sensor = sensor;
   this->sdCard = sdCard;
   this->lorawan = lorawan;
   
-  this->interruptPin = interruptPin;
+  this->engineeringMenuJumperPin = engineeringMenuJumperPin;
   
   this->delayPeriod = delayPeriod;
   this->delayPeriodARMode = delayPeriodARMode;
@@ -61,7 +61,7 @@ void Processor::init()
 { 
     lorawan->join();
 
-    sdCard->initSDCard();
+    sdCard->init();
     sensor->init();
     
     if (!setupDone_FlashStore.read()) //no settings saved in flash memory - run setup

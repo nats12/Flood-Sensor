@@ -1,5 +1,5 @@
 /*
-  Processor.h - Library for dealing with processor settings i.e. its interrupt/led pins.
+  Processor.h - Library for dealing with processor settings i.e. its engineeringMenuJumper/led pins.
   Created by Natalie Mclaren, December 18, 2017.
 */
 
@@ -56,7 +56,7 @@ class Processor
     int16_t ARModeActivationThreshold; 
     int16_t ignoreThreshold;
     // Pins
-    byte interruptPin;
+    byte engineeringMenuJumperPin;
 };
 
 #endif

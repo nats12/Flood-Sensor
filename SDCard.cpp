@@ -222,7 +222,7 @@ bool SDCard::fileHasReachedSizeLimit()
 /*
  * 
  */
-bool SDCard::initSDCard()
+bool SDCard::init()
 {
 
   if (!SD.begin(4)) {

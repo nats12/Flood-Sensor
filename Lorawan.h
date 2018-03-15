@@ -34,7 +34,7 @@ class Lorawan: public TheThingsNetwork
     
   private:
     char *appEui = "70B3D57EF00000C3";
-    char *appKey = "A3998FBB3FA84CBC77F12C0BB7FC80FF";
+    char *appKey = "76B462F516EADD80FE5153D525BC5B67";
 };
 
 #endif

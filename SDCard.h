@@ -24,7 +24,7 @@ class SDCard
     SDCard();
     void checkCardMemory();
     bool fileHasReachedSizeLimit();
-    bool initSDCard();
+    bool init();
     bool readLog();
     bool testReadLog(String data);
     bool writeToLog(String data);
