@@ -21,7 +21,7 @@ class Processor
     bool ARModeOn;
 
     // Constructors
-    Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte interrputPin, int16_t delayPeriod = 1800000, int16_t delayPeriodARMode = 600000, int16_t ARModeActivationThreshold = 200000, int16_t ignoreThreshold = 0); 
+    Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte interrputPin, int16_t delayPeriod = 900000, int16_t delayPeriodARMode = 600000, int16_t ARModeActivationThreshold = 200000, int16_t ignoreThreshold = 0); 
 
     // Main States
     void init();

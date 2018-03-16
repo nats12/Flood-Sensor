@@ -61,12 +61,12 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte engi
  */
 void Processor::init()
 { 
-    lorawan->join();
+//    lorawan->join();
 
     sdCard->init();
     sensor->init();
 
-    char setupSensorMessage[] PROGMEM = "Please place sensor within five minutes for setup to complete.";
+    char setupSensorMessage[] PROGMEM = "Please place sensor within fifteen minutes for setup to complete.";
     
     if (!setupDone_FlashStore.read()) //no settings saved in flash memory - run setup
     {
@@ -79,11 +79,12 @@ void Processor::init()
       
       // Whilst inStr is null, do nothing, skip
       //Wait for AppEui input
-      Serial.println(requestAppEuiMessage);
-      while ((inStr = Serial.readString()) == ""){}
-      char chArr[25];
-      inStr.toCharArray(chArr, 25);
-      lorawan->setCharAppEui(chArr);
+//      Serial.println(requestAppEuiMessage);
+//      while ((inStr = Serial.readString()) == NULL){}
+//      char chArr[25];
+//      inStr.toCharArray(chArr, 25);
+//      Serial.print(inStr);
+//      lorawan->setCharAppEui(chArr);
       //Wait for initial/current river depth input
       Serial.println(requestCurrentDepthMessage);
       while ((initialRiverDepth = Serial.readString().toInt()) == 0){}
@@ -92,8 +93,8 @@ void Processor::init()
       Serial.print("\r\n");
       Serial.println(setupSensorMessage);
 
-      // Delay for 10 minutes
-      delay(600000);
+      // Delay for 15 minutes
+      delay(900000);
       
       // Delay for 5 minutes for device to placed and setup physically
       initialDistanceToRiverTop = analogRead(sensor->sensorAnalogPin) * 5;
@@ -109,7 +110,7 @@ void Processor::init()
       
       setupDone_FlashStore.write(true);
     }
-    else
+    else  
     {
       //Read saved default values from flash storage
       sensor->distanceToRiverBed = distanceToRiverBed_FlashStore.read();
@@ -119,8 +120,8 @@ void Processor::init()
       this->ignoreThreshold = ignoreThreshold_FlashStore.read();
 
       Serial.println(setupSensorMessage);
-      // Delay for 10 minutes
-      delay(600000);
+      // Delay for 15 minutes
+      delay(900000);
     }
     
     Serial.println("Current Measurement: ");
