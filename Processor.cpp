@@ -61,7 +61,7 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte engi
  */
 void Processor::init()
 { 
-//    lorawan->join();
+    lorawan->join();
 
     sdCard->init();
     sensor->init();
