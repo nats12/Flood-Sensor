@@ -70,9 +70,15 @@ bool \mbox{\hyperlink{class_processor_af51b6b3ce7074068195b5d3eb2442fdb}{A\+R\+M
 \hline
 {\em \{\+Lorawan\}} & \{$\ast$lorawan\} pointer to \mbox{\hyperlink{class_lorawan}{Lorawan}} object. \\
 \hline
-{\em \{byte\}} & \{sensor\+Power\+Pin\} L\+ED pin number \\
-\hline
 {\em \{byte\}} & \{engineering\+Menu\+Jumper\+Pin\} engineering menu button interrupt pin number \\
+\hline
+{\em \{int16\+\_\+t\}} & \{delay\+Period\} the delay period value between each samples \\
+\hline
+{\em \{int16\+\_\+t\}} & \{delay\+Period\+A\+R\+Mode\} the accelerated reading mode value (less of a delay than the delay period) \\
+\hline
+{\em \{int16\+\_\+t\}} & \{A\+R\+Mode\+Activation\+Threshold\} the threshold which activates the A\+R\+Mode \\
+\hline
+{\em \{int16\+\_\+t\}} & \{ignore\+Threshold\} threshold (mm) for which the sensor should ignore readings -\/ don\textquotesingle{}t send any info to server \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -101,12 +107,28 @@ Swaps delay\+Period and delay\+Period\+A\+R\+Mode variables to activate/deactiva
 \subsubsection{\texorpdfstring{adjust\+App\+Eui()}{adjustAppEui()}}
 {\footnotesize\ttfamily void Processor\+::adjust\+App\+Eui (\begin{DoxyParamCaption}\item[{String}]{new\+App\+Eui }\end{DoxyParamCaption})}
 
+Adjust the application\textquotesingle{}s Eui 
+\begin{DoxyParams}{Parameters}
+{\em \{\+String\}} & \{new\+App\+Eui\} The new Eui value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{N/A\} 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_processor_adee07912124face3700bc988606b8f38}\label{class_processor_adee07912124face3700bc988606b8f38}} 
 \index{Processor@{Processor}!adjust\+App\+Key@{adjust\+App\+Key}}
 \index{adjust\+App\+Key@{adjust\+App\+Key}!Processor@{Processor}}
 \subsubsection{\texorpdfstring{adjust\+App\+Key()}{adjustAppKey()}}
 {\footnotesize\ttfamily void Processor\+::adjust\+App\+Key (\begin{DoxyParamCaption}\item[{String}]{new\+App\+Key }\end{DoxyParamCaption})}
 
+Adjust the application\textquotesingle{}s key 
+\begin{DoxyParams}{Parameters}
+{\em \{\+String\}} & \{new\+App\+Key\} The new application key value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{N/A\} 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_processor_a527c24bbc2784d267d9ff2b21fd21379}\label{class_processor_a527c24bbc2784d267d9ff2b21fd21379}} 
 \index{Processor@{Processor}!adjust\+A\+R\+Mode\+Delay@{adjust\+A\+R\+Mode\+Delay}}
 \index{adjust\+A\+R\+Mode\+Delay@{adjust\+A\+R\+Mode\+Delay}!Processor@{Processor}}
@@ -267,12 +289,28 @@ Process current river depth measurement, and send if relevant.
 \subsubsection{\texorpdfstring{recalibrate\+Sensor()}{recalibrateSensor()}}
 {\footnotesize\ttfamily void Processor\+::recalibrate\+Sensor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
+Calibrate the sensor. 
+\begin{DoxyParams}{Parameters}
+{\em \{\+N/\+A\}} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{N/A\} 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_processor_a8083069e032fcd6e38c97cc31475200a}\label{class_processor_a8083069e032fcd6e38c97cc31475200a}} 
 \index{Processor@{Processor}!trigger\+Clear\+Flash@{trigger\+Clear\+Flash}}
 \index{trigger\+Clear\+Flash@{trigger\+Clear\+Flash}!Processor@{Processor}}
 \subsubsection{\texorpdfstring{trigger\+Clear\+Flash()}{triggerClearFlash()}}
 {\footnotesize\ttfamily void Processor\+::trigger\+Clear\+Flash (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
+Clear the Flash storage. 
+\begin{DoxyParams}{Parameters}
+{\em \{\+N/\+A\}} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{Void\} 
+\end{DoxyReturn}
 
 
 \subsection{Member Data Documentation}

@@ -23,6 +23,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Flood Watch
    </div>
+   <div id="projectbrief">Empowering the local community by monitoring the rivers around</div>
   </td>
  </tr>
  </tbody>
@@ -187,8 +188,11 @@ Public Attributes</h2></td></tr>
     <tr><td class="paramname">{Sensor}</td><td>{*sensor} pointer to <a class="el" href="class_sensor.html">Sensor</a> object. </td></tr>
     <tr><td class="paramname">{SDCard}</td><td>{*sdCard} pointer to <a class="el" href="class_s_d_card.html">SDCard</a> object. </td></tr>
     <tr><td class="paramname">{Lorawan}</td><td>{*lorawan} pointer to <a class="el" href="class_lorawan.html">Lorawan</a> object. </td></tr>
-    <tr><td class="paramname">{byte}</td><td>{sensorPowerPin} LED pin number </td></tr>
     <tr><td class="paramname">{byte}</td><td>{engineeringMenuJumperPin} engineering menu button interrupt pin number </td></tr>
+    <tr><td class="paramname">{int16_t}</td><td>{delayPeriod} the delay period value between each samples </td></tr>
+    <tr><td class="paramname">{int16_t}</td><td>{delayPeriodARMode} the accelerated reading mode value (less of a delay than the delay period) </td></tr>
+    <tr><td class="paramname">{int16_t}</td><td>{ARModeActivationThreshold} the threshold which activates the ARMode </td></tr>
+    <tr><td class="paramname">{int16_t}</td><td>{ignoreThreshold} threshold (mm) for which the sensor should ignore readings - don't send any info to server </td></tr>
   </table>
   </dd>
 </dl>
@@ -236,6 +240,13 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Adjust the application's Eui </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">{String}</td><td>{newAppEui} The new Eui value </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>{N/A} </dd></dl>
 
 </div>
 </div>
@@ -254,6 +265,13 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Adjust the application's key </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">{String}</td><td>{newAppKey} The new application key value </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>{N/A} </dd></dl>
 
 </div>
 </div>
@@ -540,6 +558,13 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Calibrate the sensor. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">{N/A}</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>{N/A} </dd></dl>
 
 </div>
 </div>
@@ -557,6 +582,13 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Clear the Flash storage. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">{N/A}</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>{Void} </dd></dl>
 
 </div>
 </div>

@@ -30,8 +30,11 @@ FlashStorage(appKey_FlashStore, String);
  * @param {Sensor} {*sensor} pointer to Sensor object.
  * @param {SDCard} {*sdCard} pointer to SDCard object.
  * @param {Lorawan} {*lorawan} pointer to Lorawan object.
- * @param {byte} {sensorPowerPin} LED pin number
  * @param {byte} {engineeringMenuJumperPin} engineering menu button interrupt pin number
+ * @param {int16_t} {delayPeriod} the delay period value between each samples
+ * @param {int16_t} {delayPeriodARMode} the accelerated reading mode value (less of a delay than the delay period)
+ * @param {int16_t} {ARModeActivationThreshold} the threshold which activates the ARMode
+ * @param {int16_t} {ignoreThreshold} threshold (mm) for which the sensor should ignore readings - don't send any info to server
  * @return N/A
  */
 Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte engineeringMenuJumperPin, int16_t delayPeriod, int16_t delayPeriodARMode, int16_t ARModeActivationThreshold, int16_t ignoreThreshold)
@@ -245,6 +248,12 @@ void Processor::readingProcess()
   }
 }
 
+
+/**
+ * Calibrate the sensor.
+ * @param {N/A}
+ * @return {N/A}
+ */
 void Processor::recalibrateSensor()
 {
   int16_t newCurrentDepth;
@@ -257,11 +266,22 @@ void Processor::recalibrateSensor()
   distanceToRiverBed_FlashStore.write(sensor->distanceToRiverBed);
 }
 
+/**
+ * Clear the Flash storage.
+ * @param {N/A}
+ * @return {Void}
+ */
 void Processor::triggerClearFlash()
 {
   setupDone_FlashStore.write(false);
 }
 
+
+/**
+ * Adjust the application's Eui
+ * @param {String} {newAppEui} The new Eui value
+ * @return {N/A}
+ */
 void Processor::adjustAppEui(String newAppEui)
 {
   char chArr[25];
@@ -270,6 +290,12 @@ void Processor::adjustAppEui(String newAppEui)
   appEui_FlashStore.write(newAppEui);
 }
 
+
+/**
+ * Adjust the application's key
+ * @param {String} {newAppKey} The new application key value
+ * @return {N/A}
+ */
 void Processor::adjustAppKey(String newAppKey)
 {
   char chArr[25];
