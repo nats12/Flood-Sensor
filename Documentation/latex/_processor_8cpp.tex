@@ -1,0 +1,95 @@
+\hypertarget{_processor_8cpp}{}\section{/\+Users/nataliemclaren/\+Documents/\+Uni/\+C\+O600/\+Flood-\/\+Sensor/\+Processor.cpp File Reference}
+\label{_processor_8cpp}\index{/\+Users/nataliemclaren/\+Documents/\+Uni/\+C\+O600/\+Flood-\/\+Sensor/\+Processor.\+cpp@{/\+Users/nataliemclaren/\+Documents/\+Uni/\+C\+O600/\+Flood-\/\+Sensor/\+Processor.\+cpp}}
+{\ttfamily \#include \char`\"{}Processor.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$The\+Things\+Network.\+h$>$}\newline
+{\ttfamily \#include $<$S\+P\+I.\+h$>$}\newline
+{\ttfamily \#include $<$S\+D.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}Arduino.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}S\+D\+Card.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Sensor.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Lorawan.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Flash\+Storage.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_processor_8cpp_a16c0ba8dc15d4a193e1a377845fa0776}{V\+B\+A\+T\+P\+IN}}~A7
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_processor_8cpp_adb7a942119f2e387ba894ab67a421f2d}{Flash\+Storage}} (setup\+Done\+\_\+\+Flash\+Store, boolean)
+\item 
+\mbox{\hyperlink{_processor_8cpp_a2531c8d9b17fd84a77dc01bae4be8349}{Flash\+Storage}} (distance\+To\+River\+Bed\+\_\+\+Flash\+Store, int16\+\_\+t)
+\item 
+\mbox{\hyperlink{_processor_8cpp_afcf2cd7750f21e9cf924e3f6ad94e5d7}{Flash\+Storage}} (delay\+Period\+\_\+\+Flash\+Store, int16\+\_\+t)
+\item 
+\mbox{\hyperlink{_processor_8cpp_a81b1f0379f5d72506c0196ad16633b75}{Flash\+Storage}} (delay\+Period\+A\+R\+Mode\+\_\+\+Flash\+Store, int16\+\_\+t)
+\item 
+\mbox{\hyperlink{_processor_8cpp_afcdeafd5245b92c2360558c7f2820687}{Flash\+Storage}} (A\+R\+Mode\+Activation\+Threshold\+\_\+\+Flash\+Store, int16\+\_\+t)
+\item 
+\mbox{\hyperlink{_processor_8cpp_a49a19713ccc0bcf7df632d4f86d89c82}{Flash\+Storage}} (ignore\+Threshold\+\_\+\+Flash\+Store, int16\+\_\+t)
+\item 
+\mbox{\hyperlink{_processor_8cpp_a277ac0d041143798b948694efc51ef4e}{Flash\+Storage}} (app\+Eui\+\_\+\+Flash\+Store, String)
+\item 
+\mbox{\hyperlink{_processor_8cpp_a74c4d571693b9890caa79528a961fd43}{Flash\+Storage}} (app\+Key\+\_\+\+Flash\+Store, String)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{_processor_8cpp_a16c0ba8dc15d4a193e1a377845fa0776}\label{_processor_8cpp_a16c0ba8dc15d4a193e1a377845fa0776}} 
+\index{Processor.\+cpp@{Processor.\+cpp}!V\+B\+A\+T\+P\+IN@{V\+B\+A\+T\+P\+IN}}
+\index{V\+B\+A\+T\+P\+IN@{V\+B\+A\+T\+P\+IN}!Processor.\+cpp@{Processor.\+cpp}}
+\subsubsection{\texorpdfstring{V\+B\+A\+T\+P\+IN}{VBATPIN}}
+{\footnotesize\ttfamily \#define V\+B\+A\+T\+P\+IN~A7}
+
+\mbox{\hyperlink{_engineering_menu_8h}{Engineering\+Menu.\+h}} -\/ Library for dealing with processor settings i.\+e. its interrupt/led pins. Created by Natalie Mclaren, December 18, 2017. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{_processor_8cpp_adb7a942119f2e387ba894ab67a421f2d}\label{_processor_8cpp_adb7a942119f2e387ba894ab67a421f2d}} 
+\index{Processor.\+cpp@{Processor.\+cpp}!Flash\+Storage@{Flash\+Storage}}
+\index{Flash\+Storage@{Flash\+Storage}!Processor.\+cpp@{Processor.\+cpp}}
+\subsubsection{\texorpdfstring{Flash\+Storage()}{FlashStorage()}\hspace{0.1cm}{\footnotesize\ttfamily [1/8]}}
+{\footnotesize\ttfamily Flash\+Storage (\begin{DoxyParamCaption}\item[{setup\+Done\+\_\+\+Flash\+Store}]{,  }\item[{boolean}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{_processor_8cpp_a2531c8d9b17fd84a77dc01bae4be8349}\label{_processor_8cpp_a2531c8d9b17fd84a77dc01bae4be8349}} 
+\index{Processor.\+cpp@{Processor.\+cpp}!Flash\+Storage@{Flash\+Storage}}
+\index{Flash\+Storage@{Flash\+Storage}!Processor.\+cpp@{Processor.\+cpp}}
+\subsubsection{\texorpdfstring{Flash\+Storage()}{FlashStorage()}\hspace{0.1cm}{\footnotesize\ttfamily [2/8]}}
+{\footnotesize\ttfamily Flash\+Storage (\begin{DoxyParamCaption}\item[{distance\+To\+River\+Bed\+\_\+\+Flash\+Store}]{,  }\item[{int16\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{_processor_8cpp_afcf2cd7750f21e9cf924e3f6ad94e5d7}\label{_processor_8cpp_afcf2cd7750f21e9cf924e3f6ad94e5d7}} 
+\index{Processor.\+cpp@{Processor.\+cpp}!Flash\+Storage@{Flash\+Storage}}
+\index{Flash\+Storage@{Flash\+Storage}!Processor.\+cpp@{Processor.\+cpp}}
+\subsubsection{\texorpdfstring{Flash\+Storage()}{FlashStorage()}\hspace{0.1cm}{\footnotesize\ttfamily [3/8]}}
+{\footnotesize\ttfamily Flash\+Storage (\begin{DoxyParamCaption}\item[{delay\+Period\+\_\+\+Flash\+Store}]{,  }\item[{int16\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{_processor_8cpp_a81b1f0379f5d72506c0196ad16633b75}\label{_processor_8cpp_a81b1f0379f5d72506c0196ad16633b75}} 
+\index{Processor.\+cpp@{Processor.\+cpp}!Flash\+Storage@{Flash\+Storage}}
+\index{Flash\+Storage@{Flash\+Storage}!Processor.\+cpp@{Processor.\+cpp}}
+\subsubsection{\texorpdfstring{Flash\+Storage()}{FlashStorage()}\hspace{0.1cm}{\footnotesize\ttfamily [4/8]}}
+{\footnotesize\ttfamily Flash\+Storage (\begin{DoxyParamCaption}\item[{delay\+Period\+A\+R\+Mode\+\_\+\+Flash\+Store}]{,  }\item[{int16\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{_processor_8cpp_afcdeafd5245b92c2360558c7f2820687}\label{_processor_8cpp_afcdeafd5245b92c2360558c7f2820687}} 
+\index{Processor.\+cpp@{Processor.\+cpp}!Flash\+Storage@{Flash\+Storage}}
+\index{Flash\+Storage@{Flash\+Storage}!Processor.\+cpp@{Processor.\+cpp}}
+\subsubsection{\texorpdfstring{Flash\+Storage()}{FlashStorage()}\hspace{0.1cm}{\footnotesize\ttfamily [5/8]}}
+{\footnotesize\ttfamily Flash\+Storage (\begin{DoxyParamCaption}\item[{A\+R\+Mode\+Activation\+Threshold\+\_\+\+Flash\+Store}]{,  }\item[{int16\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{_processor_8cpp_a49a19713ccc0bcf7df632d4f86d89c82}\label{_processor_8cpp_a49a19713ccc0bcf7df632d4f86d89c82}} 
+\index{Processor.\+cpp@{Processor.\+cpp}!Flash\+Storage@{Flash\+Storage}}
+\index{Flash\+Storage@{Flash\+Storage}!Processor.\+cpp@{Processor.\+cpp}}
+\subsubsection{\texorpdfstring{Flash\+Storage()}{FlashStorage()}\hspace{0.1cm}{\footnotesize\ttfamily [6/8]}}
+{\footnotesize\ttfamily Flash\+Storage (\begin{DoxyParamCaption}\item[{ignore\+Threshold\+\_\+\+Flash\+Store}]{,  }\item[{int16\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{_processor_8cpp_a277ac0d041143798b948694efc51ef4e}\label{_processor_8cpp_a277ac0d041143798b948694efc51ef4e}} 
+\index{Processor.\+cpp@{Processor.\+cpp}!Flash\+Storage@{Flash\+Storage}}
+\index{Flash\+Storage@{Flash\+Storage}!Processor.\+cpp@{Processor.\+cpp}}
+\subsubsection{\texorpdfstring{Flash\+Storage()}{FlashStorage()}\hspace{0.1cm}{\footnotesize\ttfamily [7/8]}}
+{\footnotesize\ttfamily Flash\+Storage (\begin{DoxyParamCaption}\item[{app\+Eui\+\_\+\+Flash\+Store}]{,  }\item[{String}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{_processor_8cpp_a74c4d571693b9890caa79528a961fd43}\label{_processor_8cpp_a74c4d571693b9890caa79528a961fd43}} 
+\index{Processor.\+cpp@{Processor.\+cpp}!Flash\+Storage@{Flash\+Storage}}
+\index{Flash\+Storage@{Flash\+Storage}!Processor.\+cpp@{Processor.\+cpp}}
+\subsubsection{\texorpdfstring{Flash\+Storage()}{FlashStorage()}\hspace{0.1cm}{\footnotesize\ttfamily [8/8]}}
+{\footnotesize\ttfamily Flash\+Storage (\begin{DoxyParamCaption}\item[{app\+Key\+\_\+\+Flash\+Store}]{,  }\item[{String}]{ }\end{DoxyParamCaption})}
+

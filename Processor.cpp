@@ -1,4 +1,4 @@
-/*
+/**
   EngineeringMenu.h - Library for dealing with processor settings i.e. its interrupt/led pins.
   Created by Natalie Mclaren, December 18, 2017.
 */
@@ -24,7 +24,7 @@ FlashStorage(ignoreThreshold_FlashStore, int16_t);
 FlashStorage(appEui_FlashStore, String);
 FlashStorage(appKey_FlashStore, String);
 
-/*
+/**
  * Processor constructor
  * Sets default device settings values (delayPeriod etc...)
  * @param {Sensor} {*sensor} pointer to Sensor object.
@@ -53,7 +53,7 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte engi
 
 // State Loop functions
 
-/*
+/**
  * Initialise default sensor settings and values
  * Takes initial river depth input from engineer user from serial input to populate other defaults.
  * @param N/A
@@ -130,7 +130,7 @@ void Processor::init()
 
 
 
-/*
+/**
  * Calculates and returns current battery voltage value.
  * Gets an average of 5 readings over 5 seconds.
  * @param N/A
@@ -156,7 +156,7 @@ float Processor::getBatteryVoltage()
   return avgMeasuredVBat;
 }
 
-/*
+/**
  * Converts battery voltage to a byte to be sent to the API 
  * Done to save TTN bandwidth (So we don't need to send send a full floating point number).
  * @param N/A
@@ -176,7 +176,7 @@ uint8_t Processor::getBatteryVoltageByte()
   return floor(voltage * 100);
 }
 
-/*
+/**
  * Calculates and returns estimated battery percentage (powerlevel/capacity) based on voltage and mAh of the battery.
  * Expected default battery:
  * 4.2v max (and 3.2v min cut off)
@@ -193,7 +193,7 @@ uint8_t Processor::getEstimatedPowerLevel()
   return estimatedPercentage;
 }
 
-/*
+/**
  * Process current river depth measurement, and send if relevant.
  * @param N/A
  * @return {void} N/A
@@ -280,7 +280,7 @@ void Processor::adjustAppKey(String newAppKey)
 
 // Accelerated Readings (AR) Mode
 
-/*
+/**
  * Set delay period to be used whilst the device is in AR (Accelerated Readings) Mode.
  * @param {int16_t} {newDelayPeriod} new delay period to be used.
  * @return {void} N/A
@@ -291,7 +291,7 @@ void Processor::adjustARModeDelay(int16_t newDelayPeriod) //adjust accelerated r
   delayPeriodARMode_FlashStore.write(newDelayPeriod);
 }
 
-/*
+/**
  * Set max river depth threshold to trigger AR Mode (Measured in: mm).
  * @param {int16_t} {newActivationThreshold}  new maximum threshold to trigger AR mode.
  * @return {void} N/A
@@ -302,7 +302,7 @@ void Processor::adjustARModeThreshold(int16_t newActivationThreshold)
   ARModeActivationThreshold_FlashStore.write(newActivationThreshold);
 }
 
-/*
+/**
  * Swaps delayPeriod and delayPeriodARMode variables to activate/deactivate Accelerated Readings mode.
  * @param N/A
  * @return {void} N/A
@@ -316,7 +316,7 @@ void Processor::activateOrDeactivateARMode()
   ARModeOn = !ARModeOn;
 }
 
-/*
+/**
  * Set minimum river depth threshold (anything below this value will be ignored, and considered "not worth" sending) (mm).
  * @param {int16_t} {newIgnoreThreshold} new minimum river depth threshold to be set (mm).
  * @return {void} N/A
@@ -328,7 +328,7 @@ void Processor::adjustIgnoreThreshold(int16_t newIgnoreThreshold)
 
 
 // Helpers
-/*
+/**
  * Makes the entire device sleep for a specified period of time.
  * Used to sleep inbetween taking river depth measurements.
  * @param N/A
@@ -345,7 +345,7 @@ void Processor::delayWithPeriod()
 
 // Setters
 
-/*
+/**
  * Set the delay period between each measurement to be taken.
  * @param {int16_t} {minutes} new delay period (in minutes) set.
  * @return {void} N/A
@@ -356,7 +356,7 @@ void Processor::changeMeasurementPeriod(int16_t minutes)
     delayPeriod_FlashStore.write(this->delayPeriod);
 }
 
-/*
+/**
  * Call SDCard class function to store the last measurement sent to a log on the SD card.
  * @param {int16_t} {lastMeasurementSent} last measurement that was sent to the api sucessfully.
  * @return {void} N/A

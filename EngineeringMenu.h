@@ -1,4 +1,4 @@
-/*
+/**
   EngineeringMenu.h - Library for dealing with the engineering menu.
   Created by Natalie Mclaren, December 17, 2017.
 */

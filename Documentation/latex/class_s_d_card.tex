@@ -1,0 +1,158 @@
+\hypertarget{class_s_d_card}{}\section{S\+D\+Card Class Reference}
+\label{class_s_d_card}\index{S\+D\+Card@{S\+D\+Card}}
+
+
+{\ttfamily \#include $<$S\+D\+Card.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_d_card_aa57f64cf28817d210706222f60be9001}{S\+D\+Card}} ()
+\item 
+void \mbox{\hyperlink{class_s_d_card_a62c472309bd91560a29430d6946c05fb}{check\+Card\+Memory}} ()
+\item 
+bool \mbox{\hyperlink{class_s_d_card_ab43bfe585365622d71e30194a404125c}{file\+Has\+Reached\+Size\+Limit}} ()
+\item 
+bool \mbox{\hyperlink{class_s_d_card_a7d5b2551a395d7bf883f425fb98b0b0d}{init}} ()
+\item 
+bool \mbox{\hyperlink{class_s_d_card_a9c0edb3dd7e157501776d9760705a757}{read\+Log}} ()
+\item 
+bool \mbox{\hyperlink{class_s_d_card_ad5832b1d4274a99ca975f4c570584f53}{test\+Read\+Log}} (String data)
+\item 
+bool \mbox{\hyperlink{class_s_d_card_aa65251052d32bcaff9f087080118525f}{write\+To\+Log}} (String data)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+File \mbox{\hyperlink{class_s_d_card_a2e9756d5c5478bee2d7977a0c66ec47f}{my\+File}}
+\item 
+Sd\+Volume \mbox{\hyperlink{class_s_d_card_a143b4a79b09f0c1d6d71155b51dfefcb}{volume}}
+\item 
+Sd\+File \mbox{\hyperlink{class_s_d_card_a6e02af8a10a45955da7c560ea148ca4d}{root}}
+\item 
+Sd2\+Card \mbox{\hyperlink{class_s_d_card_a20919e15549972b09ad3c063c35fcf59}{card}}
+\item 
+int16\+\_\+t \mbox{\hyperlink{class_s_d_card_aa6f7283f73936957a10fa7c65df5f57c}{file\+Size}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\mbox{\hyperlink{_s_d_card_8h}{S\+D\+Card.\+h}} -\/ Library for dealing with writing/retrieving data to/from \mbox{\hyperlink{class_s_d_card}{S\+D\+Card}}. Created by Natalie Mclaren, December 17, 2017. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_s_d_card_aa57f64cf28817d210706222f60be9001}\label{class_s_d_card_aa57f64cf28817d210706222f60be9001}} 
+\index{S\+D\+Card@{S\+D\+Card}!S\+D\+Card@{S\+D\+Card}}
+\index{S\+D\+Card@{S\+D\+Card}!S\+D\+Card@{S\+D\+Card}}
+\subsubsection{\texorpdfstring{S\+D\+Card()}{SDCard()}}
+{\footnotesize\ttfamily S\+D\+Card\+::\+S\+D\+Card (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{class_s_d_card}{S\+D\+Card}} constructor 
+\begin{DoxyParams}{Parameters}
+{\em N/A} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+N/A 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_s_d_card_a62c472309bd91560a29430d6946c05fb}\label{class_s_d_card_a62c472309bd91560a29430d6946c05fb}} 
+\index{S\+D\+Card@{S\+D\+Card}!check\+Card\+Memory@{check\+Card\+Memory}}
+\index{check\+Card\+Memory@{check\+Card\+Memory}!S\+D\+Card@{S\+D\+Card}}
+\subsubsection{\texorpdfstring{check\+Card\+Memory()}{checkCardMemory()}}
+{\footnotesize\ttfamily void S\+D\+Card\+::check\+Card\+Memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Print details of SD card (memory available etc..) Debugging function to check the status of the SD card -\/ Is everything working correctly? 
+\begin{DoxyParams}{Parameters}
+{\em N/A} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{void\} N/A 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_s_d_card_ab43bfe585365622d71e30194a404125c}\label{class_s_d_card_ab43bfe585365622d71e30194a404125c}} 
+\index{S\+D\+Card@{S\+D\+Card}!file\+Has\+Reached\+Size\+Limit@{file\+Has\+Reached\+Size\+Limit}}
+\index{file\+Has\+Reached\+Size\+Limit@{file\+Has\+Reached\+Size\+Limit}!S\+D\+Card@{S\+D\+Card}}
+\subsubsection{\texorpdfstring{file\+Has\+Reached\+Size\+Limit()}{fileHasReachedSizeLimit()}}
+{\footnotesize\ttfamily bool S\+D\+Card\+::file\+Has\+Reached\+Size\+Limit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Check whether the text file has reached its size limit (7.\+21 GB or 7741678551 bytes) 
+\begin{DoxyParams}{Parameters}
+{\em N/A} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{bool\} True if the file has reached its size limit, otherwise false 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_s_d_card_a7d5b2551a395d7bf883f425fb98b0b0d}\label{class_s_d_card_a7d5b2551a395d7bf883f425fb98b0b0d}} 
+\index{S\+D\+Card@{S\+D\+Card}!init@{init}}
+\index{init@{init}!S\+D\+Card@{S\+D\+Card}}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily bool S\+D\+Card\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_s_d_card_a9c0edb3dd7e157501776d9760705a757}\label{class_s_d_card_a9c0edb3dd7e157501776d9760705a757}} 
+\index{S\+D\+Card@{S\+D\+Card}!read\+Log@{read\+Log}}
+\index{read\+Log@{read\+Log}!S\+D\+Card@{S\+D\+Card}}
+\subsubsection{\texorpdfstring{read\+Log()}{readLog()}}
+{\footnotesize\ttfamily bool S\+D\+Card\+::read\+Log (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_s_d_card_ad5832b1d4274a99ca975f4c570584f53}\label{class_s_d_card_ad5832b1d4274a99ca975f4c570584f53}} 
+\index{S\+D\+Card@{S\+D\+Card}!test\+Read\+Log@{test\+Read\+Log}}
+\index{test\+Read\+Log@{test\+Read\+Log}!S\+D\+Card@{S\+D\+Card}}
+\subsubsection{\texorpdfstring{test\+Read\+Log()}{testReadLog()}}
+{\footnotesize\ttfamily bool S\+D\+Card\+::test\+Read\+Log (\begin{DoxyParamCaption}\item[{String}]{data }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_s_d_card_aa65251052d32bcaff9f087080118525f}\label{class_s_d_card_aa65251052d32bcaff9f087080118525f}} 
+\index{S\+D\+Card@{S\+D\+Card}!write\+To\+Log@{write\+To\+Log}}
+\index{write\+To\+Log@{write\+To\+Log}!S\+D\+Card@{S\+D\+Card}}
+\subsubsection{\texorpdfstring{write\+To\+Log()}{writeToLog()}}
+{\footnotesize\ttfamily bool S\+D\+Card\+::write\+To\+Log (\begin{DoxyParamCaption}\item[{String}]{data }\end{DoxyParamCaption})}
+
+Print the last measurement sent to a new line in a log file on the SD card. 
+\begin{DoxyParams}{Parameters}
+{\em \{int16\+\_\+t\}} & \{last\+Measurement\+Sent\} last measurement value sent successfully, to be logged. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{void\} N/A 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_s_d_card_a20919e15549972b09ad3c063c35fcf59}\label{class_s_d_card_a20919e15549972b09ad3c063c35fcf59}} 
+\index{S\+D\+Card@{S\+D\+Card}!card@{card}}
+\index{card@{card}!S\+D\+Card@{S\+D\+Card}}
+\subsubsection{\texorpdfstring{card}{card}}
+{\footnotesize\ttfamily Sd2\+Card S\+D\+Card\+::card}
+
+\mbox{\Hypertarget{class_s_d_card_aa6f7283f73936957a10fa7c65df5f57c}\label{class_s_d_card_aa6f7283f73936957a10fa7c65df5f57c}} 
+\index{S\+D\+Card@{S\+D\+Card}!file\+Size@{file\+Size}}
+\index{file\+Size@{file\+Size}!S\+D\+Card@{S\+D\+Card}}
+\subsubsection{\texorpdfstring{file\+Size}{fileSize}}
+{\footnotesize\ttfamily int16\+\_\+t S\+D\+Card\+::file\+Size}
+
+\mbox{\Hypertarget{class_s_d_card_a2e9756d5c5478bee2d7977a0c66ec47f}\label{class_s_d_card_a2e9756d5c5478bee2d7977a0c66ec47f}} 
+\index{S\+D\+Card@{S\+D\+Card}!my\+File@{my\+File}}
+\index{my\+File@{my\+File}!S\+D\+Card@{S\+D\+Card}}
+\subsubsection{\texorpdfstring{my\+File}{myFile}}
+{\footnotesize\ttfamily File S\+D\+Card\+::my\+File}
+
+\mbox{\Hypertarget{class_s_d_card_a6e02af8a10a45955da7c560ea148ca4d}\label{class_s_d_card_a6e02af8a10a45955da7c560ea148ca4d}} 
+\index{S\+D\+Card@{S\+D\+Card}!root@{root}}
+\index{root@{root}!S\+D\+Card@{S\+D\+Card}}
+\subsubsection{\texorpdfstring{root}{root}}
+{\footnotesize\ttfamily Sd\+File S\+D\+Card\+::root}
+
+\mbox{\Hypertarget{class_s_d_card_a143b4a79b09f0c1d6d71155b51dfefcb}\label{class_s_d_card_a143b4a79b09f0c1d6d71155b51dfefcb}} 
+\index{S\+D\+Card@{S\+D\+Card}!volume@{volume}}
+\index{volume@{volume}!S\+D\+Card@{S\+D\+Card}}
+\subsubsection{\texorpdfstring{volume}{volume}}
+{\footnotesize\ttfamily Sd\+Volume S\+D\+Card\+::volume}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/nataliemclaren/\+Documents/\+Uni/\+C\+O600/\+Flood-\/\+Sensor/\mbox{\hyperlink{_s_d_card_8h}{S\+D\+Card.\+h}}\item 
+/\+Users/nataliemclaren/\+Documents/\+Uni/\+C\+O600/\+Flood-\/\+Sensor/\mbox{\hyperlink{_s_d_card_8cpp}{S\+D\+Card.\+cpp}}\end{DoxyCompactItemize}

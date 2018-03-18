@@ -1,0 +1,298 @@
+\hypertarget{class_lorawan}{}\section{Lorawan Class Reference}
+\label{class_lorawan}\index{Lorawan@{Lorawan}}
+
+
+{\ttfamily \#include $<$Lorawan.\+h$>$}
+
+Inheritance diagram for Lorawan\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_lorawan}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_lorawan_ad406457b082f8ae38594aa7daf632d1f}{Lorawan}} (Stream \&modem\+Stream, Stream \&debug\+Stream, ttn\+\_\+fp\+\_\+t fp, uint8\+\_\+t sf=T\+T\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+SF, uint8\+\_\+t fsb=T\+T\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+F\+SB)
+\item 
+bool \mbox{\hyperlink{class_lorawan_a590a79393a24359a9cc69bb133f72d56}{join}} ()
+\item 
+bool \mbox{\hyperlink{class_lorawan_ad8e01477e0f83ffd15a75309ee94ecc2}{provision}} ()
+\item 
+ttn\+\_\+response\+\_\+t \mbox{\hyperlink{class_lorawan_a0a82173d537813a749766aec6ae58fe8}{send\+Reading}} (int16\+\_\+t reading, uint8\+\_\+t power\+Level)
+\item 
+ttn\+\_\+response\+\_\+t \mbox{\hyperlink{class_lorawan_ae070b6740ad21efb2bd3355af0f49792}{send\+Still\+Alive}} (uint8\+\_\+t power\+Level)
+\item 
+ttn\+\_\+response\+\_\+t \mbox{\hyperlink{class_lorawan_acf1283d8a62ea919fec60a3634944576}{send\+Generic\+Error}} (uint8\+\_\+t power\+Level)
+\item 
+ttn\+\_\+response\+\_\+t \mbox{\hyperlink{class_lorawan_ac57100cd65b5f9f5aea4e0cd8c24dd12}{send\+Microcontroller\+Error}} (uint8\+\_\+t power\+Level)
+\item 
+ttn\+\_\+response\+\_\+t \mbox{\hyperlink{class_lorawan_a53f239940033d3a5630f4876911038f6}{send\+Sensor\+Error}} (uint8\+\_\+t power\+Level)
+\item 
+ttn\+\_\+response\+\_\+t \mbox{\hyperlink{class_lorawan_acf1ef0ac8ce453bccc0d08347af071f0}{send\+Battery\+Error}} (uint8\+\_\+t power\+Level)
+\item 
+ttn\+\_\+response\+\_\+t \mbox{\hyperlink{class_lorawan_a8d5565a2257a87ad9b39d78ea2ad38b8}{send\+Storage\+Error}} (uint8\+\_\+t power\+Level)
+\item 
+uint8\+\_\+t \mbox{\hyperlink{class_lorawan_ab24ea4c1ed2f9fdc6f64d9c0fe64ca60}{get\+Spread\+Factor}} ()
+\item 
+char $\ast$ \mbox{\hyperlink{class_lorawan_a2d454c9a1216a5ae80c3c20c6a3b5e32}{get\+Char\+App\+Eui}} ()
+\item 
+char $\ast$ \mbox{\hyperlink{class_lorawan_a2a95dfcf1dc5868cd6e8a5fb8c4e5231}{get\+App\+Key}} ()
+\item 
+void \mbox{\hyperlink{class_lorawan_a58ab6ca02b1c7e1f57618818ece5e86b}{set\+Spread\+Factor}} (uint8\+\_\+t spread\+Factor)
+\item 
+void \mbox{\hyperlink{class_lorawan_a0b79ba499200cd96859d518a47306fa9}{set\+Char\+App\+Eui}} (char $\ast$app\+Eui)
+\item 
+void \mbox{\hyperlink{class_lorawan_a0971c9c87d2a731bb5779953243a7016}{set\+App\+Key}} (char $\ast$app\+Key)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\mbox{\hyperlink{_lorawan_8h}{Lorawan.\+h}} -\/ Library for ultrasonic sensor water level measurements. Created by Natalie Mclaren, December 17, 2017. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_lorawan_ad406457b082f8ae38594aa7daf632d1f}\label{class_lorawan_ad406457b082f8ae38594aa7daf632d1f}} 
+\index{Lorawan@{Lorawan}!Lorawan@{Lorawan}}
+\index{Lorawan@{Lorawan}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{Lorawan()}{Lorawan()}}
+{\footnotesize\ttfamily Lorawan\+::\+Lorawan (\begin{DoxyParamCaption}\item[{Stream \&}]{modem\+Stream,  }\item[{Stream \&}]{debug\+Stream,  }\item[{ttn\+\_\+fp\+\_\+t}]{fp,  }\item[{uint8\+\_\+t}]{sf = {\ttfamily TTN\+\_\+DEFAULT\+\_\+SF},  }\item[{uint8\+\_\+t}]{fsb = {\ttfamily TTN\+\_\+DEFAULT\+\_\+FSB} }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{_lorawan_8cpp}{Lorawan.\+cpp}} -\/ Network based functions using lorawan Created by Natalie Mclaren, December 17, 2017. Constructor, including all other objects to be accessed. \mbox{\hyperlink{class_lorawan}{Lorawan}} functions joining/sending data to the network. 
+\begin{DoxyParams}{Parameters}
+{\em \{\+Stream\}} & \{\&moden\+Stream\} reference to Stream object. \\
+\hline
+{\em \{\+Stream\}} & \{\&debug\+Stream\} reference to Stream object. \\
+\hline
+{\em \{ttn\+\_\+fp\+\_\+t\}} & \{fp\} \\
+\hline
+{\em \{uint8\+\_\+t\}} & \{sf\} \mbox{\hyperlink{class_lorawan}{Lorawan}} spread factor \\
+\hline
+{\em \{uint8\+\_\+t\}} & \{fsb\} pointer to \mbox{\hyperlink{class_lorawan}{Lorawan}} object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{Void\} N/A 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_lorawan_a2a95dfcf1dc5868cd6e8a5fb8c4e5231}\label{class_lorawan_a2a95dfcf1dc5868cd6e8a5fb8c4e5231}} 
+\index{Lorawan@{Lorawan}!get\+App\+Key@{get\+App\+Key}}
+\index{get\+App\+Key@{get\+App\+Key}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{get\+App\+Key()}{getAppKey()}}
+{\footnotesize\ttfamily char $\ast$ Lorawan\+::get\+App\+Key (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Getter to get the application\textquotesingle{}s key. 
+\begin{DoxyParams}{Parameters}
+{\em \{\+N/\+A\}} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{char\} \{app\+Key\} The application key used 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_lorawan_a2d454c9a1216a5ae80c3c20c6a3b5e32}\label{class_lorawan_a2d454c9a1216a5ae80c3c20c6a3b5e32}} 
+\index{Lorawan@{Lorawan}!get\+Char\+App\+Eui@{get\+Char\+App\+Eui}}
+\index{get\+Char\+App\+Eui@{get\+Char\+App\+Eui}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{get\+Char\+App\+Eui()}{getCharAppEui()}}
+{\footnotesize\ttfamily char $\ast$ Lorawan\+::get\+Char\+App\+Eui (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Getter to get the application\textquotesingle{}s Eui. 
+\begin{DoxyParams}{Parameters}
+{\em \{\+N/\+A\}} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{char\} \{app\+Eui\} The application Eui used 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_lorawan_ab24ea4c1ed2f9fdc6f64d9c0fe64ca60}\label{class_lorawan_ab24ea4c1ed2f9fdc6f64d9c0fe64ca60}} 
+\index{Lorawan@{Lorawan}!get\+Spread\+Factor@{get\+Spread\+Factor}}
+\index{get\+Spread\+Factor@{get\+Spread\+Factor}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{get\+Spread\+Factor()}{getSpreadFactor()}}
+{\footnotesize\ttfamily uint8\+\_\+t Lorawan\+::get\+Spread\+Factor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Getter to get the \mbox{\hyperlink{class_lorawan}{Lorawan}} spread factor used. 
+\begin{DoxyParams}{Parameters}
+{\em \{\+N/\+A\}} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{uint8\+\_\+t\} \{SF\} The spread factor. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_lorawan_a590a79393a24359a9cc69bb133f72d56}\label{class_lorawan_a590a79393a24359a9cc69bb133f72d56}} 
+\index{Lorawan@{Lorawan}!join@{join}}
+\index{join@{join}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{join()}{join()}}
+{\footnotesize\ttfamily bool Lorawan\+::join (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Join the T\+TN. 
+\begin{DoxyParams}{Parameters}
+{\em N/A} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{boolean\} True if it joined T\+TN, false if it didn\textquotesingle{}t 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_lorawan_ad8e01477e0f83ffd15a75309ee94ecc2}\label{class_lorawan_ad8e01477e0f83ffd15a75309ee94ecc2}} 
+\index{Lorawan@{Lorawan}!provision@{provision}}
+\index{provision@{provision}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{provision()}{provision()}}
+{\footnotesize\ttfamily bool Lorawan\+::provision (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Sets the information needed to activate the device. 
+\begin{DoxyParams}{Parameters}
+{\em \{char\}} & \{app\+Eui\} The application E\+UI \\
+\hline
+{\em \{char\}} & \{app\+Key\} The application key \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{boolean\} True if successful, false otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_lorawan_acf1ef0ac8ce453bccc0d08347af071f0}\label{class_lorawan_acf1ef0ac8ce453bccc0d08347af071f0}} 
+\index{Lorawan@{Lorawan}!send\+Battery\+Error@{send\+Battery\+Error}}
+\index{send\+Battery\+Error@{send\+Battery\+Error}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{send\+Battery\+Error()}{sendBatteryError()}}
+{\footnotesize\ttfamily ttn\+\_\+response\+\_\+t Lorawan\+::send\+Battery\+Error (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{power\+Level }\end{DoxyParamCaption})}
+
+Sends a Battery Error code. 
+\begin{DoxyParams}{Parameters}
+{\em \{uint8\+\_\+t\}} & \{power\+Level\} The processor\textquotesingle{}s battery power level \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{ttn\+\_\+response\+\_\+t\} Returns a success or error code and logs the related error message i.\+e. \textquotesingle{}successful transmisson\textquotesingle{} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_lorawan_acf1283d8a62ea919fec60a3634944576}\label{class_lorawan_acf1283d8a62ea919fec60a3634944576}} 
+\index{Lorawan@{Lorawan}!send\+Generic\+Error@{send\+Generic\+Error}}
+\index{send\+Generic\+Error@{send\+Generic\+Error}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{send\+Generic\+Error()}{sendGenericError()}}
+{\footnotesize\ttfamily ttn\+\_\+response\+\_\+t Lorawan\+::send\+Generic\+Error (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{power\+Level }\end{DoxyParamCaption})}
+
+Sends a Generic Error code. 
+\begin{DoxyParams}{Parameters}
+{\em \{uint8\+\_\+t\}} & \{power\+Level\} The processor\textquotesingle{}s battery power level \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{ttn\+\_\+response\+\_\+t\} Returns a success or error code and logs the related error message i.\+e. \textquotesingle{}successful transmisson\textquotesingle{} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_lorawan_ac57100cd65b5f9f5aea4e0cd8c24dd12}\label{class_lorawan_ac57100cd65b5f9f5aea4e0cd8c24dd12}} 
+\index{Lorawan@{Lorawan}!send\+Microcontroller\+Error@{send\+Microcontroller\+Error}}
+\index{send\+Microcontroller\+Error@{send\+Microcontroller\+Error}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{send\+Microcontroller\+Error()}{sendMicrocontrollerError()}}
+{\footnotesize\ttfamily ttn\+\_\+response\+\_\+t Lorawan\+::send\+Microcontroller\+Error (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{power\+Level }\end{DoxyParamCaption})}
+
+Sends a Microcontroller Error code. 
+\begin{DoxyParams}{Parameters}
+{\em \{uint8\+\_\+t\}} & \{power\+Level\} The processor\textquotesingle{}s battery power level \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{ttn\+\_\+response\+\_\+t\} Returns a success or error code and logs the related error message i.\+e. \textquotesingle{}successful transmisson\textquotesingle{} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_lorawan_a0a82173d537813a749766aec6ae58fe8}\label{class_lorawan_a0a82173d537813a749766aec6ae58fe8}} 
+\index{Lorawan@{Lorawan}!send\+Reading@{send\+Reading}}
+\index{send\+Reading@{send\+Reading}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{send\+Reading()}{sendReading()}}
+{\footnotesize\ttfamily ttn\+\_\+response\+\_\+t Lorawan\+::send\+Reading (\begin{DoxyParamCaption}\item[{int16\+\_\+t}]{reading,  }\item[{uint8\+\_\+t}]{power\+Level }\end{DoxyParamCaption})}
+
+Sends a reading. 
+\begin{DoxyParams}{Parameters}
+{\em \{int16\+\_\+t\}} & \{reading\} A reading from the sensor \\
+\hline
+{\em \{uint8\+\_\+t\}} & \{power\+Level\} The processor\textquotesingle{}s battery power level \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{ttn\+\_\+response\+\_\+t\} Returns a success or error code and logs the related error message i.\+e. \textquotesingle{}successful transmisson\textquotesingle{} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_lorawan_a53f239940033d3a5630f4876911038f6}\label{class_lorawan_a53f239940033d3a5630f4876911038f6}} 
+\index{Lorawan@{Lorawan}!send\+Sensor\+Error@{send\+Sensor\+Error}}
+\index{send\+Sensor\+Error@{send\+Sensor\+Error}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{send\+Sensor\+Error()}{sendSensorError()}}
+{\footnotesize\ttfamily ttn\+\_\+response\+\_\+t Lorawan\+::send\+Sensor\+Error (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{power\+Level }\end{DoxyParamCaption})}
+
+Sends a \mbox{\hyperlink{class_sensor}{Sensor}} Error code. 
+\begin{DoxyParams}{Parameters}
+{\em \{uint8\+\_\+t\}} & \{power\+Level\} The processor\textquotesingle{}s battery power level \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{ttn\+\_\+response\+\_\+t\} Returns a success or error code and logs the related error message i.\+e. \textquotesingle{}successful transmisson\textquotesingle{} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_lorawan_ae070b6740ad21efb2bd3355af0f49792}\label{class_lorawan_ae070b6740ad21efb2bd3355af0f49792}} 
+\index{Lorawan@{Lorawan}!send\+Still\+Alive@{send\+Still\+Alive}}
+\index{send\+Still\+Alive@{send\+Still\+Alive}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{send\+Still\+Alive()}{sendStillAlive()}}
+{\footnotesize\ttfamily ttn\+\_\+response\+\_\+t Lorawan\+::send\+Still\+Alive (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{power\+Level }\end{DoxyParamCaption})}
+
+Sends a \textquotesingle{}Still Here\textquotesingle{} code. 
+\begin{DoxyParams}{Parameters}
+{\em \{uint8\+\_\+t\}} & \{power\+Level\} The processor\textquotesingle{}s battery power level \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{ttn\+\_\+response\+\_\+t\} Returns a success or error code and logs the related error message i.\+e. \textquotesingle{}successful transmisson\textquotesingle{} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_lorawan_a8d5565a2257a87ad9b39d78ea2ad38b8}\label{class_lorawan_a8d5565a2257a87ad9b39d78ea2ad38b8}} 
+\index{Lorawan@{Lorawan}!send\+Storage\+Error@{send\+Storage\+Error}}
+\index{send\+Storage\+Error@{send\+Storage\+Error}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{send\+Storage\+Error()}{sendStorageError()}}
+{\footnotesize\ttfamily ttn\+\_\+response\+\_\+t Lorawan\+::send\+Storage\+Error (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{power\+Level }\end{DoxyParamCaption})}
+
+Sends a Storage Error code. 
+\begin{DoxyParams}{Parameters}
+{\em \{uint8\+\_\+t\}} & \{power\+Level\} The processor\textquotesingle{}s battery power level \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{ttn\+\_\+response\+\_\+t\} Returns a success or error code and logs the related error message i.\+e. \textquotesingle{}successful transmisson\textquotesingle{} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_lorawan_a0971c9c87d2a731bb5779953243a7016}\label{class_lorawan_a0971c9c87d2a731bb5779953243a7016}} 
+\index{Lorawan@{Lorawan}!set\+App\+Key@{set\+App\+Key}}
+\index{set\+App\+Key@{set\+App\+Key}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{set\+App\+Key()}{setAppKey()}}
+{\footnotesize\ttfamily void Lorawan\+::set\+App\+Key (\begin{DoxyParamCaption}\item[{char $\ast$}]{app\+Key }\end{DoxyParamCaption})}
+
+Setter to set the applications key. 
+\begin{DoxyParams}{Parameters}
+{\em \{char\}} & \{app\+Key\} Pointer to the application\textquotesingle{}s key. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{Void\} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_lorawan_a0b79ba499200cd96859d518a47306fa9}\label{class_lorawan_a0b79ba499200cd96859d518a47306fa9}} 
+\index{Lorawan@{Lorawan}!set\+Char\+App\+Eui@{set\+Char\+App\+Eui}}
+\index{set\+Char\+App\+Eui@{set\+Char\+App\+Eui}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{set\+Char\+App\+Eui()}{setCharAppEui()}}
+{\footnotesize\ttfamily void Lorawan\+::set\+Char\+App\+Eui (\begin{DoxyParamCaption}\item[{char $\ast$}]{app\+Eui }\end{DoxyParamCaption})}
+
+Setter to set the applications Eui. 
+\begin{DoxyParams}{Parameters}
+{\em \{char\}} & \{app\+Eui\} Pointer to the application\textquotesingle{}s Eui. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{Void\} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_lorawan_a58ab6ca02b1c7e1f57618818ece5e86b}\label{class_lorawan_a58ab6ca02b1c7e1f57618818ece5e86b}} 
+\index{Lorawan@{Lorawan}!set\+Spread\+Factor@{set\+Spread\+Factor}}
+\index{set\+Spread\+Factor@{set\+Spread\+Factor}!Lorawan@{Lorawan}}
+\subsubsection{\texorpdfstring{set\+Spread\+Factor()}{setSpreadFactor()}}
+{\footnotesize\ttfamily void Lorawan\+::set\+Spread\+Factor (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{spread\+Factor }\end{DoxyParamCaption})}
+
+Setter to set the \mbox{\hyperlink{class_lorawan}{Lorawan}} spread factor used. 
+\begin{DoxyParams}{Parameters}
+{\em \{uint8\+\_\+t\}} & \{spread\+Factor\} The \mbox{\hyperlink{class_lorawan}{Lorawan}} spreadfactor \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{Void\} 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/nataliemclaren/\+Documents/\+Uni/\+C\+O600/\+Flood-\/\+Sensor/\mbox{\hyperlink{_lorawan_8h}{Lorawan.\+h}}\item 
+/\+Users/nataliemclaren/\+Documents/\+Uni/\+C\+O600/\+Flood-\/\+Sensor/\mbox{\hyperlink{_lorawan_8cpp}{Lorawan.\+cpp}}\end{DoxyCompactItemize}

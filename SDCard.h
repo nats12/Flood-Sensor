@@ -1,4 +1,4 @@
-/*
+/**
   SDCard.h - Library for dealing with writing/retrieving data to/from SDCard.
   Created by Natalie Mclaren, December 17, 2017.
 */

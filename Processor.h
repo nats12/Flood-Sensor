@@ -1,4 +1,4 @@
-/*
+/**
   Processor.h - Library for dealing with processor settings i.e. its engineeringMenuJumper/led pins.
   Created by Natalie Mclaren, December 18, 2017.
 */

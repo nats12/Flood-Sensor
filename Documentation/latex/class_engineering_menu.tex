@@ -1,0 +1,174 @@
+\hypertarget{class_engineering_menu}{}\section{Engineering\+Menu Class Reference}
+\label{class_engineering_menu}\index{Engineering\+Menu@{Engineering\+Menu}}
+
+
+{\ttfamily \#include $<$Engineering\+Menu.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_engineering_menu_a4bcf5258ea838710a982fe6cff1ad0bc}{Engineering\+Menu}} (\mbox{\hyperlink{class_sensor}{Sensor}} $\ast$sensor, \mbox{\hyperlink{class_s_d_card}{S\+D\+Card}} $\ast$sd\+Card, \mbox{\hyperlink{class_processor}{Processor}} $\ast$processor, \mbox{\hyperlink{class_lorawan}{Lorawan}} $\ast$lorawan)
+\item 
+bool \mbox{\hyperlink{class_engineering_menu_a095890ce37adcbbe82ede76c6b2ddc06}{main\+Menu}} (String menu\+Option)
+\item 
+void \mbox{\hyperlink{class_engineering_menu_adc87bea9b0a4ae094eb4ae87fac5b9a7}{sub\+Menu\+Eight}} (String menu\+Option)
+\item 
+void \mbox{\hyperlink{class_engineering_menu_a1fdb55127655851a918ba357206f0b1f}{load\+Engineering\+Menu}} ()
+\item 
+void \mbox{\hyperlink{class_engineering_menu_a414a551c8e696dc32b41899ee7367a24}{print\+Loading\+Engineering\+Menu\+Box}} (String loading\+Message)
+\item 
+void \mbox{\hyperlink{class_engineering_menu_acdf6585caa040c7d5ad5277dc68e2639}{print\+Main\+Menu\+Options}} ()
+\item 
+void \mbox{\hyperlink{class_engineering_menu_a6547a9143f33fe493c22d82b149d40bf}{print\+Battery\+Voltage}} ()
+\item 
+bool \mbox{\hyperlink{class_engineering_menu_a607200a4b3f43c227f35df325b79e12c}{check\+Valid\+Menu\+Option}} (String menu\+Option\+Input, String expected\+Option)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool volatile \mbox{\hyperlink{class_engineering_menu_a77d214538bd5dbf2be427351701f71b7}{bring\+Up\+Menu}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\mbox{\hyperlink{_engineering_menu_8h}{Engineering\+Menu.\+h}} -\/ Library for dealing with the engineering menu. Created by Natalie Mclaren, December 17, 2017. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_engineering_menu_a4bcf5258ea838710a982fe6cff1ad0bc}\label{class_engineering_menu_a4bcf5258ea838710a982fe6cff1ad0bc}} 
+\index{Engineering\+Menu@{Engineering\+Menu}!Engineering\+Menu@{Engineering\+Menu}}
+\index{Engineering\+Menu@{Engineering\+Menu}!Engineering\+Menu@{Engineering\+Menu}}
+\subsubsection{\texorpdfstring{Engineering\+Menu()}{EngineeringMenu()}}
+{\footnotesize\ttfamily Engineering\+Menu\+::\+Engineering\+Menu (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_sensor}{Sensor}} $\ast$}]{sensor,  }\item[{\mbox{\hyperlink{class_s_d_card}{S\+D\+Card}} $\ast$}]{sd\+Card,  }\item[{\mbox{\hyperlink{class_processor}{Processor}} $\ast$}]{processor,  }\item[{\mbox{\hyperlink{class_lorawan}{Lorawan}} $\ast$}]{lorawan }\end{DoxyParamCaption})}
+
+Constructor, including all other objects to be accessed. Engineering menu functions that are to be used by an maintenance engineer for the device. 
+\begin{DoxyParams}{Parameters}
+{\em \{\+Sensor\}} & \{$\ast$sensor\} pointer to \mbox{\hyperlink{class_sensor}{Sensor}} object. \\
+\hline
+{\em \{\+S\+D\+Card\}} & \{$\ast$sd\+Card\} pointer to \mbox{\hyperlink{class_s_d_card}{S\+D\+Card}} object. \\
+\hline
+{\em \{\+Processor\}} & \{$\ast$processor\} pointer to \mbox{\hyperlink{class_processor}{Processor}} object. \\
+\hline
+{\em \{\+Lorawan\}} & \{$\ast$lorawan\} pointer to \mbox{\hyperlink{class_lorawan}{Lorawan}} object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+N/A 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_engineering_menu_a607200a4b3f43c227f35df325b79e12c}\label{class_engineering_menu_a607200a4b3f43c227f35df325b79e12c}} 
+\index{Engineering\+Menu@{Engineering\+Menu}!check\+Valid\+Menu\+Option@{check\+Valid\+Menu\+Option}}
+\index{check\+Valid\+Menu\+Option@{check\+Valid\+Menu\+Option}!Engineering\+Menu@{Engineering\+Menu}}
+\subsubsection{\texorpdfstring{check\+Valid\+Menu\+Option()}{checkValidMenuOption()}}
+{\footnotesize\ttfamily bool Engineering\+Menu\+::check\+Valid\+Menu\+Option (\begin{DoxyParamCaption}\item[{String}]{menu\+Option\+Input,  }\item[{String}]{expected\+Option }\end{DoxyParamCaption})}
+
+Compare menu input to expected menu to check if it is a valid option in the engineering menu. 
+\begin{DoxyParams}{Parameters}
+{\em \{\+String\}} & \{menu\+Option\+Input\} menu option manually entered by the engineer. \\
+\hline
+{\em \{\+String\}} & \{expected\+Option\} an possible option that valid in the engineering menu. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{bool\} return valid option or not (true or false). 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_engineering_menu_a1fdb55127655851a918ba357206f0b1f}\label{class_engineering_menu_a1fdb55127655851a918ba357206f0b1f}} 
+\index{Engineering\+Menu@{Engineering\+Menu}!load\+Engineering\+Menu@{load\+Engineering\+Menu}}
+\index{load\+Engineering\+Menu@{load\+Engineering\+Menu}!Engineering\+Menu@{Engineering\+Menu}}
+\subsubsection{\texorpdfstring{load\+Engineering\+Menu()}{loadEngineeringMenu()}}
+{\footnotesize\ttfamily void Engineering\+Menu\+::load\+Engineering\+Menu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Print engineering menu options to Serial device for the engineer user to view. Use serial input (from the engineer user) to select menu options functions. 
+\begin{DoxyParams}{Parameters}
+{\em N/A} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{void\} N/A 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_engineering_menu_a095890ce37adcbbe82ede76c6b2ddc06}\label{class_engineering_menu_a095890ce37adcbbe82ede76c6b2ddc06}} 
+\index{Engineering\+Menu@{Engineering\+Menu}!main\+Menu@{main\+Menu}}
+\index{main\+Menu@{main\+Menu}!Engineering\+Menu@{Engineering\+Menu}}
+\subsubsection{\texorpdfstring{main\+Menu()}{mainMenu()}}
+{\footnotesize\ttfamily bool Engineering\+Menu\+::main\+Menu (\begin{DoxyParamCaption}\item[{String}]{menu\+Option }\end{DoxyParamCaption})}
+
+Take serial input from user (menu\+Option String) and execute chosen option. 
+\begin{DoxyParams}{Parameters}
+{\em \{\+String\}} & \{menu\+Option\} input string typed in from engineer user to choose a menu function to run. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{Void\} N/A 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_engineering_menu_a6547a9143f33fe493c22d82b149d40bf}\label{class_engineering_menu_a6547a9143f33fe493c22d82b149d40bf}} 
+\index{Engineering\+Menu@{Engineering\+Menu}!print\+Battery\+Voltage@{print\+Battery\+Voltage}}
+\index{print\+Battery\+Voltage@{print\+Battery\+Voltage}!Engineering\+Menu@{Engineering\+Menu}}
+\subsubsection{\texorpdfstring{print\+Battery\+Voltage()}{printBatteryVoltage()}}
+{\footnotesize\ttfamily void Engineering\+Menu\+::print\+Battery\+Voltage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Return and print current battery voltage (remaing power left in the battery). Also print an estimated battery percentage (capacity remaining) 
+\begin{DoxyParams}{Parameters}
+{\em N/A} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{Void\} N/A 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_engineering_menu_a414a551c8e696dc32b41899ee7367a24}\label{class_engineering_menu_a414a551c8e696dc32b41899ee7367a24}} 
+\index{Engineering\+Menu@{Engineering\+Menu}!print\+Loading\+Engineering\+Menu\+Box@{print\+Loading\+Engineering\+Menu\+Box}}
+\index{print\+Loading\+Engineering\+Menu\+Box@{print\+Loading\+Engineering\+Menu\+Box}!Engineering\+Menu@{Engineering\+Menu}}
+\subsubsection{\texorpdfstring{print\+Loading\+Engineering\+Menu\+Box()}{printLoadingEngineeringMenuBox()}}
+{\footnotesize\ttfamily void Engineering\+Menu\+::print\+Loading\+Engineering\+Menu\+Box (\begin{DoxyParamCaption}\item[{String}]{loading\+Message }\end{DoxyParamCaption})}
+
+Print a box around the engineering menu \textquotesingle{}loading\textquotesingle{} message 
+\begin{DoxyParams}{Parameters}
+{\em \{\+String\}} & \{loading\+Message\} The loading message \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{void\} N/A 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_engineering_menu_acdf6585caa040c7d5ad5277dc68e2639}\label{class_engineering_menu_acdf6585caa040c7d5ad5277dc68e2639}} 
+\index{Engineering\+Menu@{Engineering\+Menu}!print\+Main\+Menu\+Options@{print\+Main\+Menu\+Options}}
+\index{print\+Main\+Menu\+Options@{print\+Main\+Menu\+Options}!Engineering\+Menu@{Engineering\+Menu}}
+\subsubsection{\texorpdfstring{print\+Main\+Menu\+Options()}{printMainMenuOptions()}}
+{\footnotesize\ttfamily void Engineering\+Menu\+::print\+Main\+Menu\+Options (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Print all possible menu options (main menu) to Serial device. 
+\begin{DoxyParams}{Parameters}
+{\em N/A} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{Void\} N/A 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_engineering_menu_adc87bea9b0a4ae094eb4ae87fac5b9a7}\label{class_engineering_menu_adc87bea9b0a4ae094eb4ae87fac5b9a7}} 
+\index{Engineering\+Menu@{Engineering\+Menu}!sub\+Menu\+Eight@{sub\+Menu\+Eight}}
+\index{sub\+Menu\+Eight@{sub\+Menu\+Eight}!Engineering\+Menu@{Engineering\+Menu}}
+\subsubsection{\texorpdfstring{sub\+Menu\+Eight()}{subMenuEight()}}
+{\footnotesize\ttfamily void Engineering\+Menu\+::sub\+Menu\+Eight (\begin{DoxyParamCaption}\item[{String}]{menu\+Option }\end{DoxyParamCaption})}
+
+Show sub-\/menu options for Main menu option 8. Call function based on user input (menu\+Option String). 
+\begin{DoxyParams}{Parameters}
+{\em \{\+String\}} & \{menu\+Option\} input string typed in from engineer user to choose a menu function to run. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{void\} N/A 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_engineering_menu_a77d214538bd5dbf2be427351701f71b7}\label{class_engineering_menu_a77d214538bd5dbf2be427351701f71b7}} 
+\index{Engineering\+Menu@{Engineering\+Menu}!bring\+Up\+Menu@{bring\+Up\+Menu}}
+\index{bring\+Up\+Menu@{bring\+Up\+Menu}!Engineering\+Menu@{Engineering\+Menu}}
+\subsubsection{\texorpdfstring{bring\+Up\+Menu}{bringUpMenu}}
+{\footnotesize\ttfamily bool volatile Engineering\+Menu\+::bring\+Up\+Menu}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/nataliemclaren/\+Documents/\+Uni/\+C\+O600/\+Flood-\/\+Sensor/\mbox{\hyperlink{_engineering_menu_8h}{Engineering\+Menu.\+h}}\item 
+/\+Users/nataliemclaren/\+Documents/\+Uni/\+C\+O600/\+Flood-\/\+Sensor/\mbox{\hyperlink{_engineering_menu_8cpp}{Engineering\+Menu.\+cpp}}\end{DoxyCompactItemize}

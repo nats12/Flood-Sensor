@@ -1,4 +1,4 @@
-/*
+/**
   EngineeringMenu.h - Library for dealing with the engineering menu.
   Created by Natalie Mclaren, December 17, 2017.
 */
@@ -31,7 +31,7 @@ EngineeringMenu::EngineeringMenu(Sensor *sensor, SDCard *sdCard, Processor *proc
   subMenuOption = "0";
 }
 
-/*
+/**
  * Print all possible menu options (main menu) to Serial device.
  * @param N/A
  * @return {Void} N/A
@@ -78,7 +78,7 @@ void EngineeringMenu::printMainMenuOptions()
   Serial.println(menuMessageExit);
 }
 
-/*
+/**
  * Compare menu input to expected menu to check if it is a valid option in the engineering menu.
  * @param {String} {menuOptionInput} menu option manually entered by the engineer.
  * @param {String} {expectedOption} an possible option that valid in the engineering menu.
@@ -92,7 +92,7 @@ bool EngineeringMenu::checkValidMenuOption(String menuOptionInput, String expect
 }
 
 
-/*
+/**
  * Return and print current battery voltage (remaing power left in the battery).
  * Also print an estimated battery percentage (capacity remaining)
  * @param N/A
@@ -112,7 +112,7 @@ void EngineeringMenu::printBatteryVoltage()
   Serial.println(this->processor->getEstimatedPowerLevel());
 }
 
-/*
+/**
  * Take serial input from user (menuOption String) and execute chosen option.
  * @param {String} {menuOption} input string typed in from engineer user to choose a menu function to run.
  * @return {Void} N/A
@@ -260,7 +260,7 @@ bool EngineeringMenu::mainMenu(String menuOption)
     } 
 }
 
-/*
+/**
  * Show sub-menu options for Main menu option 8.
  * Call function based on user input (menuOption String).
  * @param {String} {menuOption} input string typed in from engineer user to choose a menu function to run. 
@@ -314,7 +314,7 @@ void EngineeringMenu::subMenuEight(String menuOption)
 
 
 
-/*
+/**
  * Print a box around the engineering menu 'loading' message
  * @param {String} {loadingMessage} The loading message 
  * @return {void} N/A
@@ -341,7 +341,7 @@ void EngineeringMenu::printLoadingEngineeringMenuBox(String loadingMessage)
 
 
 
-/*
+/**
  * Print engineering menu options to Serial device for the engineer user to view.
  * Use serial input (from the engineer user) to select menu options functions.
  * @param N/A

@@ -1,4 +1,4 @@
-/*
+/**
   SDCard.h - Library for dealing with writing/retrieving data to/from SDCard.
   Created by Natalie Mclaren, December 17, 2017.
 */
@@ -22,7 +22,7 @@ SDCard::SDCard()
 }
 
 
-/*
+/**
  * Print details of SD card (memory available etc..)
  * Debugging function to check the status of the SD card - Is everything working correctly?
  * @param N/A
@@ -108,7 +108,7 @@ void SDCard::checkCardMemory()
 }
 
 
-/* 
+/** 
  * Print the last measurement sent to a new line in a log file on the SD card.
  * @param {int16_t} {lastMeasurementSent} last measurement value sent successfully, to be logged.
  * @return {void} N/A
@@ -139,7 +139,7 @@ bool SDCard::writeToLog(String data)
 
 
 
-/*
+/**
  * 
  */
 bool SDCard::readLog()
@@ -163,7 +163,7 @@ bool SDCard::readLog()
 }
 
 
-/*
+/**
  * 
  */
 bool SDCard::testReadLog(String data) 
@@ -201,7 +201,7 @@ bool SDCard::testReadLog(String data)
 }
 
 
-/*
+/**
  * Check whether the text file has reached its size limit (7.21 GB or 7741678551 bytes)
  * @param N/A
  * @return {bool} True if the file has reached its size limit, otherwise false
@@ -219,7 +219,7 @@ bool SDCard::fileHasReachedSizeLimit()
 }
 
 
-/*
+/**
  * 
  */
 bool SDCard::init()

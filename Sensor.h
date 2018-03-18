@@ -1,4 +1,4 @@
-/*
+/**
   Sensor.h - Library for ultrasonic sensor water level measurements.
   Created by Natalie Mclaren, December 17, 2017.
 */

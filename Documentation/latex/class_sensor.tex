@@ -1,0 +1,142 @@
+\hypertarget{class_sensor}{}\section{Sensor Class Reference}
+\label{class_sensor}\index{Sensor@{Sensor}}
+
+
+{\ttfamily \#include $<$Sensor.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_sensor_a135f905806f9234a4e867a7760d6188c}{Sensor}} (byte \mbox{\hyperlink{class_sensor_a713dcc4e025205c864c44fb23b22ffd8}{sensor\+Analog\+Pin}}, byte \mbox{\hyperlink{class_sensor_a151237329ac720b0edf097ae2bbf873e}{sensor\+Power\+Pin}})
+\item 
+void \mbox{\hyperlink{class_sensor_a84bc35cfba92eb579bc311b3c8b2980d}{init}} ()
+\item 
+int16\+\_\+t \mbox{\hyperlink{class_sensor_ae259133b490e86863feaf97fe7b10106}{get\+Current\+Measurement}} ()
+\item 
+bool \mbox{\hyperlink{class_sensor_aa67cf318ae1bde8027b723d2c85e56dd}{is\+Current\+Worth\+Sending}} (int16\+\_\+t current\+Measurement)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int16\+\_\+t \mbox{\hyperlink{class_sensor_a5276355eb01eb80e9e47f6f793d59f71}{current\+River\+Level}}
+\item 
+int16\+\_\+t \mbox{\hyperlink{class_sensor_a1d3d56b925cb8a8f13c8ad8356b7202a}{distance\+To\+River\+Bed}}
+\item 
+int16\+\_\+t \mbox{\hyperlink{class_sensor_aac74d0c04eaadb3ed7f48fc9ad1ea379}{range\+Difference\+Threshold}} = 50
+\item 
+int16\+\_\+t \mbox{\hyperlink{class_sensor_a76b4a42e92d57f14efc76a5f51cdea18}{last\+Measurement\+Sent}}
+\item 
+byte \mbox{\hyperlink{class_sensor_a151237329ac720b0edf097ae2bbf873e}{sensor\+Power\+Pin}}
+\item 
+byte \mbox{\hyperlink{class_sensor_a713dcc4e025205c864c44fb23b22ffd8}{sensor\+Analog\+Pin}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\mbox{\hyperlink{_sensor_8h}{Sensor.\+h}} -\/ Library for ultrasonic sensor water level measurements. Created by Natalie Mclaren, December 17, 2017. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_sensor_a135f905806f9234a4e867a7760d6188c}\label{class_sensor_a135f905806f9234a4e867a7760d6188c}} 
+\index{Sensor@{Sensor}!Sensor@{Sensor}}
+\index{Sensor@{Sensor}!Sensor@{Sensor}}
+\subsubsection{\texorpdfstring{Sensor()}{Sensor()}}
+{\footnotesize\ttfamily Sensor\+::\+Sensor (\begin{DoxyParamCaption}\item[{byte}]{sensor\+Analog\+Pin,  }\item[{byte}]{sensor\+Power\+Pin }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{_sensor_8cpp}{Sensor.\+cpp}} -\/ Library for ultrasonic sensor water level measurements. Created by Natalie Mclaren, December 17, 2017. \mbox{\hyperlink{class_sensor}{Sensor}} class constructor. Sets default range difference threshold (anything below this threshold in mm, should not be sent to api). 
+\begin{DoxyParams}{Parameters}
+{\em \{byte\}} & \{sensor\+Analog\+Pin\} Serial input pin for ultrasonic sensor output. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{void\} N/A 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_sensor_ae259133b490e86863feaf97fe7b10106}\label{class_sensor_ae259133b490e86863feaf97fe7b10106}} 
+\index{Sensor@{Sensor}!get\+Current\+Measurement@{get\+Current\+Measurement}}
+\index{get\+Current\+Measurement@{get\+Current\+Measurement}!Sensor@{Sensor}}
+\subsubsection{\texorpdfstring{get\+Current\+Measurement()}{getCurrentMeasurement()}}
+{\footnotesize\ttfamily int16\+\_\+t Sensor\+::get\+Current\+Measurement (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Use ultrasonic sensor to calculate the current river depth level in mm. 
+\begin{DoxyParams}{Parameters}
+{\em N/A} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{int16\+\_\+t\} current river depth level measurement (mm). 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_sensor_a84bc35cfba92eb579bc311b3c8b2980d}\label{class_sensor_a84bc35cfba92eb579bc311b3c8b2980d}} 
+\index{Sensor@{Sensor}!init@{init}}
+\index{init@{init}!Sensor@{Sensor}}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Sensor\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Initialise sensor 
+\begin{DoxyParams}{Parameters}
+{\em N/A} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{void\} N/A 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_sensor_aa67cf318ae1bde8027b723d2c85e56dd}\label{class_sensor_aa67cf318ae1bde8027b723d2c85e56dd}} 
+\index{Sensor@{Sensor}!is\+Current\+Worth\+Sending@{is\+Current\+Worth\+Sending}}
+\index{is\+Current\+Worth\+Sending@{is\+Current\+Worth\+Sending}!Sensor@{Sensor}}
+\subsubsection{\texorpdfstring{is\+Current\+Worth\+Sending()}{isCurrentWorthSending()}}
+{\footnotesize\ttfamily bool Sensor\+::is\+Current\+Worth\+Sending (\begin{DoxyParamCaption}\item[{int16\+\_\+t}]{current\+Measurement }\end{DoxyParamCaption})}
+
+Check if the current measurement is different enough from the last one sent (worth sending?). 
+\begin{DoxyParams}{Parameters}
+{\em \{int16\+\_\+t\}} & \{current\+Measurement\} current river depth measurement taken to compare to last measurement sent. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{bool\} is worth sending or not (true or false) -\/ Difference between the last measurement sent and current is more than or equal to the range\+Difference\+Threshold set. 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_sensor_a5276355eb01eb80e9e47f6f793d59f71}\label{class_sensor_a5276355eb01eb80e9e47f6f793d59f71}} 
+\index{Sensor@{Sensor}!current\+River\+Level@{current\+River\+Level}}
+\index{current\+River\+Level@{current\+River\+Level}!Sensor@{Sensor}}
+\subsubsection{\texorpdfstring{current\+River\+Level}{currentRiverLevel}}
+{\footnotesize\ttfamily int16\+\_\+t Sensor\+::current\+River\+Level}
+
+\mbox{\Hypertarget{class_sensor_a1d3d56b925cb8a8f13c8ad8356b7202a}\label{class_sensor_a1d3d56b925cb8a8f13c8ad8356b7202a}} 
+\index{Sensor@{Sensor}!distance\+To\+River\+Bed@{distance\+To\+River\+Bed}}
+\index{distance\+To\+River\+Bed@{distance\+To\+River\+Bed}!Sensor@{Sensor}}
+\subsubsection{\texorpdfstring{distance\+To\+River\+Bed}{distanceToRiverBed}}
+{\footnotesize\ttfamily int16\+\_\+t Sensor\+::distance\+To\+River\+Bed}
+
+\mbox{\Hypertarget{class_sensor_a76b4a42e92d57f14efc76a5f51cdea18}\label{class_sensor_a76b4a42e92d57f14efc76a5f51cdea18}} 
+\index{Sensor@{Sensor}!last\+Measurement\+Sent@{last\+Measurement\+Sent}}
+\index{last\+Measurement\+Sent@{last\+Measurement\+Sent}!Sensor@{Sensor}}
+\subsubsection{\texorpdfstring{last\+Measurement\+Sent}{lastMeasurementSent}}
+{\footnotesize\ttfamily int16\+\_\+t Sensor\+::last\+Measurement\+Sent}
+
+\mbox{\Hypertarget{class_sensor_aac74d0c04eaadb3ed7f48fc9ad1ea379}\label{class_sensor_aac74d0c04eaadb3ed7f48fc9ad1ea379}} 
+\index{Sensor@{Sensor}!range\+Difference\+Threshold@{range\+Difference\+Threshold}}
+\index{range\+Difference\+Threshold@{range\+Difference\+Threshold}!Sensor@{Sensor}}
+\subsubsection{\texorpdfstring{range\+Difference\+Threshold}{rangeDifferenceThreshold}}
+{\footnotesize\ttfamily int16\+\_\+t Sensor\+::range\+Difference\+Threshold = 50}
+
+\mbox{\Hypertarget{class_sensor_a713dcc4e025205c864c44fb23b22ffd8}\label{class_sensor_a713dcc4e025205c864c44fb23b22ffd8}} 
+\index{Sensor@{Sensor}!sensor\+Analog\+Pin@{sensor\+Analog\+Pin}}
+\index{sensor\+Analog\+Pin@{sensor\+Analog\+Pin}!Sensor@{Sensor}}
+\subsubsection{\texorpdfstring{sensor\+Analog\+Pin}{sensorAnalogPin}}
+{\footnotesize\ttfamily byte Sensor\+::sensor\+Analog\+Pin}
+
+\mbox{\Hypertarget{class_sensor_a151237329ac720b0edf097ae2bbf873e}\label{class_sensor_a151237329ac720b0edf097ae2bbf873e}} 
+\index{Sensor@{Sensor}!sensor\+Power\+Pin@{sensor\+Power\+Pin}}
+\index{sensor\+Power\+Pin@{sensor\+Power\+Pin}!Sensor@{Sensor}}
+\subsubsection{\texorpdfstring{sensor\+Power\+Pin}{sensorPowerPin}}
+{\footnotesize\ttfamily byte Sensor\+::sensor\+Power\+Pin}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/nataliemclaren/\+Documents/\+Uni/\+C\+O600/\+Flood-\/\+Sensor/\mbox{\hyperlink{_sensor_8h}{Sensor.\+h}}\item 
+/\+Users/nataliemclaren/\+Documents/\+Uni/\+C\+O600/\+Flood-\/\+Sensor/\mbox{\hyperlink{_sensor_8cpp}{Sensor.\+cpp}}\end{DoxyCompactItemize}

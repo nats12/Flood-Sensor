@@ -1,4 +1,4 @@
-/*
+/**
   Sensor.cpp - Library for ultrasonic sensor water level measurements.
   Created by Natalie Mclaren, December 17, 2017.
 */
@@ -9,7 +9,7 @@
 /**
  * Sensor class constructor.
  * Sets default range difference threshold (anything below this threshold in mm, should not be sent to api).
- * @param {uint8_t} {analogPin} Serial input pin for ultrasonic sensor output.
+ * @param {byte} {sensorAnalogPin} Serial input pin for ultrasonic sensor output.
  * @return {void} N/A
  */
 Sensor::Sensor(byte sensorAnalogPin, byte sensorPowerPin)
@@ -18,7 +18,7 @@ Sensor::Sensor(byte sensorAnalogPin, byte sensorPowerPin)
   this->sensorPowerPin = sensorPowerPin;
 }
 
-/*
+/**
  * Initialise sensor
  * @param N/A
  * @return {void} N/A
@@ -29,7 +29,7 @@ void Sensor::init()
     digitalWrite(sensorPowerPin, LOW);
 }
 
-/*
+/**
  * Use ultrasonic sensor to calculate the current river depth level in mm.
  * @param N/A
  * @return {int16_t} current river depth level measurement (mm).
@@ -49,7 +49,7 @@ int16_t Sensor::getCurrentMeasurement()
 
 
 
-/*
+/**
  * Check if the current measurement is different enough from the last one sent (worth sending?).
  * @param {int16_t} {currentMeasurement} current river depth measurement taken to compare to last measurement sent.
  * @return {bool} is worth sending or not (true or false) - Difference between the last measurement sent and current is more than or equal to the rangeDifferenceThreshold set.

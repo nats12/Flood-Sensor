@@ -64,16 +64,14 @@ void loop()
   
   // If engineering menu jumper has been pulled off
 
-//  if(digitalRead(engineeringMenuJumperPin) == HIGH) {
-//    // Load the engineering menu
-//    menu.loadEngineeringMenu();
-//  }
+  if(digitalRead(engineeringMenuJumperPin) == HIGH) {
+    // Load the engineering menu
+    menu.loadEngineeringMenu();
+  }
 
-  Serial.println(sensor.getCurrentMeasurement());
-  delay(1500);
-//  processor.readingProcess();
+  processor.readingProcess();
 // 
-//  processor.delayWithPeriod();
+  processor.delayWithPeriod();
 
 }
 
