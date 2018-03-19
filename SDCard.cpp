@@ -211,7 +211,7 @@ bool SDCard::fileHasReachedSizeLimit()
 { 
   
   // If the file size is larger than 7741678551 bytes (7.21GB)
-  if(fileSize > 7741678551) {
+  if(fileSize >= 7741678551) {
     return true;
   }
 
