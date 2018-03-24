@@ -210,8 +210,10 @@ bool SDCard::testReadLog(String data)
 bool SDCard::fileHasReachedSizeLimit()
 { 
   
-  // If the file size is larger than 7741678551 bytes (7.21GB)
-  if(fileSize >= 7741678551) {
+  // If the file size is equal to 7741678551 bytes (7.21GB) OR 
+  // If the file size is about to reach it's limit 7741678351 bytes (200 bytes under the limit = 40 more readings (5 bytes each line). 
+  // This gives engineer time to go back out and replace SD card without running the risk of no readings being written.
+  if(fileSize == 7741678551 || fileSize >= 7741678351) {
     return true;
   }
 
