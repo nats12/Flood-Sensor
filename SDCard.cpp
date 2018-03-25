@@ -215,9 +215,9 @@ bool SDCard::fileHasReachedSizeLimit()
   // This gives engineer time to go back out and replace SD card without running the risk of no readings being written.
   if(fileSize == 7741678551 || fileSize >= 7741678351) {
     return true;
+  } else {
+    return false;
   }
-
-  return false;
 }
 
 

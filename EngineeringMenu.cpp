@@ -134,33 +134,36 @@ bool EngineeringMenu::mainMenu(String menuOption)
           // Test read/write on SD card
           char testSDReadWriteMessage[] PROGMEM = "Testing read/write...";
           Serial.println(testSDReadWriteMessage);
-
-          // If the file was written to okay
-          char testString[] = "test string";
-          if(this->sdCard->writeToLog(testString)) {
-            char testSDWritePassedMessage[] PROGMEM = "Writing: passed";
-            Serial.println(testSDWritePassedMessage);
-          } else {
-            char testSDWriteFailedMessage[] PROGMEM = "Writing: failed";
-            Serial.println(testSDWriteFailedMessage);
-          }
-          
-          // If the file was read ok
-          if(this->sdCard->testReadLog("test string")) {
-            char testSDReadPassedMessage[] PROGMEM = "Reading: passed";
-            Serial.println(testSDReadPassedMessage);
-          } else {
-            char testSDReadFailedMessage[] PROGMEM = "Reading: failed";
-            Serial.println(testSDReadFailedMessage);
-          }
           
           // If the SDCard file is full
           if(this->sdCard->fileHasReachedSizeLimit()) {
             // Send a storage error
-//            this->lorawan->sendStorageError(getBatteryVoltageByte());
+            this->lorawan->sendStorageError(this->processor->getBatteryVoltageByte());
             char fullSDCardFileMessage[] PROGMEM = "The SDCard seems to be full, error writing to it...";
             Serial.println(fullSDCardFileMessage);
-          } 
+          } else {
+             // Else, the SDCard file is not full
+            // If the file was written to okay
+            char testString[] = "test string";
+            if(this->sdCard->writeToLog(testString)) {
+              char testSDWritePassedMessage[] PROGMEM = "Writing: passed";
+              Serial.println(testSDWritePassedMessage);
+            } else {
+              char testSDWriteFailedMessage[] PROGMEM = "Writing: failed";
+              Serial.println(testSDWriteFailedMessage);
+            }
+
+            // If the file was read ok
+            if(this->sdCard->testReadLog("test string")) {
+              char testSDReadPassedMessage[] PROGMEM = "Reading: passed";
+              Serial.println(testSDReadPassedMessage);
+            } else {
+              char testSDReadFailedMessage[] PROGMEM = "Reading: failed";
+              Serial.println(testSDReadFailedMessage);
+            }
+          }
+
+          
           printMainMenuOptions();
           
        } else if (checkValidMenuOption(menuOption, "6\n")) {    // If option six

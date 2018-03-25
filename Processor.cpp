@@ -64,7 +64,7 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte engi
  */
 void Processor::init()
 { 
-    lorawan->join();
+//    lorawan->join();
 
     sdCard->init();
     sensor->init();
@@ -97,7 +97,7 @@ void Processor::init()
       Serial.println(setupSensorMessage);
 
       // Delay for 15 minutes
-      delay(900000);
+//      delay(900000);
       
       // Delay for 5 minutes for device to placed and setup physically
       initialDistanceToRiverTop = analogRead(sensor->sensorAnalogPin) * 5;
@@ -124,7 +124,7 @@ void Processor::init()
 
       Serial.println(setupSensorMessage);
       // Delay for 15 minutes
-      delay(900000);
+//      delay(900000);
     }
     
     Serial.println("Current Measurement: ");
