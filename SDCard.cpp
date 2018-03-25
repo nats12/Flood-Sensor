@@ -124,7 +124,8 @@ bool SDCard::writeToLog(String data)
     // Write to it
     myFile.println(data);
     // Get the file size
-    fileSize = myFile.size(); 
+    // Filesize accuracy lost (/ 1000) to ensure that the number can be stored in a 32 bit int
+    fileSize = myFile.size() / 10000;  
     // Close the file:
     myFile.close();
     return true;
@@ -210,10 +211,10 @@ bool SDCard::testReadLog(String data)
 bool SDCard::fileHasReachedSizeLimit()
 { 
   
-  // If the file size is equal to 7741678551 bytes (7.21GB) OR 
-  // If the file size is about to reach it's limit 7741678351 bytes (200 bytes under the limit = 40 more readings (5 bytes each line). 
+  // If the file size is equal to or larger than a number close to the limit 7741678351 bytes (200 bytes under the limit = 40 more readings (5 bytes each line). 
   // This gives engineer time to go back out and replace SD card without running the risk of no readings being written.
-  if(fileSize == 7741678551 || fileSize >= 7741678351) {
+  // Filesize accuracy lost (/ 1000) to ensure that the number can be stored in a 32 bit int 
+  if(fileSize >= 7741678351 / 10000) {
     return true;
   } else {
     return false;
@@ -239,7 +240,8 @@ bool SDCard::init()
 
   // If the file opened okay
   if (myFile) {
-    fileSize = myFile.size(); 
+    // Filesize accuracy lost (/ 1000) to ensure that the number can be stored in a 32 bit int
+    fileSize = myFile.size() / 10000; 
     // Close the file:
     myFile.close();
     Serial.println(initSDCardMessage);

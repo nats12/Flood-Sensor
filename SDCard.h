@@ -19,7 +19,7 @@ class SDCard
     SdVolume volume;
     SdFile root;
     Sd2Card card;
-    int16_t fileSize;
+    int32_t fileSize;
     
     SDCard();
     void checkCardMemory();
