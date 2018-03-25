@@ -69,20 +69,8 @@ void loop()
     menu.loadEngineeringMenu();
   }
 
-//  Serial.println("SDCard file filesize is: ");
-//  Serial.print(sdCard.fileSize);
-  
-//  if(sdCard.fileHasReachedSizeLimit()) {
-//    Serial.println(sdCard.fileHasReachedSizeLimit());
-//    Serial.println(sdCard.fileSize);
-//  } else {
-//    Serial.println(sdCard.fileHasReachedSizeLimit());
-//    Serial.println(sdCard.fileSize);
-//  }
+  processor.readingProcess();
 
-  
-//  processor.readingProcess();
-    menu.loadEngineeringMenu();
   processor.delayWithPeriod();
 
 }
