@@ -134,7 +134,7 @@ bool EngineeringMenu::mainMenu(String menuOption)
           // Test read/write on SD card
           char testSDReadWriteMessage[] PROGMEM = "Testing read/write...";
           Serial.println(testSDReadWriteMessage);
-          
+          Serial.println(this->sdCard->fileSize);
           // If the SDCard file is full
           if(this->sdCard->fileHasReachedSizeLimit()) {
             // Send a storage error
@@ -145,6 +145,7 @@ bool EngineeringMenu::mainMenu(String menuOption)
              // Else, the SDCard file is not full
             // If the file was written to okay
             char testString[] = "test string";
+            
             if(this->sdCard->writeToLog(testString)) {
               char testSDWritePassedMessage[] PROGMEM = "Writing: passed";
               Serial.println(testSDWritePassedMessage);
