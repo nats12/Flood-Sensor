@@ -121,14 +121,16 @@ bool SDCard::writeToLog(String data)
 
   // If the file opened okay
   if (myFile) {
-    // Write to it
-    myFile.println(data);
-    // Get the file size
-    // Filesize accuracy lost (/ 1000) to ensure that the number can be stored in a 32 bit int
-    fileSize = myFile.size() / 10000;  
-    // Close the file:
-    myFile.close();
-    return true;
+    // If number of bytes written is equal to the size of data passed, it has successfully written
+    if(myFile.println(data) == data.length()+2) {
+      // Get the file size
+      // Filesize accuracy lost (/ 1000) to ensure that the number can be stored in a 32 bit int
+      fileSize = myFile.size() / 10000;  
+      // Close the file:
+      myFile.close();
+      return true;
+    } 
+    return false;
   } else {
     // If the file didn't open, print an error:
     char writingSDFileOpeningErrorMessage[] PROGMEM = "Error opening logger.txt";
@@ -174,24 +176,25 @@ bool SDCard::testReadLog(String data)
   myFile = SD.open("LOGGER.TXT");
   if (myFile) {
 
-    char dataArray[data.length()];
-
-    Serial.println(dataArray);
+    char dataArray[data.length()+2];
+    
+    // Look for the last written value in the text file 
     myFile.seek(myFile.size() - (data.length()+2));
     
     // Read from the file until there's nothing else in it:
 //    while (myFile.available()) {
-      myFile.read(dataArray, data.length());
+      myFile.read(dataArray, data.length()+2);
 //    }
 
-    Serial.println(dataArray);
-    // Close the file:
-    myFile.close();
-    
+    // If there are no differences when comparing the data array to the string passed into the function, it is reading the last written value so return true
     if(strcmp(dataArray, data.c_str()) == 0) {
+      // Close the file:
+      myFile.close();
       return true;
     } 
 
+    // Close the file:
+    myFile.close();
     return false;
   } else {
     // If the file didn't open, print an error:

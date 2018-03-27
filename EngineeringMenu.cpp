@@ -155,7 +155,7 @@ bool EngineeringMenu::mainMenu(String menuOption)
             }
 
             // If the file was read ok
-            if(this->sdCard->testReadLog("test string")) {
+            if(this->sdCard->testReadLog(testString)) {
               char testSDReadPassedMessage[] PROGMEM = "Reading: passed";
               Serial.println(testSDReadPassedMessage);
             } else {
