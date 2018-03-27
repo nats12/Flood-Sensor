@@ -212,7 +212,6 @@ void Lorawan::setCharAppEui(char *appEui)
 {
   delete[] this->appEui;
   this->appEui = appEui;
-  provision();
 }
 
 /**
@@ -235,7 +234,6 @@ void Lorawan::setAppKey(char *appKey)
 {
   delete[] this->appKey;
   this->appKey = appKey;
-  provision();
 }
 
 
