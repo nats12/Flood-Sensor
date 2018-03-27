@@ -46,7 +46,7 @@ void EngineeringMenu::printMainMenuOptions()
   char menuMessage7[] PROGMEM = "7: Change measurement period";
   char menuMessage8[] PROGMEM = "8: Adjust \"Accelerated Readings\" thresholds and periods";
   char menuMessage9[] PROGMEM = "9: Recalibrate sensor distance";
-  char menuMessage11[] PROGMEM = "11: Clear flash";
+  char menuMessage11[] PROGMEM = "11: Clear flash memory";
   char menuMessage12[] PROGMEM = "12: Set the Spreading Factor to use for LoRaWAN";
   char menuMessage13[] PROGMEM = "13: Change the App Eui used for LoRaWAN";
   char menuMessage14[] PROGMEM = "14: Change the App Key used for LoRaWAN";
@@ -124,7 +124,7 @@ bool EngineeringMenu::mainMenu(String menuOption)
       // If option one 
       if(checkValidMenuOption(menuOption, "1\n")) {   // If option one
          // Print last sent measurement
-         Serial.println(this->sensor->getCurrentMeasurement());
+//         Serial.println(this->sensor->getCurrentMeasurement());
          printMainMenuOptions();
        } else if(checkValidMenuOption(menuOption, "2\n")) {   // If option two
          // Print current battery voltage and percentage
@@ -173,16 +173,16 @@ bool EngineeringMenu::mainMenu(String menuOption)
           printMainMenuOptions();
           
        } else if (checkValidMenuOption(menuOption, "7\n")) {    // If option seven
-          int16_t minutes;
+          int32_t milliseconds;
           // Insert a new measurement period
-          char setNewMeasurementPeriodMessage[] PROGMEM = "Insert a new measurement period (Number of minutes)";
-          char showNewMeasurementPeriodMessage[] PROGMEM = "New measurement delay period (min):";
+          char setNewMeasurementPeriodMessage[] PROGMEM = "Insert a new measurement period (Number of milliseconds)";
+          char showNewMeasurementPeriodMessage[] PROGMEM = "New measurement delay period (ms):";
           
           Serial.println(setNewMeasurementPeriodMessage);
-          while((minutes = Serial.readString().toInt()) == 0){};
-          this->processor->changeMeasurementPeriod(minutes); // Call function to update global variable period to minutes
+          while((milliseconds = Serial.readString().toInt()) == 0){};
+          this->processor->changeMeasurementPeriod(milliseconds); // Call function to update global variable period to milliseconds
           Serial.print(showNewMeasurementPeriodMessage);
-          Serial.println(processor->delayPeriod / 1000);
+          Serial.println(processor->delayPeriod);
           printMainMenuOptions();
           
        } else if (checkValidMenuOption(menuOption, "8\n")) {    // If option eight

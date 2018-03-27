@@ -16,11 +16,11 @@
 
 //Reserve space for default device settings in flash storage (EEPROM)
 FlashStorage(setupDone_FlashStore, boolean);
-FlashStorage(distanceToRiverBed_FlashStore, int16_t);
-FlashStorage(delayPeriod_FlashStore, int16_t);
-FlashStorage(delayPeriodARMode_FlashStore, int16_t);
-FlashStorage(ARModeActivationThreshold_FlashStore, int16_t);
-FlashStorage(ignoreThreshold_FlashStore, int16_t);
+FlashStorage(distanceToRiverBed_FlashStore, int32_t);
+FlashStorage(delayPeriod_FlashStore, int32_t);
+FlashStorage(delayPeriodARMode_FlashStore, int32_t);
+FlashStorage(ARModeActivationThreshold_FlashStore, int32_t);
+FlashStorage(ignoreThreshold_FlashStore, int32_t);
 FlashStorage(appEui_FlashStore, String);
 FlashStorage(appKey_FlashStore, String);
 
@@ -37,7 +37,7 @@ FlashStorage(appKey_FlashStore, String);
  * @param {int16_t} {ignoreThreshold} threshold (mm) for which the sensor should ignore readings - don't send any info to server
  * @return N/A
  */
-Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte engineeringMenuJumperPin, int16_t delayPeriod, int16_t delayPeriodARMode, int16_t ARModeActivationThreshold, int16_t ignoreThreshold)
+Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte engineeringMenuJumperPin, int32_t delayPeriod, int32_t delayPeriodARMode, int16_t ARModeActivationThreshold, int16_t ignoreThreshold)
 {
   this->sensor = sensor;
   this->sdCard = sdCard;
@@ -127,8 +127,8 @@ void Processor::init()
 //      delay(900000);
     }
     
-    Serial.println("Current Measurement: ");
-    Serial.println(sensor->getCurrentMeasurement());
+//    Serial.println("Current Measurement: ");
+//    Serial.println(sensor->getCurrentMeasurement());
 }
 
 
@@ -311,7 +311,7 @@ void Processor::adjustAppKey(String newAppKey)
  * @param {int16_t} {newDelayPeriod} new delay period to be used.
  * @return {void} N/A
  */
-void Processor::adjustARModeDelay(int16_t newDelayPeriod) //adjust accelerated readings mode with new delay period
+void Processor::adjustARModeDelay(int32_t newDelayPeriod) //adjust accelerated readings mode with new delay period
 {
   delayPeriodARMode = newDelayPeriod;
   delayPeriodARMode_FlashStore.write(newDelayPeriod);
@@ -335,7 +335,7 @@ void Processor::adjustARModeThreshold(int16_t newActivationThreshold)
  */
 void Processor::activateOrDeactivateARMode()
 {
-  int16_t tempPeriod = 0;
+  int32_t tempPeriod = 0;
   tempPeriod = delayPeriod;
   delayPeriod = delayPeriodARMode;
   delayPeriodARMode = tempPeriod;
@@ -376,9 +376,9 @@ void Processor::delayWithPeriod()
  * @param {int16_t} {minutes} new delay period (in minutes) set.
  * @return {void} N/A
  */
-void Processor::changeMeasurementPeriod(int16_t minutes)
+void Processor::changeMeasurementPeriod(int32_t milliseconds)
 {
-    this->delayPeriod = (minutes * 1000) * 60;
+    this->delayPeriod = milliseconds;
     delayPeriod_FlashStore.write(this->delayPeriod);
 }
 

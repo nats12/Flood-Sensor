@@ -21,7 +21,7 @@ class Processor
     bool ARModeOn;
 
     // Constructors
-    Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte interrputPin, int16_t delayPeriod = 300000, int16_t delayPeriodARMode = 600000, int16_t ARModeActivationThreshold = 200000, int16_t ignoreThreshold = 0); 
+    Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte interrputPin, int32_t delayPeriod = 0, int32_t delayPeriodARMode = 600000, int16_t ARModeActivationThreshold = 32000, int16_t ignoreThreshold = 0); 
 
     // Main States
     void init();
@@ -30,12 +30,12 @@ class Processor
     // AR mode
     void activateOrDeactivateARMode();
     void adjustIgnoreThreshold(int16_t newIgnoreThreshold);
-    void adjustARModeDelay(int16_t newDelayPeriod);
+    void adjustARModeDelay(int32_t newDelayPeriod);
     void adjustARModeThreshold(int16_t newActivationThreshold);
 
     // Helpers
     void delayWithPeriod();
-    void changeMeasurementPeriod(int16_t minutes);
+    void changeMeasurementPeriod(int32_t milliseconds);
     void recalibrateSensor();
     void triggerClearFlash();
     void adjustAppEui(String newAppEui);
@@ -56,9 +56,9 @@ class Processor
     // Initial depth
     int16_t initialRiverDepth;
     // AR mode variables
-    int16_t delayPeriodARMode;
-    int16_t ARModeActivationThreshold; 
-    int16_t ignoreThreshold;
+    int32_t delayPeriodARMode;
+    int32_t ARModeActivationThreshold; 
+    int32_t ignoreThreshold;
     // Pins
     byte engineeringMenuJumperPin;
 };
