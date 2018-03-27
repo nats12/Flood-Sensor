@@ -124,7 +124,7 @@ bool EngineeringMenu::mainMenu(String menuOption)
       // If option one 
       if(checkValidMenuOption(menuOption, "1\n")) {   // If option one
          // Print last sent measurement
-//         Serial.println(this->sensor->getCurrentMeasurement());
+         Serial.println(this->sensor->getCurrentMeasurement());
          printMainMenuOptions();
        } else if(checkValidMenuOption(menuOption, "2\n")) {   // If option two
          // Print current battery voltage and percentage
@@ -155,7 +155,7 @@ bool EngineeringMenu::mainMenu(String menuOption)
             }
 
             // If the file was read ok
-            if(this->sdCard->testReadLog(testString)) {
+            if(this->sdCard->testReadLog("test string")) {
               char testSDReadPassedMessage[] PROGMEM = "Reading: passed";
               Serial.println(testSDReadPassedMessage);
             } else {
