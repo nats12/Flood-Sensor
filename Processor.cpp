@@ -160,7 +160,7 @@ float Processor::getBatteryVoltage()
 }
 
 /**
- * Converts battery voltage to a byte to be sent to the API 
+ * Converts battery voltage to a byte to be sent to the API.
  * Done to save TTN bandwidth (So we don't need to send send a full floating point number).
  * @param N/A
  * @return {uint8_t} returns voltage as an interger between 1 and 100 to be then recalculated in the API
@@ -250,7 +250,9 @@ void Processor::readingProcess()
 
 
 /**
- * Calibrate the sensor.
+ * Used to calibrate the sensor as done in initial setup.
+ * Allows the engineer to input an initial depth for the river, for which the distance from sensor to river bed can be calculated.
+
  * @param {N/A}
  * @return {N/A}
  */

@@ -36,15 +36,22 @@ void Sensor::init()
  */
 int16_t Sensor::getCurrentMeasurement()
 { 
+  int16_t currentMeasurement;
   // Read a raw value (Turn on sensor power to measure, and turn off again once done)
   digitalWrite(sensorPowerPin, HIGH);
   int16_t rawVal = analogRead(sensorAnalogPin);
   digitalWrite(sensorPowerPin, LOW);
   // As per datasheet (to get mm)   
   int16_t currentDistanceToRiverTop = rawVal * 5;  
+  
   // Output value  
+  currentMeasurement = distanceToRiverBed - currentDistanceToRiverTop;
 
-  return distanceToRiverBed - currentDistanceToRiverTop;
+  //if negative value just return 0
+  if (currentMeasurement < 0)
+    return 0;
+  else
+    return currentMeasurement;
 }
 
 
