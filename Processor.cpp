@@ -31,8 +31,8 @@ FlashStorage(appKey_FlashStore, String);
  * @param {SDCard} {*sdCard} pointer to SDCard object.
  * @param {Lorawan} {*lorawan} pointer to Lorawan object.
  * @param {byte} {engineeringMenuJumperPin} engineering menu button interrupt pin number
- * @param {int16_t} {delayPeriod} the delay period value between each samples
- * @param {int16_t} {delayPeriodARMode} the accelerated reading mode value (less of a delay than the delay period)
+ * @param {uint32_t} {delayPeriod} the delay period value between each samples
+ * @param {uint32_t} {delayPeriodARMode} the accelerated reading mode value (less of a delay than the delay period)
  * @param {int16_t} {ARModeActivationThreshold} the threshold which activates the ARMode
  * @param {int16_t} {ignoreThreshold} threshold (mm) for which the sensor should ignore readings - don't send any info to server
  * @return N/A
@@ -310,7 +310,7 @@ void Processor::adjustAppKey(String newAppKey)
 
 /**
  * Set delay period to be used whilst the device is in AR (Accelerated Readings) Mode.
- * @param {int16_t} {newDelayPeriod} new delay period to be used.
+ * @param {uint32_t} {newDelayPeriod} new delay period to be used.
  * @return {void} N/A
  */
 void Processor::adjustARModeDelay(uint32_t newDelayPeriod) //adjust accelerated readings mode with new delay period
@@ -358,7 +358,7 @@ void Processor::adjustIgnoreThreshold(int16_t newIgnoreThreshold)
 // Helpers
 /**
  * Makes the entire device sleep for a specified period of time.
- * Used to sleep inbetween taking river depth measurements.
+ * Used to sleep in between taking river depth measurements.
  * @param N/A
  * @return {void} N/A
  */
@@ -375,7 +375,7 @@ void Processor::delayWithPeriod()
 
 /**
  * Set the delay period between each measurement to be taken.
- * @param {int16_t} {minutes} new delay period (in minutes) set.
+ * @param {uint32_t} {minutes} new delay period (in minutes) set.
  * @return {void} N/A
  */
 void Processor::changeMeasurementPeriod(uint32_t milliseconds)
