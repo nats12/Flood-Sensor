@@ -37,7 +37,7 @@ FlashStorage(appKey_FlashStore, String);
  * @param {int16_t} {ignoreThreshold} threshold (mm) for which the sensor should ignore readings - don't send any info to server
  * @return N/A
  */
-Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte engineeringMenuJumperPin, int32_t delayPeriod, int32_t delayPeriodARMode, int16_t ARModeActivationThreshold, int16_t ignoreThreshold)
+Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte engineeringMenuJumperPin, uint32_t delayPeriod, uint32_t delayPeriodARMode, int16_t ARModeActivationThreshold, int16_t ignoreThreshold)
 {
   this->sensor = sensor;
   this->sdCard = sdCard;
@@ -269,7 +269,7 @@ void Processor::recalibrateSensor()
 }
 
 /**
- * Clear the Flash storage.
+ * Clear the device settings variables stored in the flash storage.
  * @param {N/A}
  * @return {Void}
  */
@@ -313,7 +313,7 @@ void Processor::adjustAppKey(String newAppKey)
  * @param {int16_t} {newDelayPeriod} new delay period to be used.
  * @return {void} N/A
  */
-void Processor::adjustARModeDelay(int32_t newDelayPeriod) //adjust accelerated readings mode with new delay period
+void Processor::adjustARModeDelay(uint32_t newDelayPeriod) //adjust accelerated readings mode with new delay period
 {
   delayPeriodARMode = newDelayPeriod;
   delayPeriodARMode_FlashStore.write(newDelayPeriod);
@@ -378,7 +378,7 @@ void Processor::delayWithPeriod()
  * @param {int16_t} {minutes} new delay period (in minutes) set.
  * @return {void} N/A
  */
-void Processor::changeMeasurementPeriod(int32_t milliseconds)
+void Processor::changeMeasurementPeriod(uint32_t milliseconds)
 {
     this->delayPeriod = milliseconds;
     delayPeriod_FlashStore.write(this->delayPeriod);
