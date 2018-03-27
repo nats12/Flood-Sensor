@@ -48,8 +48,10 @@ void setup()
   Serial.println("Device Initialized");
 
   pinMode(engineeringMenuJumperPin, INPUT_PULLUP);
-  //attachInterrupt(digitalPinToInterrupt(engineeringMenuJumperPin), setBringUpMenu, CHANGE);
+//  attachInterrupt(digitalPinToInterrupt(engineeringMenuJumperPin), setBringUpMenu, CHANGE);
 }
+
+
 
 
 /**
@@ -61,16 +63,22 @@ void setup()
  */
 void loop()
 {
-  
+  Serial.println("file size is: ");
+  sdCard.fileSize;
   // If engineering menu jumper has been pulled off
 
+  if(!sdCard.fileSize) {
+    Serial.println("NULL");
+  }
+  
   if(digitalRead(engineeringMenuJumperPin) == HIGH) {
     // Load the engineering menu
     menu.loadEngineeringMenu();
   }
+  menu.loadEngineeringMenu();
+  
+//  processor.readingProcess();
 
-  processor.readingProcess();
-// 
   processor.delayWithPeriod();
 
 }
