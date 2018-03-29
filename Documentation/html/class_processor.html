@@ -75,8 +75,8 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4e9231316672f0a9daf138a08065ea8f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#a4e9231316672f0a9daf138a08065ea8f">Processor</a> (<a class="el" href="class_sensor.html">Sensor</a> *sensor, <a class="el" href="class_s_d_card.html">SDCard</a> *sdCard, <a class="el" href="class_lorawan.html">Lorawan</a> *lorawan, byte interrputPin, int16_t <a class="el" href="class_processor.html#acfaad87bb46ff80f1b7966624542e6ef">delayPeriod</a>=900000, int16_t delayPeriodARMode=600000, int16_t ARModeActivationThreshold=200000, int16_t ignoreThreshold=0)</td></tr>
-<tr class="separator:a4e9231316672f0a9daf138a08065ea8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7a36124dd65e3ef07efb2e3fc5e7a70"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#ad7a36124dd65e3ef07efb2e3fc5e7a70">Processor</a> (<a class="el" href="class_sensor.html">Sensor</a> *sensor, <a class="el" href="class_s_d_card.html">SDCard</a> *sdCard, <a class="el" href="class_lorawan.html">Lorawan</a> *lorawan, byte interrputPin, uint32_t <a class="el" href="class_processor.html#a3d4df57c57607d2ed3ad9f2d4ff3e789">delayPeriod</a>=180000, uint32_t delayPeriodARMode=60000, int16_t ARModeActivationThreshold=32000, int16_t ignoreThreshold=0)</td></tr>
+<tr class="separator:ad7a36124dd65e3ef07efb2e3fc5e7a70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22e869ee49d974ad0ee7ee81961ab88f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#a22e869ee49d974ad0ee7ee81961ab88f">init</a> ()</td></tr>
 <tr class="separator:a22e869ee49d974ad0ee7ee81961ab88f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a694b889c3c6f8c09b998b4012d304d6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#a694b889c3c6f8c09b998b4012d304d6e">readingProcess</a> ()</td></tr>
@@ -85,14 +85,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9316beb5903476939018dce45e992c53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b4e65040fd7bc17e978412c1af8e0c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#a4b4e65040fd7bc17e978412c1af8e0c8">adjustIgnoreThreshold</a> (int16_t newIgnoreThreshold)</td></tr>
 <tr class="separator:a4b4e65040fd7bc17e978412c1af8e0c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a527c24bbc2784d267d9ff2b21fd21379"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#a527c24bbc2784d267d9ff2b21fd21379">adjustARModeDelay</a> (int16_t newDelayPeriod)</td></tr>
-<tr class="separator:a527c24bbc2784d267d9ff2b21fd21379"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b6762cf2679f4f47365aacb47b59ef5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#a5b6762cf2679f4f47365aacb47b59ef5">adjustARModeDelay</a> (uint32_t newDelayPeriod)</td></tr>
+<tr class="separator:a5b6762cf2679f4f47365aacb47b59ef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58a2f6a482491cb003f4ff1bd45ba891"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#a58a2f6a482491cb003f4ff1bd45ba891">adjustARModeThreshold</a> (int16_t newActivationThreshold)</td></tr>
 <tr class="separator:a58a2f6a482491cb003f4ff1bd45ba891"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ad79126a7694ed86f3f5ccc36b606bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#a6ad79126a7694ed86f3f5ccc36b606bd">delayWithPeriod</a> ()</td></tr>
 <tr class="separator:a6ad79126a7694ed86f3f5ccc36b606bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b550c7a6be09f887291e14392cead11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#a8b550c7a6be09f887291e14392cead11">changeMeasurementPeriod</a> (int16_t minutes)</td></tr>
-<tr class="separator:a8b550c7a6be09f887291e14392cead11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8759b7d9dc2d5f63fa9ca08f9211fd77"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#a8759b7d9dc2d5f63fa9ca08f9211fd77">changeMeasurementPeriod</a> (uint32_t milliseconds)</td></tr>
+<tr class="separator:a8759b7d9dc2d5f63fa9ca08f9211fd77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae18acf2c55d0a3bcd7412f86d388808d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#ae18acf2c55d0a3bcd7412f86d388808d">recalibrateSensor</a> ()</td></tr>
 <tr class="separator:ae18acf2c55d0a3bcd7412f86d388808d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8083069e032fcd6e38c97cc31475200a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#a8083069e032fcd6e38c97cc31475200a">triggerClearFlash</a> ()</td></tr>
@@ -112,18 +112,18 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:acfaad87bb46ff80f1b7966624542e6ef"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#acfaad87bb46ff80f1b7966624542e6ef">delayPeriod</a></td></tr>
-<tr class="separator:acfaad87bb46ff80f1b7966624542e6ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cb8792cf0882b5466eea2b8e0816684"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#a5cb8792cf0882b5466eea2b8e0816684">measurementPeriod</a></td></tr>
-<tr class="separator:a5cb8792cf0882b5466eea2b8e0816684"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d4df57c57607d2ed3ad9f2d4ff3e789"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#a3d4df57c57607d2ed3ad9f2d4ff3e789">delayPeriod</a></td></tr>
+<tr class="separator:a3d4df57c57607d2ed3ad9f2d4ff3e789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd8bba113bac81f4c5695cba7c9dd146"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#acd8bba113bac81f4c5695cba7c9dd146">measurementPeriod</a></td></tr>
+<tr class="separator:acd8bba113bac81f4c5695cba7c9dd146"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af51b6b3ce7074068195b5d3eb2442fdb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_processor.html#af51b6b3ce7074068195b5d3eb2442fdb">ARModeOn</a></td></tr>
 <tr class="separator:af51b6b3ce7074068195b5d3eb2442fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="_processor_8h.html">Processor.h</a> - Library for dealing with processor settings i.e. its engineeringMenuJumper/led pins. Created by Natalie Mclaren, December 18, 2017. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a4e9231316672f0a9daf138a08065ea8f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e9231316672f0a9daf138a08065ea8f">&#9670;&nbsp;</a></span>Processor()</h2>
+<a id="ad7a36124dd65e3ef07efb2e3fc5e7a70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7a36124dd65e3ef07efb2e3fc5e7a70">&#9670;&nbsp;</a></span>Processor()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -155,20 +155,20 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int16_t&#160;</td>
-          <td class="paramname"><em>delayPeriod</em> = <code>900000</code>, </td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>delayPeriod</em> = <code>180000</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>delayPeriodARMode</em> = <code>60000</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int16_t&#160;</td>
-          <td class="paramname"><em>delayPeriodARMode</em> = <code>600000</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int16_t&#160;</td>
-          <td class="paramname"><em>ARModeActivationThreshold</em> = <code>200000</code>, </td>
+          <td class="paramname"><em>ARModeActivationThreshold</em> = <code>32000</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -189,8 +189,8 @@ Public Attributes</h2></td></tr>
     <tr><td class="paramname">{SDCard}</td><td>{*sdCard} pointer to <a class="el" href="class_s_d_card.html">SDCard</a> object. </td></tr>
     <tr><td class="paramname">{Lorawan}</td><td>{*lorawan} pointer to <a class="el" href="class_lorawan.html">Lorawan</a> object. </td></tr>
     <tr><td class="paramname">{byte}</td><td>{engineeringMenuJumperPin} engineering menu button interrupt pin number </td></tr>
-    <tr><td class="paramname">{int16_t}</td><td>{delayPeriod} the delay period value between each samples </td></tr>
-    <tr><td class="paramname">{int16_t}</td><td>{delayPeriodARMode} the accelerated reading mode value (less of a delay than the delay period) </td></tr>
+    <tr><td class="paramname">{uint32_t}</td><td>{delayPeriod} the delay period value between each samples </td></tr>
+    <tr><td class="paramname">{uint32_t}</td><td>{delayPeriodARMode} the accelerated reading mode value (less of a delay than the delay period) </td></tr>
     <tr><td class="paramname">{int16_t}</td><td>{ARModeActivationThreshold} the threshold which activates the ARMode </td></tr>
     <tr><td class="paramname">{int16_t}</td><td>{ignoreThreshold} threshold (mm) for which the sensor should ignore readings - don't send any info to server </td></tr>
   </table>
@@ -275,8 +275,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a527c24bbc2784d267d9ff2b21fd21379"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a527c24bbc2784d267d9ff2b21fd21379">&#9670;&nbsp;</a></span>adjustARModeDelay()</h2>
+<a id="a5b6762cf2679f4f47365aacb47b59ef5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b6762cf2679f4f47365aacb47b59ef5">&#9670;&nbsp;</a></span>adjustARModeDelay()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -284,7 +284,7 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">void Processor::adjustARModeDelay </td>
           <td>(</td>
-          <td class="paramtype">int16_t&#160;</td>
+          <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>newDelayPeriod</em></td><td>)</td>
           <td></td>
         </tr>
@@ -292,7 +292,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Set delay period to be used whilst the device is in AR (Accelerated Readings) Mode. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">{int16_t}</td><td>{newDelayPeriod} new delay period to be used. </td></tr>
+    <tr><td class="paramname">{uint32_t}</td><td>{newDelayPeriod} new delay period to be used. </td></tr>
   </table>
   </dd>
 </dl>
@@ -350,8 +350,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a8b550c7a6be09f887291e14392cead11"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8b550c7a6be09f887291e14392cead11">&#9670;&nbsp;</a></span>changeMeasurementPeriod()</h2>
+<a id="a8759b7d9dc2d5f63fa9ca08f9211fd77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8759b7d9dc2d5f63fa9ca08f9211fd77">&#9670;&nbsp;</a></span>changeMeasurementPeriod()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -359,15 +359,15 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">void Processor::changeMeasurementPeriod </td>
           <td>(</td>
-          <td class="paramtype">int16_t&#160;</td>
-          <td class="paramname"><em>minutes</em></td><td>)</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>milliseconds</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Set the delay period between each measurement to be taken. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">{int16_t}</td><td>{minutes} new delay period (in minutes) set. </td></tr>
+    <tr><td class="paramname">{uint32_t}</td><td>{minutes} new delay period (in minutes) set. </td></tr>
   </table>
   </dd>
 </dl>
@@ -389,7 +389,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Makes the entire device sleep for a specified period of time. Used to sleep inbetween taking river depth measurements. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Makes the entire device sleep for a specified period of time. Used to sleep in between taking river depth measurements. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">N/A</td><td></td></tr>
   </table>
@@ -437,7 +437,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Converts battery voltage to a byte to be sent to the API Done to save TTN bandwidth (So we don't need to send send a full floating point number). </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Converts battery voltage to a byte to be sent to the API. Done to save TTN bandwidth (So we don't need to send send a full floating point number). </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">N/A</td><td></td></tr>
   </table>
@@ -558,7 +558,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Calibrate the sensor. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Used to calibrate the sensor as done in initial setup. Allows the engineer to input an initial depth for the river, for which the distance from sensor to river bed can be calculated.</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">{N/A}</td><td></td></tr>
   </table>
@@ -582,7 +583,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Clear the Flash storage. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Clear the device settings variables stored in the flash storage. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">{N/A}</td><td></td></tr>
   </table>
@@ -607,28 +608,28 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="acfaad87bb46ff80f1b7966624542e6ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acfaad87bb46ff80f1b7966624542e6ef">&#9670;&nbsp;</a></span>delayPeriod</h2>
+<a id="a3d4df57c57607d2ed3ad9f2d4ff3e789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d4df57c57607d2ed3ad9f2d4ff3e789">&#9670;&nbsp;</a></span>delayPeriod</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t Processor::delayPeriod</td>
+          <td class="memname">uint32_t Processor::delayPeriod</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a5cb8792cf0882b5466eea2b8e0816684"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5cb8792cf0882b5466eea2b8e0816684">&#9670;&nbsp;</a></span>measurementPeriod</h2>
+<a id="acd8bba113bac81f4c5695cba7c9dd146"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd8bba113bac81f4c5695cba7c9dd146">&#9670;&nbsp;</a></span>measurementPeriod</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t Processor::measurementPeriod</td>
+          <td class="memname">uint32_t Processor::measurementPeriod</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -23,8 +23,8 @@ SDCard::SDCard()
 
 
 /**
- * Print details of SD card (memory available etc..)
- * Debugging function to check the status of the SD card - Is everything working correctly?
+ * Print details of SD card - memory available, FAT type etc
+ * Debugging function to check the contents of the SD card.
  * @param N/A
  * @return {void} N/A
  */
@@ -109,11 +109,11 @@ void SDCard::checkCardMemory()
 
 
 /** 
- * Print the last measurement sent to a new line in a log file on the SD card.
- * @param {int16_t} {lastMeasurementSent} last measurement value sent successfully, to be logged.
- * @return {void} N/A
+ * Print the last measurement sent onto a new line in the SD Card text file.
+ * @param {String} {lastMeasurementSent} last measurement value sent successfully, to be logged.
+ * @return {bool} True if the lastMeasurementSent was successfully written to the text file. False if it fails to write or if the text file failed to open.
  */
-bool SDCard::writeToLog(String data)
+bool SDCard::writeToLog(String lastMeasurementSent)
 {
 
   // Open the text file - only one file can be opened at a time so closing right after is important
@@ -122,7 +122,7 @@ bool SDCard::writeToLog(String data)
   // If the file opened okay
   if (myFile) {
     // If number of bytes written is equal to the size of data passed, it has successfully written
-    if(myFile.println(data) == data.length()+2) {
+    if(myFile.println(lastMeasurementSent) == lastMeasurementSent.length()+2) {
       // Get the file size
       // Filesize accuracy lost (/ 1000) to ensure that the number can be stored in a 32 bit int
       fileSize = myFile.size() / 10000;  
@@ -142,8 +142,10 @@ bool SDCard::writeToLog(String data)
 
 
 
-/**
- * 
+/** 
+ * Read the contents of the SD Card text file.
+ * @param N/A
+ * @return {bool} True if the file was successfully opened for readings, false otherwise.
  */
 bool SDCard::readLog()
 {
@@ -166,28 +168,32 @@ bool SDCard::readLog()
 }
 
 
-/**
- * 
+/** 
+ * Used to test that the last written value in the SD Card text file can be read.
+ * It finds the last value in the text file and compares it to the test string. They should equal the same, as the same test string 
+ * is called in the write log function prior to this function call during the engineering menu test.
+ * @param {String} {testString}
+ * @return {bool} True if the last value read from the text file matches the test string. False otherwise.
  */
-bool SDCard::testReadLog(String data) 
+bool SDCard::testReadLog(String testString) 
 {
   
   // Re-open the file for reading:
   myFile = SD.open("LOGGER.TXT");
   if (myFile) {
 
-    char dataArray[data.length()+2];
+    char testStringArray[testString.length()+2];
     
-    // Look for the last written value in the text file 
-    myFile.seek(myFile.size() - (data.length()+2));
+    // Look for the position of the last written value in the text file 
+    myFile.seek(myFile.size() - (testString.length()+2));
     
     // Read from the file until there's nothing else in it:
 //    while (myFile.available()) {
-      myFile.read(dataArray, data.length()+2);
+      myFile.read(testStringArray, testString.length()+2);
 //    }
 
-    // If there are no differences when comparing the data array to the string passed into the function, it is reading the last written value so return true
-    if(strcmp(dataArray, data.c_str()) == 0) {
+    // If there are no differences when comparing the data array to the test string, it is reading the last written value so return true
+    if(strcmp(testStringArray, testString.c_str()) == 0) {
       // Close the file:
       myFile.close();
       return true;
@@ -206,17 +212,17 @@ bool SDCard::testReadLog(String data)
 
 
 /**
- * Check whether the text file has reached its size limit (7.21 GB or 7741678551 bytes)
+ * Check whether the text file is about to reach its size limit (7741678351 bytes or just under 7.21 GB)
  * @param N/A
- * @return {bool} True if the file has reached its size limit, otherwise false
+ * @return {bool} True if the text file is about to reach its size limit. False otherwise.
  * 
  */
 bool SDCard::fileHasReachedSizeLimit()
 { 
   
-  // If the file size is equal to or larger than a number close to the limit 7741678351 bytes (200 bytes under the limit = 40 more readings (5 bytes each line). 
-  // This gives engineer time to go back out and replace SD card without running the risk of no readings being written.
-  // Filesize accuracy lost (/ 1000) to ensure that the number can be stored in a 32 bit int 
+  // If the file size is equal to or larger than a number close to the limit 7741678351 bytes (200 bytes under the limit = 40 more readings (5 bytes each line (reading)). 
+  // This gives the engineer time to go back out and replace SD card without running the risk of no readings being written.
+  // File size accuracy is lost (/ 1000) to ensure that the number can be compared against the 32 bit integer fileSize.
   if(fileSize >= 7741678351 / 10000) {
     return true;
   } else {
@@ -226,7 +232,9 @@ bool SDCard::fileHasReachedSizeLimit()
 
 
 /**
- * 
+ * During setup, this function initialises the SD Card and its library, and reads the card's file size to store in a class variable. 
+ * @param N/A 
+ * @return {bool} True if the text file was successfully opened for reading. False otherwise.
  */
 bool SDCard::init()
 {

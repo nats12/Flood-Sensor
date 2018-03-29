@@ -19,12 +19,13 @@ class SDCard
     SdVolume volume;
     SdFile root;
     Sd2Card card;
+    // The SD Card's text file size
     uint32_t fileSize;
     
     SDCard();
+    bool init();
     void checkCardMemory();
     bool fileHasReachedSizeLimit();
-    bool init();
     bool readLog();
     bool testReadLog(String data);
     bool writeToLog(String data);

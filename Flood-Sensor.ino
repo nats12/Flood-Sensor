@@ -68,7 +68,7 @@ void loop()
     menu.loadEngineeringMenu();
   }
   
-//  processor.readingProcess();
+  processor.readingProcess();
 
   processor.delayWithPeriod();
 
