@@ -122,7 +122,7 @@ bool SDCard::writeToLog(String lastMeasurementSent)
   // If the file opened okay
   if (myFile) {
     // If number of bytes written is equal to the size of data passed, it has successfully written
-    if(myFile.println(data) == data.length()+2) {
+    if(myFile.println(lastMeasurementSent) == lastMeasurementSent.length()+2) {
       // Get the file size
       // Filesize accuracy lost (/ 1000) to ensure that the number can be stored in a 32 bit int
       fileSize = myFile.size() / 10000;  
