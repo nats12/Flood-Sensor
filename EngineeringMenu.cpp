@@ -122,15 +122,15 @@ bool EngineeringMenu::mainMenu(String menuOption)
    
     if(menuOption != "") {
       // If option one 
-      if(checkValidMenuOption(menuOption, "1\n")) {   // If option one
+      if(checkValidMenuOption(menuOption, "1") && subMenuOption == "0") {   // If option one
          // Print last sent measurement
          Serial.println(this->sensor->getCurrentMeasurement());
          printMainMenuOptions();
-       } else if(checkValidMenuOption(menuOption, "2\n")) {   // If option two
+       } else if(checkValidMenuOption(menuOption, "2") && subMenuOption == "0") {   // If option two
          // Print current battery voltage and percentage
          printBatteryVoltage();
          printMainMenuOptions();
-       } else if(checkValidMenuOption(menuOption, "5\n")) {   // If option five
+       } else if(checkValidMenuOption(menuOption, "5") && subMenuOption == "0") {   // If option five
           // Test read/write on SD card
           char testSDReadWriteMessage[] PROGMEM = "Testing read/write...";
           Serial.println(testSDReadWriteMessage);
@@ -167,12 +167,12 @@ bool EngineeringMenu::mainMenu(String menuOption)
           
           printMainMenuOptions();
           
-       } else if (checkValidMenuOption(menuOption, "6\n")) {    // If option six
+       } else if (checkValidMenuOption(menuOption, "6") && subMenuOption == "0") {    // If option six
           // Print details of SD card space
           this->sdCard->checkCardMemory();
           printMainMenuOptions();
           
-       } else if (checkValidMenuOption(menuOption, "7\n")) {    // If option seven
+       } else if (checkValidMenuOption(menuOption, "7") && subMenuOption == "0") {    // If option seven
           int32_t milliseconds;
           // Insert a new measurement period
           char setNewMeasurementPeriodMessage[] PROGMEM = "Insert a new measurement period (Number of milliseconds)";
@@ -185,7 +185,7 @@ bool EngineeringMenu::mainMenu(String menuOption)
           Serial.println(processor->delayPeriod);
           printMainMenuOptions();
           
-       } else if (checkValidMenuOption(menuOption, "8\n")) {    // If option eight
+       } else if (checkValidMenuOption(menuOption, "8") && subMenuOption == "0") {    // If option eight
         
           char setARModeThresholdMessage[] PROGMEM = "1: Set max water level threshold to trigger \"AR\" mode";
           char setARModeSamplingPeriodMessage[] PROGMEM = "2: Check and send measurement every X minutes during \"AR\" mode(input minutes)";
@@ -195,71 +195,97 @@ bool EngineeringMenu::mainMenu(String menuOption)
           Serial.println(setARModeSamplingPeriodMessage);
           Serial.println(returnToMainMenuMessage);
           
-          this->subMenuOption = "8\n";
-       } else if (checkValidMenuOption(menuOption, "9\n")) {    // If option nine
+          this->subMenuOption = "8";
+       } else if (checkValidMenuOption(menuOption, "9") && subMenuOption == "0") {    // If option nine
+          char recalibrateSensorMessage[] PROGMEM = "Please input new current river depth:";
+          char recalibrateSensorDoneMessage[] PROGMEM = "Sensor recalibrated.";
+          Serial.println(recalibrateSensorMessage);
           processor->recalibrateSensor();
-       } else if (checkValidMenuOption(menuOption, "11\n")) {   // If option eleven 
+          Serial.println(recalibrateSensorDoneMessage);
+          printMainMenuOptions();
+          
+       } else if (checkValidMenuOption(menuOption, "11") && subMenuOption == "0") {   // If option eleven 
+          char flashMemoryClearedMessage[] PROGMEM = "Device settings in flash memory have been cleared. Please reset the device...";
           processor->triggerClearFlash();
-       } else if (checkValidMenuOption(menuOption, "12\n")) {   // If option twelve
+          Serial.println(flashMemoryClearedMessage);
+          printMainMenuOptions();
+          
+       } else if (checkValidMenuOption(menuOption, "12") && subMenuOption == "0") {   // If option twelve
           // Set the Spreading Factor to use for LoRaWAN
+          uint8_t spreadFactorInput;
           char setNewSpreadFactorMessage[] PROGMEM = "Set new spreading factor between 7 and 12";
-          
+          char setNewSpreadFactorDoneMessage[] PROGMEM = "Spread factor set.";
           Serial.println(setNewSpreadFactorMessage);
+          while((spreadFactorInput = Serial.readString().toInt()) >= 7 && spreadFactorInput <= 12){};
           
-          while((input = Serial.readString()) == NULL){};
-          
-          lorawan->setSpreadFactor(input.toInt());
-       } else if (checkValidMenuOption(menuOption, "13\n")) {   // If option thirteen
+          lorawan->setSpreadFactor(spreadFactorInput);
+          Serial.println(setNewSpreadFactorDoneMessage);
+          printMainMenuOptions();
+       } else if (checkValidMenuOption(menuOption, "13") && subMenuOption == "0") {   // If option thirteen
           // Set the App Eui used for LoRaWAN
           char setAppEuiMessage[] PROGMEM = "Enter new App EUI: ";
+          char setAppEuiDoneMessage[] PROGMEM = "New App EUI set. ";
           Serial.println(setAppEuiMessage);
 
           String input;
           while((input = Serial.readString()) == NULL){};
           processor->adjustAppEui(input);
-       } else if (checkValidMenuOption(menuOption, "14\n")) { // If option fourteen
+          Serial.println(setAppEuiDoneMessage);
+          printMainMenuOptions();
+          
+       } else if (checkValidMenuOption(menuOption, "14") && subMenuOption == "0") { // If option fourteen
          // Set the App Key used for LoRaWAN
           char setAppKeyMessage[] PROGMEM = "Enter new App Key: ";
+          char setAppKeyDoneMessage[] PROGMEM = "New App Key set.";
           Serial.println(setAppKeyMessage);
 
           String input;
           while((input = Serial.readString()) == NULL){};
 
           processor->adjustAppKey(input);
+          Serial.println(setAppKeyDoneMessage);
+          printMainMenuOptions();
 
-        } else if (checkValidMenuOption(menuOption, "15\n")) { // If option fifteen
+        } else if (checkValidMenuOption(menuOption, "15") && subMenuOption == "0") { // If option fifteen
          // Set the App Key used for LoRaWAN
           char getDevEuiMessage[] PROGMEM = "Get the Dev Eui";
           Serial.println(getDevEuiMessage);
           // Get the device info
           lorawan->showStatus();
           // Test that it sends a reading
-        } else if (checkValidMenuOption(menuOption, "16\n")) { // If option sixteen
+          printMainMenuOptions();
+        } else if (checkValidMenuOption(menuOption, "16") && subMenuOption == "0") { // If option sixteen
           char testSendReadingMessage[] PROGMEM = "Sending a test reading...";
           Serial.println(testSendReadingMessage);
           lorawan->sendReading(this->sensor->getCurrentMeasurement(), 20);
           
           // Test that it sends a 'still here'
-        } else if (checkValidMenuOption(menuOption, "17\n")) { // If option seventeen
+          printMainMenuOptions();
+        } else if (checkValidMenuOption(menuOption, "17") && subMenuOption == "0") { // If option seventeen
           char testSendStillHereMessage[] PROGMEM = "Sending a test 'still here'...";
           Serial.println(testSendStillHereMessage);
           lorawan->sendStillAlive(20);
           
           // Test that it sends error
-        } else if (checkValidMenuOption(menuOption, "18\n")) { // If option eighteen
+          printMainMenuOptions();
+        } else if (checkValidMenuOption(menuOption, "18") && subMenuOption == "0") { // If option eighteen
           char testSendErrorMessage[] PROGMEM = "Sending a test error...";
           Serial.println(testSendErrorMessage);
           lorawan->sendGenericError(20);
+          printMainMenuOptions();
           
-       } else if(checkValidMenuOption(menuOption, "exit\n")) {    // If option is exit
+       } else if(checkValidMenuOption(menuOption, "exit")) {    // If option is exit
         char menuExitingMessage[] PROGMEM = "You have left the engineering menu, and the device will continue normal operation.";
         Serial.println(menuExitingMessage);
       
         bringUpMenu = false;
       } else {    // If the menu option was invalid (none of the above)
         // Display an error message
-        char invalidMenuOptionMessage[] PROGMEM = "Invalid menu option, please try again.";
-        Serial.println(invalidMenuOptionMessage);
+        if(subMenuOption == "0")
+        {
+          char invalidMenuOptionMessage[] PROGMEM = "Invalid menu option, please try again.";
+          Serial.println(invalidMenuOptionMessage);
+        }
       }
     } 
 }
@@ -272,7 +298,7 @@ bool EngineeringMenu::mainMenu(String menuOption)
  */
 void EngineeringMenu::subMenuEight(String menuOption)
 {
-  if(checkValidMenuOption(menuOption, "1\n")){
+  if(checkValidMenuOption(menuOption, "1")){
     String newThreshold;
 
     char thresholdMessage[] PROGMEM = "Threshold (mm):";
@@ -281,37 +307,37 @@ void EngineeringMenu::subMenuEight(String menuOption)
     Serial.println(thresholdMessage);
     Serial.println(cancelMessage);
     while(newThreshold = Serial.readString() == NULL){};
-    if(newThreshold == "r\n"){ //Check if wanting to return to previous menu
-      subMenuOption = "0\n";
+    if(newThreshold == "r"){ //Check if wanting to return to previous menu
+      subMenuOption = "0";
       printMainMenuOptions();
     }
     else {
       this->processor->adjustARModeThreshold(newThreshold.toInt());
-      subMenuOption = "0\n";
+      subMenuOption = "0";
       printMainMenuOptions();
     }
   }
 
-  if(checkValidMenuOption(menuOption, "2\n")) {
+  if(checkValidMenuOption(menuOption, "2")) {
     String newDelay;
 
     char setSamplePeriodMessage[] PROGMEM = "Check and send measurement every X minutes: (input minutes)";
     Serial.println(setSamplePeriodMessage);
     
     while(newDelay = Serial.readString() == NULL){};
-    if(newDelay == "r\n"){ //Check if wanting to return to previous menu
-      subMenuOption = "0\n"; 
+    if(newDelay == "r"){ //Check if wanting to return to previous menu
+      subMenuOption = "0"; 
       printMainMenuOptions();
     }
     else {
       this->processor->adjustARModeDelay(newDelay.toInt());
-      subMenuOption = "0\n";
+      subMenuOption = "0";
       printMainMenuOptions();
     }
   }
 
-  if(menuOption == "r\n"){ //Check if wanting to return to previous menu
-    subMenuOption = "0\n";
+  if(menuOption == "r"){ //Check if wanting to return to previous menu
+    subMenuOption = "0";
     printMainMenuOptions();
   }
 }
@@ -368,7 +394,7 @@ void EngineeringMenu::loadEngineeringMenu()
     // Run with the entered option
     mainMenu(menuOption);
       
-    if(this->subMenuOption == "8\n")
+    if(this->subMenuOption == "8")
     {
       subMenuEight(menuOption);
     }

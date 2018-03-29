@@ -1,4 +1,3 @@
-// #include "Ticker-master/Ticker.h"
 #include <SPI.h>
 #include <SD.h>
 #include "EngineeringMenu.h"
@@ -62,11 +61,7 @@ void setup()
  * @return {Void} N/A
  */
 void loop()
-{
-
-  Serial.println(sdCard.fileSize);
-  menu.loadEngineeringMenu();
-  
+{  
   // If engineering menu jumper has been pulled off
   if(digitalRead(engineeringMenuJumperPin) == HIGH) {
     // Load the engineering menu

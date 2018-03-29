@@ -121,10 +121,6 @@ void Processor::init()
       this->delayPeriodARMode = delayPeriodARMode_FlashStore.read();
       this->ARModeActivationThreshold = ARModeActivationThreshold_FlashStore.read();
       this->ignoreThreshold = ignoreThreshold_FlashStore.read();
-
-      Serial.println(setupSensorMessage);
-      // Delay for 15 minutes
-//      delay(900000);
     }
     
 //    Serial.println("Current Measurement: ");
