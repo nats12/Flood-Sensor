@@ -234,7 +234,7 @@ bool SDCard::fileHasReachedSizeLimit()
 /**
  * During setup, this function initialises the SD Card and its library, and reads the card's file size to store in a class variable. 
  * @param N/A 
- * @return {bool} True if the text file was successfully opened for readings. False otherwise.
+ * @return {bool} True if the text file was successfully opened for reading. False otherwise.
  */
 bool SDCard::init()
 {
