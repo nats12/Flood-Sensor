@@ -97,7 +97,7 @@ void Processor::init()
       Serial.println(setupSensorMessage);
 
       // Delay for 15 minutes
-      delay(900000);
+      delay(90000);
       
       // Delay for 5 minutes for device to placed and setup physically
       initialDistanceToRiverTop = analogRead(sensor->sensorAnalogPin) * 5;
