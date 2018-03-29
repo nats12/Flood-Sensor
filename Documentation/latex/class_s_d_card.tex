@@ -9,11 +9,11 @@
 \item 
 \mbox{\hyperlink{class_s_d_card_aa57f64cf28817d210706222f60be9001}{S\+D\+Card}} ()
 \item 
+bool \mbox{\hyperlink{class_s_d_card_a7d5b2551a395d7bf883f425fb98b0b0d}{init}} ()
+\item 
 void \mbox{\hyperlink{class_s_d_card_a62c472309bd91560a29430d6946c05fb}{check\+Card\+Memory}} ()
 \item 
 bool \mbox{\hyperlink{class_s_d_card_ab43bfe585365622d71e30194a404125c}{file\+Has\+Reached\+Size\+Limit}} ()
-\item 
-bool \mbox{\hyperlink{class_s_d_card_a7d5b2551a395d7bf883f425fb98b0b0d}{init}} ()
 \item 
 bool \mbox{\hyperlink{class_s_d_card_a9c0edb3dd7e157501776d9760705a757}{read\+Log}} ()
 \item 
@@ -32,7 +32,7 @@ Sd\+File \mbox{\hyperlink{class_s_d_card_a6e02af8a10a45955da7c560ea148ca4d}{root
 \item 
 Sd2\+Card \mbox{\hyperlink{class_s_d_card_a20919e15549972b09ad3c063c35fcf59}{card}}
 \item 
-int16\+\_\+t \mbox{\hyperlink{class_s_d_card_aa6f7283f73936957a10fa7c65df5f57c}{file\+Size}}
+uint32\+\_\+t \mbox{\hyperlink{class_s_d_card_a9f97edfb78131f459dbbda495903663e}{file\+Size}}
 \end{DoxyCompactItemize}
 
 
@@ -63,7 +63,7 @@ N/A
 \subsubsection{\texorpdfstring{check\+Card\+Memory()}{checkCardMemory()}}
 {\footnotesize\ttfamily void S\+D\+Card\+::check\+Card\+Memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Print details of SD card (memory available etc..) Debugging function to check the status of the SD card -\/ Is everything working correctly? 
+Print details of SD card -\/ memory available, F\+AT type etc Debugging function to check the contents of the SD card. 
 \begin{DoxyParams}{Parameters}
 {\em N/A} & \\
 \hline
@@ -77,13 +77,13 @@ Print details of SD card (memory available etc..) Debugging function to check th
 \subsubsection{\texorpdfstring{file\+Has\+Reached\+Size\+Limit()}{fileHasReachedSizeLimit()}}
 {\footnotesize\ttfamily bool S\+D\+Card\+::file\+Has\+Reached\+Size\+Limit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Check whether the text file has reached its size limit (7.\+21 GB or 7741678551 bytes) 
+Check whether the text file is about to reach its size limit (7741678351 bytes or just under 7.\+21 GB) 
 \begin{DoxyParams}{Parameters}
 {\em N/A} & \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-\{bool\} True if the file has reached its size limit, otherwise false 
+\{bool\} True if the text file is about to reach its size limit. False otherwise. 
 \end{DoxyReturn}
 \mbox{\Hypertarget{class_s_d_card_a7d5b2551a395d7bf883f425fb98b0b0d}\label{class_s_d_card_a7d5b2551a395d7bf883f425fb98b0b0d}} 
 \index{S\+D\+Card@{S\+D\+Card}!init@{init}}
@@ -91,31 +91,55 @@ Check whether the text file has reached its size limit (7.\+21 GB or 7741678551 
 \subsubsection{\texorpdfstring{init()}{init()}}
 {\footnotesize\ttfamily bool S\+D\+Card\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
+During setup, this function initialises the SD Card and its library, and reads the card\textquotesingle{}s file size to store in a class variable. 
+\begin{DoxyParams}{Parameters}
+{\em N/A} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{bool\} True if the text file was successfully opened for readings. False otherwise. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_s_d_card_a9c0edb3dd7e157501776d9760705a757}\label{class_s_d_card_a9c0edb3dd7e157501776d9760705a757}} 
 \index{S\+D\+Card@{S\+D\+Card}!read\+Log@{read\+Log}}
 \index{read\+Log@{read\+Log}!S\+D\+Card@{S\+D\+Card}}
 \subsubsection{\texorpdfstring{read\+Log()}{readLog()}}
 {\footnotesize\ttfamily bool S\+D\+Card\+::read\+Log (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
+Read the contents of the SD Card text file. 
+\begin{DoxyParams}{Parameters}
+{\em N/A} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{bool\} True if the file was successfully opened for readings, false otherwise. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_s_d_card_ad5832b1d4274a99ca975f4c570584f53}\label{class_s_d_card_ad5832b1d4274a99ca975f4c570584f53}} 
 \index{S\+D\+Card@{S\+D\+Card}!test\+Read\+Log@{test\+Read\+Log}}
 \index{test\+Read\+Log@{test\+Read\+Log}!S\+D\+Card@{S\+D\+Card}}
 \subsubsection{\texorpdfstring{test\+Read\+Log()}{testReadLog()}}
-{\footnotesize\ttfamily bool S\+D\+Card\+::test\+Read\+Log (\begin{DoxyParamCaption}\item[{String}]{data }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily bool S\+D\+Card\+::test\+Read\+Log (\begin{DoxyParamCaption}\item[{String}]{test\+String }\end{DoxyParamCaption})}
 
+Used to test that the last written value in the SD Card text file can be read. It finds the last value in the text file and compares it to the test string. They should equal the same, as the same test string is called in the write log function prior to this function call during the engineering menu test. 
+\begin{DoxyParams}{Parameters}
+{\em \{\+String\}} & \{test\+String\} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{bool\} True if the last value read from the text file matches the test string. False otherwise. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_s_d_card_aa65251052d32bcaff9f087080118525f}\label{class_s_d_card_aa65251052d32bcaff9f087080118525f}} 
 \index{S\+D\+Card@{S\+D\+Card}!write\+To\+Log@{write\+To\+Log}}
 \index{write\+To\+Log@{write\+To\+Log}!S\+D\+Card@{S\+D\+Card}}
 \subsubsection{\texorpdfstring{write\+To\+Log()}{writeToLog()}}
-{\footnotesize\ttfamily bool S\+D\+Card\+::write\+To\+Log (\begin{DoxyParamCaption}\item[{String}]{data }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily bool S\+D\+Card\+::write\+To\+Log (\begin{DoxyParamCaption}\item[{String}]{last\+Measurement\+Sent }\end{DoxyParamCaption})}
 
-Print the last measurement sent to a new line in a log file on the SD card. 
+Print the last measurement sent onto a new line in the SD Card text file. 
 \begin{DoxyParams}{Parameters}
-{\em \{int16\+\_\+t\}} & \{last\+Measurement\+Sent\} last measurement value sent successfully, to be logged. \\
+{\em \{\+String\}} & \{last\+Measurement\+Sent\} last measurement value sent successfully, to be logged. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-\{void\} N/A 
+\{bool\} True if the last\+Measurement\+Sent was successfully written to the text file. False if it fails to write or if the text file failed to open. 
 \end{DoxyReturn}
 
 
@@ -126,11 +150,11 @@ Print the last measurement sent to a new line in a log file on the SD card.
 \subsubsection{\texorpdfstring{card}{card}}
 {\footnotesize\ttfamily Sd2\+Card S\+D\+Card\+::card}
 
-\mbox{\Hypertarget{class_s_d_card_aa6f7283f73936957a10fa7c65df5f57c}\label{class_s_d_card_aa6f7283f73936957a10fa7c65df5f57c}} 
+\mbox{\Hypertarget{class_s_d_card_a9f97edfb78131f459dbbda495903663e}\label{class_s_d_card_a9f97edfb78131f459dbbda495903663e}} 
 \index{S\+D\+Card@{S\+D\+Card}!file\+Size@{file\+Size}}
 \index{file\+Size@{file\+Size}!S\+D\+Card@{S\+D\+Card}}
 \subsubsection{\texorpdfstring{file\+Size}{fileSize}}
-{\footnotesize\ttfamily int16\+\_\+t S\+D\+Card\+::file\+Size}
+{\footnotesize\ttfamily uint32\+\_\+t S\+D\+Card\+::file\+Size}
 
 \mbox{\Hypertarget{class_s_d_card_a2e9756d5c5478bee2d7977a0c66ec47f}\label{class_s_d_card_a2e9756d5c5478bee2d7977a0c66ec47f}} 
 \index{S\+D\+Card@{S\+D\+Card}!my\+File@{my\+File}}

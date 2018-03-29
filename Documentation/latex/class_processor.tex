@@ -7,7 +7,7 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{class_processor_a4e9231316672f0a9daf138a08065ea8f}{Processor}} (\mbox{\hyperlink{class_sensor}{Sensor}} $\ast$sensor, \mbox{\hyperlink{class_s_d_card}{S\+D\+Card}} $\ast$sd\+Card, \mbox{\hyperlink{class_lorawan}{Lorawan}} $\ast$lorawan, byte interrput\+Pin, int16\+\_\+t \mbox{\hyperlink{class_processor_acfaad87bb46ff80f1b7966624542e6ef}{delay\+Period}}=900000, int16\+\_\+t delay\+Period\+A\+R\+Mode=600000, int16\+\_\+t A\+R\+Mode\+Activation\+Threshold=200000, int16\+\_\+t ignore\+Threshold=0)
+\mbox{\hyperlink{class_processor_a9fdc4e6a92586eea32020a1f1e666ed6}{Processor}} (\mbox{\hyperlink{class_sensor}{Sensor}} $\ast$sensor, \mbox{\hyperlink{class_s_d_card}{S\+D\+Card}} $\ast$sd\+Card, \mbox{\hyperlink{class_lorawan}{Lorawan}} $\ast$lorawan, byte interrput\+Pin, uint32\+\_\+t \mbox{\hyperlink{class_processor_a3d4df57c57607d2ed3ad9f2d4ff3e789}{delay\+Period}}=0, uint32\+\_\+t delay\+Period\+A\+R\+Mode=600000, int16\+\_\+t A\+R\+Mode\+Activation\+Threshold=32000, int16\+\_\+t ignore\+Threshold=0)
 \item 
 void \mbox{\hyperlink{class_processor_a22e869ee49d974ad0ee7ee81961ab88f}{init}} ()
 \item 
@@ -17,13 +17,13 @@ void \mbox{\hyperlink{class_processor_a9316beb5903476939018dce45e992c53}{activat
 \item 
 void \mbox{\hyperlink{class_processor_a4b4e65040fd7bc17e978412c1af8e0c8}{adjust\+Ignore\+Threshold}} (int16\+\_\+t new\+Ignore\+Threshold)
 \item 
-void \mbox{\hyperlink{class_processor_a527c24bbc2784d267d9ff2b21fd21379}{adjust\+A\+R\+Mode\+Delay}} (int16\+\_\+t new\+Delay\+Period)
+void \mbox{\hyperlink{class_processor_a5b6762cf2679f4f47365aacb47b59ef5}{adjust\+A\+R\+Mode\+Delay}} (uint32\+\_\+t new\+Delay\+Period)
 \item 
 void \mbox{\hyperlink{class_processor_a58a2f6a482491cb003f4ff1bd45ba891}{adjust\+A\+R\+Mode\+Threshold}} (int16\+\_\+t new\+Activation\+Threshold)
 \item 
 void \mbox{\hyperlink{class_processor_a6ad79126a7694ed86f3f5ccc36b606bd}{delay\+With\+Period}} ()
 \item 
-void \mbox{\hyperlink{class_processor_a8b550c7a6be09f887291e14392cead11}{change\+Measurement\+Period}} (int16\+\_\+t minutes)
+void \mbox{\hyperlink{class_processor_a8759b7d9dc2d5f63fa9ca08f9211fd77}{change\+Measurement\+Period}} (uint32\+\_\+t milliseconds)
 \item 
 void \mbox{\hyperlink{class_processor_ae18acf2c55d0a3bcd7412f86d388808d}{recalibrate\+Sensor}} ()
 \item 
@@ -44,9 +44,9 @@ void \mbox{\hyperlink{class_processor_aa60b755d3022b3b0f83f654e2b7e2e1d}{print\+
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-int16\+\_\+t \mbox{\hyperlink{class_processor_acfaad87bb46ff80f1b7966624542e6ef}{delay\+Period}}
+uint32\+\_\+t \mbox{\hyperlink{class_processor_a3d4df57c57607d2ed3ad9f2d4ff3e789}{delay\+Period}}
 \item 
-int16\+\_\+t \mbox{\hyperlink{class_processor_a5cb8792cf0882b5466eea2b8e0816684}{measurement\+Period}}
+uint32\+\_\+t \mbox{\hyperlink{class_processor_acd8bba113bac81f4c5695cba7c9dd146}{measurement\+Period}}
 \item 
 bool \mbox{\hyperlink{class_processor_af51b6b3ce7074068195b5d3eb2442fdb}{A\+R\+Mode\+On}}
 \end{DoxyCompactItemize}
@@ -56,11 +56,11 @@ bool \mbox{\hyperlink{class_processor_af51b6b3ce7074068195b5d3eb2442fdb}{A\+R\+M
 \mbox{\hyperlink{_processor_8h}{Processor.\+h}} -\/ Library for dealing with processor settings i.\+e. its engineering\+Menu\+Jumper/led pins. Created by Natalie Mclaren, December 18, 2017. 
 
 \subsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{class_processor_a4e9231316672f0a9daf138a08065ea8f}\label{class_processor_a4e9231316672f0a9daf138a08065ea8f}} 
+\mbox{\Hypertarget{class_processor_a9fdc4e6a92586eea32020a1f1e666ed6}\label{class_processor_a9fdc4e6a92586eea32020a1f1e666ed6}} 
 \index{Processor@{Processor}!Processor@{Processor}}
 \index{Processor@{Processor}!Processor@{Processor}}
 \subsubsection{\texorpdfstring{Processor()}{Processor()}}
-{\footnotesize\ttfamily Processor\+::\+Processor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_sensor}{Sensor}} $\ast$}]{sensor,  }\item[{\mbox{\hyperlink{class_s_d_card}{S\+D\+Card}} $\ast$}]{sd\+Card,  }\item[{\mbox{\hyperlink{class_lorawan}{Lorawan}} $\ast$}]{lorawan,  }\item[{byte}]{engineering\+Menu\+Jumper\+Pin,  }\item[{int16\+\_\+t}]{delay\+Period = {\ttfamily 900000},  }\item[{int16\+\_\+t}]{delay\+Period\+A\+R\+Mode = {\ttfamily 600000},  }\item[{int16\+\_\+t}]{A\+R\+Mode\+Activation\+Threshold = {\ttfamily 200000},  }\item[{int16\+\_\+t}]{ignore\+Threshold = {\ttfamily 0} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Processor\+::\+Processor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_sensor}{Sensor}} $\ast$}]{sensor,  }\item[{\mbox{\hyperlink{class_s_d_card}{S\+D\+Card}} $\ast$}]{sd\+Card,  }\item[{\mbox{\hyperlink{class_lorawan}{Lorawan}} $\ast$}]{lorawan,  }\item[{byte}]{engineering\+Menu\+Jumper\+Pin,  }\item[{uint32\+\_\+t}]{delay\+Period = {\ttfamily 0},  }\item[{uint32\+\_\+t}]{delay\+Period\+A\+R\+Mode = {\ttfamily 600000},  }\item[{int16\+\_\+t}]{A\+R\+Mode\+Activation\+Threshold = {\ttfamily 32000},  }\item[{int16\+\_\+t}]{ignore\+Threshold = {\ttfamily 0} }\end{DoxyParamCaption})}
 
 \mbox{\hyperlink{class_processor}{Processor}} constructor Sets default device settings values (delay\+Period etc...) 
 \begin{DoxyParams}{Parameters}
@@ -72,9 +72,9 @@ bool \mbox{\hyperlink{class_processor_af51b6b3ce7074068195b5d3eb2442fdb}{A\+R\+M
 \hline
 {\em \{byte\}} & \{engineering\+Menu\+Jumper\+Pin\} engineering menu button interrupt pin number \\
 \hline
-{\em \{int16\+\_\+t\}} & \{delay\+Period\} the delay period value between each samples \\
+{\em \{uint32\+\_\+t\}} & \{delay\+Period\} the delay period value between each samples \\
 \hline
-{\em \{int16\+\_\+t\}} & \{delay\+Period\+A\+R\+Mode\} the accelerated reading mode value (less of a delay than the delay period) \\
+{\em \{uint32\+\_\+t\}} & \{delay\+Period\+A\+R\+Mode\} the accelerated reading mode value (less of a delay than the delay period) \\
 \hline
 {\em \{int16\+\_\+t\}} & \{A\+R\+Mode\+Activation\+Threshold\} the threshold which activates the A\+R\+Mode \\
 \hline
@@ -129,15 +129,15 @@ Adjust the application\textquotesingle{}s key
 \begin{DoxyReturn}{Returns}
 \{N/A\} 
 \end{DoxyReturn}
-\mbox{\Hypertarget{class_processor_a527c24bbc2784d267d9ff2b21fd21379}\label{class_processor_a527c24bbc2784d267d9ff2b21fd21379}} 
+\mbox{\Hypertarget{class_processor_a5b6762cf2679f4f47365aacb47b59ef5}\label{class_processor_a5b6762cf2679f4f47365aacb47b59ef5}} 
 \index{Processor@{Processor}!adjust\+A\+R\+Mode\+Delay@{adjust\+A\+R\+Mode\+Delay}}
 \index{adjust\+A\+R\+Mode\+Delay@{adjust\+A\+R\+Mode\+Delay}!Processor@{Processor}}
 \subsubsection{\texorpdfstring{adjust\+A\+R\+Mode\+Delay()}{adjustARModeDelay()}}
-{\footnotesize\ttfamily void Processor\+::adjust\+A\+R\+Mode\+Delay (\begin{DoxyParamCaption}\item[{int16\+\_\+t}]{new\+Delay\+Period }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Processor\+::adjust\+A\+R\+Mode\+Delay (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{new\+Delay\+Period }\end{DoxyParamCaption})}
 
 Set delay period to be used whilst the device is in AR (Accelerated Readings) Mode. 
 \begin{DoxyParams}{Parameters}
-{\em \{int16\+\_\+t\}} & \{new\+Delay\+Period\} new delay period to be used. \\
+{\em \{uint32\+\_\+t\}} & \{new\+Delay\+Period\} new delay period to be used. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -171,15 +171,15 @@ Set minimum river depth threshold (anything below this value will be ignored, an
 \begin{DoxyReturn}{Returns}
 \{void\} N/A 
 \end{DoxyReturn}
-\mbox{\Hypertarget{class_processor_a8b550c7a6be09f887291e14392cead11}\label{class_processor_a8b550c7a6be09f887291e14392cead11}} 
+\mbox{\Hypertarget{class_processor_a8759b7d9dc2d5f63fa9ca08f9211fd77}\label{class_processor_a8759b7d9dc2d5f63fa9ca08f9211fd77}} 
 \index{Processor@{Processor}!change\+Measurement\+Period@{change\+Measurement\+Period}}
 \index{change\+Measurement\+Period@{change\+Measurement\+Period}!Processor@{Processor}}
 \subsubsection{\texorpdfstring{change\+Measurement\+Period()}{changeMeasurementPeriod()}}
-{\footnotesize\ttfamily void Processor\+::change\+Measurement\+Period (\begin{DoxyParamCaption}\item[{int16\+\_\+t}]{minutes }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Processor\+::change\+Measurement\+Period (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{milliseconds }\end{DoxyParamCaption})}
 
 Set the delay period between each measurement to be taken. 
 \begin{DoxyParams}{Parameters}
-{\em \{int16\+\_\+t\}} & \{minutes\} new delay period (in minutes) set. \\
+{\em \{uint32\+\_\+t\}} & \{minutes\} new delay period (in minutes) set. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -191,7 +191,7 @@ Set the delay period between each measurement to be taken.
 \subsubsection{\texorpdfstring{delay\+With\+Period()}{delayWithPeriod()}}
 {\footnotesize\ttfamily void Processor\+::delay\+With\+Period (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Makes the entire device sleep for a specified period of time. Used to sleep inbetween taking river depth measurements. 
+Makes the entire device sleep for a specified period of time. Used to sleep in between taking river depth measurements. 
 \begin{DoxyParams}{Parameters}
 {\em N/A} & \\
 \hline
@@ -219,7 +219,7 @@ Calculates and returns current battery voltage value. Gets an average of 5 readi
 \subsubsection{\texorpdfstring{get\+Battery\+Voltage\+Byte()}{getBatteryVoltageByte()}}
 {\footnotesize\ttfamily uint8\+\_\+t Processor\+::get\+Battery\+Voltage\+Byte (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Converts battery voltage to a byte to be sent to the A\+PI Done to save T\+TN bandwidth (So we don\textquotesingle{}t need to send send a full floating point number). 
+Converts battery voltage to a byte to be sent to the A\+PI. Done to save T\+TN bandwidth (So we don\textquotesingle{}t need to send send a full floating point number). 
 \begin{DoxyParams}{Parameters}
 {\em N/A} & \\
 \hline
@@ -289,7 +289,9 @@ Process current river depth measurement, and send if relevant.
 \subsubsection{\texorpdfstring{recalibrate\+Sensor()}{recalibrateSensor()}}
 {\footnotesize\ttfamily void Processor\+::recalibrate\+Sensor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Calibrate the sensor. 
+Used to calibrate the sensor as done in initial setup. Allows the engineer to input an initial depth for the river, for which the distance from sensor to river bed can be calculated.
+
+
 \begin{DoxyParams}{Parameters}
 {\em \{\+N/\+A\}} & \\
 \hline
@@ -303,7 +305,7 @@ Calibrate the sensor.
 \subsubsection{\texorpdfstring{trigger\+Clear\+Flash()}{triggerClearFlash()}}
 {\footnotesize\ttfamily void Processor\+::trigger\+Clear\+Flash (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Clear the Flash storage. 
+Clear the device settings variables stored in the flash storage. 
 \begin{DoxyParams}{Parameters}
 {\em \{\+N/\+A\}} & \\
 \hline
@@ -320,17 +322,17 @@ Clear the Flash storage.
 \subsubsection{\texorpdfstring{A\+R\+Mode\+On}{ARModeOn}}
 {\footnotesize\ttfamily bool Processor\+::\+A\+R\+Mode\+On}
 
-\mbox{\Hypertarget{class_processor_acfaad87bb46ff80f1b7966624542e6ef}\label{class_processor_acfaad87bb46ff80f1b7966624542e6ef}} 
+\mbox{\Hypertarget{class_processor_a3d4df57c57607d2ed3ad9f2d4ff3e789}\label{class_processor_a3d4df57c57607d2ed3ad9f2d4ff3e789}} 
 \index{Processor@{Processor}!delay\+Period@{delay\+Period}}
 \index{delay\+Period@{delay\+Period}!Processor@{Processor}}
 \subsubsection{\texorpdfstring{delay\+Period}{delayPeriod}}
-{\footnotesize\ttfamily int16\+\_\+t Processor\+::delay\+Period}
+{\footnotesize\ttfamily uint32\+\_\+t Processor\+::delay\+Period}
 
-\mbox{\Hypertarget{class_processor_a5cb8792cf0882b5466eea2b8e0816684}\label{class_processor_a5cb8792cf0882b5466eea2b8e0816684}} 
+\mbox{\Hypertarget{class_processor_acd8bba113bac81f4c5695cba7c9dd146}\label{class_processor_acd8bba113bac81f4c5695cba7c9dd146}} 
 \index{Processor@{Processor}!measurement\+Period@{measurement\+Period}}
 \index{measurement\+Period@{measurement\+Period}!Processor@{Processor}}
 \subsubsection{\texorpdfstring{measurement\+Period}{measurementPeriod}}
-{\footnotesize\ttfamily int16\+\_\+t Processor\+::measurement\+Period}
+{\footnotesize\ttfamily uint32\+\_\+t Processor\+::measurement\+Period}
 
 
 
