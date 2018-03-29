@@ -64,7 +64,7 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte engi
  */
 void Processor::init()
 { 
-//    lorawan->join();
+    lorawan->join();
 
     sdCard->init();
     sensor->init();
@@ -82,12 +82,12 @@ void Processor::init()
       
       // Whilst inStr is null, do nothing, skip
       //Wait for AppEui input
-//      Serial.println(requestAppEuiMessage);
-//      while ((inStr = Serial.readString()) == NULL){}
-//      char chArr[25];
-//      inStr.toCharArray(chArr, 25);
-//      Serial.print(inStr);
-//      lorawan->setCharAppEui(chArr);
+      Serial.println(requestAppEuiMessage);
+      while ((inStr = Serial.readString()) == NULL){}
+      char chArr[25];
+      inStr.toCharArray(chArr, 25);
+      Serial.print(inStr);
+      lorawan->setCharAppEui(chArr);
       //Wait for initial/current river depth input
       Serial.println(requestCurrentDepthMessage);
       while ((initialRiverDepth = Serial.readString().toInt()) == 0){}
@@ -97,7 +97,7 @@ void Processor::init()
       Serial.println(setupSensorMessage);
 
       // Delay for 15 minutes
-//      delay(900000);
+      delay(900000);
       
       // Delay for 5 minutes for device to placed and setup physically
       initialDistanceToRiverTop = analogRead(sensor->sensorAnalogPin) * 5;
@@ -121,14 +121,10 @@ void Processor::init()
       this->delayPeriodARMode = delayPeriodARMode_FlashStore.read();
       this->ARModeActivationThreshold = ARModeActivationThreshold_FlashStore.read();
       this->ignoreThreshold = ignoreThreshold_FlashStore.read();
-
-      Serial.println(setupSensorMessage);
-      // Delay for 15 minutes
-//      delay(900000);
     }
     
-//    Serial.println("Current Measurement: ");
-//    Serial.println(sensor->getCurrentMeasurement());
+    Serial.println("Current Measurement: ");
+    Serial.println(sensor->getCurrentMeasurement());
 }
 
 

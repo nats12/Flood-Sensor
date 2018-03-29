@@ -64,16 +64,13 @@ void setup()
 void loop()
 {
 
-  Serial.println(sdCard.fileSize);
-  menu.loadEngineeringMenu();
-  
   // If engineering menu jumper has been pulled off
   if(digitalRead(engineeringMenuJumperPin) == HIGH) {
     // Load the engineering menu
     menu.loadEngineeringMenu();
   }
   
-//  processor.readingProcess();
+  processor.readingProcess();
 
   processor.delayWithPeriod();
 
