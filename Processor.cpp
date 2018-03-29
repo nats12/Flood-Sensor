@@ -64,8 +64,7 @@ Processor::Processor(Sensor *sensor, SDCard *sdCard, Lorawan *lorawan, byte engi
  */
 void Processor::init()
 { 
-    lorawan->join();
-
+   
     sdCard->init();
     sensor->init();
 
@@ -88,6 +87,9 @@ void Processor::init()
       inStr.toCharArray(chArr, 25);
       Serial.print(inStr);
       lorawan->setCharAppEui(chArr);
+
+      lorawan->join();
+      
       //Wait for initial/current river depth input
       Serial.println(requestCurrentDepthMessage);
       while ((initialRiverDepth = Serial.readString().toInt()) == 0){}
@@ -114,7 +116,9 @@ void Processor::init()
       setupDone_FlashStore.write(true);
     }
     else  
-    {
+    { 
+      lorawan->join();
+      
       //Read saved default values from flash storage
       sensor->distanceToRiverBed = distanceToRiverBed_FlashStore.read();
       this->delayPeriod = delayPeriod_FlashStore.read();
